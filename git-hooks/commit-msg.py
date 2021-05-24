@@ -23,10 +23,10 @@ def follows_convention(first_line):
 
 def co_authors(last_line):
     # members of DRP-13
-    authors = {"A": "Co-authored-by: Abdur <rahim@shariftextiles.com>\n",
-               "D": "Co-authored-by: Devam <devamsavjani@rocketmail.com>\n",
-               "J": "Co-authored-by: Jaimi <jaimip34@gmail.com>\n",
-               "R": "Co-authored-by: Rohan <rohananandpandit@gmail.com>\n"}
+    authors = {"A": "Co-authored-by: Abdur <rahim@shariftextiles.com>",
+               "D": "Co-authored-by: Devam <devamsavjani@rocketmail.com>",
+               "J": "Co-authored-by: Jaimi <jaimip34@gmail.com>",
+               "R": "Co-authored-by: Rohan <rohananandpandit@gmail.com>"}
     line = last_line.strip("\n").split(" ")
     print(Fore.GREEN + Style.BRIGHT +
           "Replacing name(s) with co-author(s)" + Style.RESET_ALL)
