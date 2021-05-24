@@ -1,5 +1,5 @@
 -----------------------
-Git commit convention  
+Git commit conventio  
 
 <type>(scope): <description>
 
