@@ -51,6 +51,9 @@ def read_commit_msg(file):
                 l = co_authors(line)
             new_commit_message.append(l)
     fp.close()
+    with open(file, "w") as fp:
+        fp.writelines(new_commit_message)
+    fp.close()
     return new_commit_message
 
 
