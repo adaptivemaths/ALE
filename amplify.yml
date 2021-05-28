@@ -10,7 +10,7 @@ frontend:
         - npm run build
   artifacts:
     files:
-        - frontend/**/*
+        - 'frontend/**/*'
     baseDirectory: frontend/build
   cache:
     paths:
