@@ -10,9 +10,9 @@ frontend:
         - npm run build
   artifacts:
     files:
-        - build
-    discard-paths: yes
+        - frontend/**/*
     baseDirectory: frontend/build
   cache:
     paths:
-        - frontend/node_modules
+        - frontend/node_modules/**/*
+        
