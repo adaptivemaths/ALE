@@ -1,0 +1,18 @@
+version: 1
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - cd frontend
+        - npm ci
+    build:
+      commands:
+        - npm run build
+  artifacts:
+    files:
+        - build
+    discard-paths: yes
+    baseDirectory: frontend
+  cache:
+    paths:
+        - node_modules
