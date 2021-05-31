@@ -10,6 +10,14 @@
       "StackName": "amplify-adaptivemaths-staging-134439",
       "StackId": "arn:aws:cloudformation:eu-west-2:528852047270:stack/amplify-adaptivemaths-staging-134439/5a86f970-bd5f-11eb-bbe9-062dbab1d62a",
       "AmplifyAppId": "d2ujrjv31lp15s"
+    },
+    "categories": {
+      "function": {
+        "adaptivemaths": {
+          "deploymentBucketName": "amplify-adaptivemaths-staging-134439-deployment",
+          "s3Key": "amplify-builds/adaptivemaths-5448463772576f455a66-build.zip"
+        }
+      }
     }
   }
 }
