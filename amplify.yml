@@ -1,4 +1,6 @@
 version: 1
+variables:
+  PORT: 5000
 frontend:
   phases:
     preBuild:
@@ -15,4 +17,15 @@ frontend:
   cache:
     paths:
         - frontend/node_modules/**/*
+backend:
+  phases:
+    preBuild:
+      commands:
+      kill:
+        - kill -9 `lsof -t -i:$PORT` || true
+        - cd frontend
+        - npm ci
+    build:
+      commands:
+        - node server.js &> output.log &
         
