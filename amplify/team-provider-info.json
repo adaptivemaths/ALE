@@ -1,0 +1,15 @@
+{
+  "staging": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-adaptivemaths-staging-134439-authRole",
+      "UnauthRoleArn": "arn:aws:iam::528852047270:role/amplify-adaptivemaths-staging-134439-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::528852047270:role/amplify-adaptivemaths-staging-134439-authRole",
+      "Region": "eu-west-2",
+      "DeploymentBucketName": "amplify-adaptivemaths-staging-134439-deployment",
+      "UnauthRoleName": "amplify-adaptivemaths-staging-134439-unauthRole",
+      "StackName": "amplify-adaptivemaths-staging-134439",
+      "StackId": "arn:aws:cloudformation:eu-west-2:528852047270:stack/amplify-adaptivemaths-staging-134439/5a86f970-bd5f-11eb-bbe9-062dbab1d62a",
+      "AmplifyAppId": "d2ujrjv31lp15s"
+    }
+  }
+}
