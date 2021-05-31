@@ -21,4 +21,4 @@ backend:
   phases:
     build:
       commands:
-        - amplifyPush -e staging -s
+        - amplify push --envName staging
