@@ -11,14 +11,23 @@ See the License for the specific language governing permissions and limitations 
 	ENV
 	REGION
 Amplify Params - DO NOT EDIT */
-
+const { Pool } = require('pg')
 var express = require('express')
-var bodyParser = require('body-parser')
 var awsServerlessExpressMiddleware = require('aws-serverless-express/middleware')
 
 // declare a new express app
 var app = express()
 app.use(awsServerlessExpressMiddleware.eventContext())
+
+require('dotenv').config();
+// Setup db connection
+const pool = new Pool({
+  user: process.env.DB_USER,
+  host: process.env.DB_HOST,
+  database: process.env.DB_NAME,
+  password: process.env.DB_PASS,
+  port: process.env.DB_PORT,
+})
 
 // Enable CORS for all methods
 app.use(function(req, res, next) {
@@ -33,8 +42,13 @@ app.use(function(req, res, next) {
  **********************/
 
 app.get('/test', function(req, res) {
-  // Add your code here
-  res.json({success: 'get call succeed!', url: req.url});
+  pool
+    .connect()
+    .then(() => res.json({"result": "Database connected"}))
+    .catch(err => {
+      console.log(err)
+      res.json({failure: 'db connection failed', url: req.url})
+    })
 });
 
 app.get('/test/*', function(req, res) {
