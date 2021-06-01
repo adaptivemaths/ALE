@@ -28,4 +28,4 @@ test:
         - npm run test:ci
   artifacts:
     baseDirectory: frontend
-    configFilePath: result.json
+    configFilePath: '**/result.json'
