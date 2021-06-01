@@ -29,3 +29,6 @@ test:
   artifacts:
     baseDirectory: frontend
     configFilePath: '**/result.json'
+  cache:
+    paths:
+        - frontend/node_modules/**/*  
