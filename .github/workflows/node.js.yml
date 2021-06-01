@@ -9,8 +9,8 @@ on:
   pull_request:
     branches-ignore: [ ]
 
-test:
-  build:
+jobs:
+  test:
     runs-on: ubuntu-latest
 
     strategy:
