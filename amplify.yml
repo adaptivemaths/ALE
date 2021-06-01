@@ -17,3 +17,16 @@ frontend:
   cache:
     paths:
         - frontend/node_modules/**/*
+test:
+  phases:
+    preTest:
+      commands:
+        - cd frontend
+        - npm ci
+    test:
+      commands:
+        - npm run test:ci
+  artifacts:
+    baseDirectory: frontend
+    files:
+      - 'result.json'
