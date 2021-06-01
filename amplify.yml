@@ -1,0 +1,19 @@
+version: 1
+variables:
+  PORT: 5000
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - cd frontend
+        - npm ci
+    build:
+      commands:
+        - npm run build
+  artifacts:
+    files:
+        - '**/*'
+    baseDirectory: frontend/build
+  cache:
+    paths:
+        - frontend/node_modules/**/*
