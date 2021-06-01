@@ -27,8 +27,7 @@ test:
     preTest:
       commands:
         - cd frontend
-        - npm ci
+        - npm i
     test:
       commands:
         - npm test
-        
