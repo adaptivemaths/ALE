@@ -22,3 +22,13 @@ backend:
     build:
       commands:
         - amplifyPush --simple
+test:
+  phases:
+    preTest:
+      commands:
+        - cd frontend
+        - npm ci
+    test:
+      commands:
+        - npm test
+        
