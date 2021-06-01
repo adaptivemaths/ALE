@@ -35,8 +35,8 @@ jobs:
       - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-          heroku_app_name: "adaptive-maths-dev"
-          heroku_email: "jaimip34@gmail.com"
+          heroku_app_name: ${{secrets.HEROKU_DEV_APP}}
+          heroku_email: ${{secrets.HEROKU_EMAIL}}
           branch: "dev"
           usedocker: true
           procfile: true
@@ -51,8 +51,8 @@ jobs:
       - uses: akhileshns/heroku-deploy@v3.12.12
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-          heroku_app_name: "adaptive-maths"
-          heroku_email: "jaimip34@gmail.com"
+          heroku_app_name: ${{secrets.HEROKU_PROD_APP}}
+          heroku_email: ${{secrets.HEROKU_EMAIL}}
           branch: "main"
           usedocker: true
           procfile: true
