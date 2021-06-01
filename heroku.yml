@@ -1,4 +1,7 @@
 build:
   docker:
     web: Dockerfile
-    
+run:
+  web: cd backend && npm run start
+release:
+  command: cd      
