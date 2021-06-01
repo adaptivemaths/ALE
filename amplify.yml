@@ -6,10 +6,10 @@ frontend:
     preBuild:
       commands:
         - cd frontend
-        - npm ci
+        - yarn install
     build:
       commands:
-        - npm run build
+        - yarn run build
   artifacts:
     files:
         - '**/*'
@@ -22,10 +22,10 @@ test:
     preTest:
       commands:
         - cd frontend
-        - npm ci
+        - yarn install
     test:
       commands:
-        - CI=true npm run test:ci
+        - CI=true yarn run test:ci
   artifacts:
     baseDirectory: frontend
     configFilePath: '**/result.json'
