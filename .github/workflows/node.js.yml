@@ -27,6 +27,7 @@ jobs:
     - run: cd backend && npm ci && npm test
     
   deploy-dev:
+    if: contains( github.ref, 'dev')
     runs-on: ubuntu-latest
     needs: [test]
     steps:
@@ -42,6 +43,7 @@ jobs:
           stack: "container"
   
   deploy-prod:
+    if: contains( github.ref, 'main')
     runs-on: ubuntu-latest
     needs: [test]
     steps:
