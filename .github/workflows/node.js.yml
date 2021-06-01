@@ -9,9 +9,8 @@ on:
   pull_request:
     branches-ignore: [ ]
 
-jobs:
+test:
   build:
-
     runs-on: ubuntu-latest
 
     strategy:
@@ -25,4 +24,4 @@ jobs:
       uses: actions/setup-node@v2
       with:
         node-version: ${{ matrix.node-version }}
-    - run: cd backend && npm ci
+    - run: cd backend && npm ci && npm test
