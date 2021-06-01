@@ -25,8 +25,7 @@ test:
         - npm ci
     test:
       commands:
-        - CI=true npm run test:ci
+        - npm run test:ci
   artifacts:
     baseDirectory: frontend
-    files:
-      - 'result.json'
+    configFilePath: result.json
