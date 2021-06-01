@@ -25,3 +25,33 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - run: cd backend && npm ci && npm test
+    
+  deploy-dev:
+    runs-on: ubuntu-latest
+    needs: [test]
+    steps:
+      - uses: actions/checkout@v2
+      - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: "adaptive-maths-dev"
+          heroku_email: "jaimip34@gmail.com"
+          branch: "dev"
+          usedocker: true
+          procfile: true
+          stack: "container"
+  
+  deploy-prod:
+    runs-on: ubuntu-latest
+    needs: [test]
+    steps:
+      - uses: actions/checkout@v2
+      - uses: akhileshns/heroku-deploy@v3.12.12
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: "adaptive-maths"
+          heroku_email: "jaimip34@gmail.com"
+          branch: "main"
+          usedocker: true
+          procfile: true
+          stack: "container"
