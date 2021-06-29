@@ -1,21 +1,55 @@
 import logo from './logo.svg';
 import './App.css';
 import { Helmet } from "react-helmet";
-import HomePage from "./home_page/homePage";
+import HomePage from "./components/home_page/homePage";
 import React from 'react';
+import axios from "axios";
+import { config } from "./constants";
+
+
+async function test() {
+  var result = false;
+  console.log(config.API_URL);
+  await axios
+    .get(`${config.API_URL}/test`)
+    .then((res) => {
+      const test = res.data.test;
+      console.log(res);
+      result = test;
+      console.log(result);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+
+  return result;
+}
+
 
 export default class App extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      test: false
+    }
+  }
+
+  async componentDidMount() {
+    const t = await test();
+    this.setState({test: t});
+  }
+
   render() {
     return (
-      <React.Fragment>
+      <>
 
         <Helmet>
           <title>EdiCat</title>
         </Helmet>
-
+        
         <HomePage />
 
-      </React.Fragment>
+      </>
     );
   }
 }
