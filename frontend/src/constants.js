@@ -1,9 +1,9 @@
 const prod = {
-  API_URL: "https://adaptive-maths.herokuapp.com/"
+  API_URL: "https://adaptivemaths.herokuapp.com/"
 };
 
 const dev = {
-  API_URL: "https://adaptive-maths-dev.herokuapp.com/"
+  API_URL: "https://adaptivemaths-dev.herokuapp.com/"
 };
 
 const local = {
