@@ -1,4 +1,42 @@
 .homepage {
     text-align: center;
-    /* background: rgb(248, 248, 248) */
+}
+
+.wrapper {
+    display: flex;
+    padding-bottom: 20px;
+}
+
+.info {
+    flex: 0 0 50%;
+    width: 60%;
+}
+
+.big-info {
+    color: rgb(70, 90, 121);
+    padding: 20px;
+    text-align: center;
+    font-size: 50px;
+    font-weight: bold;
+}
+
+.small-info {
+    padding: 20px;
+    text-align: center;
+    font-size: 30px;
+}
+
+footer {
+    color: white;
+    background-color: rgb(70, 90, 121);  
+    text-align: center;
+    bottom: 0;
+    position: absolute;
+    width: 100%;
+    font-size: 30px;
+    position: sticky;
+}
+
+.laptop {
+    flex: 1;
 }
