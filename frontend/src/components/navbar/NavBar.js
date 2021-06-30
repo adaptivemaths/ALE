@@ -8,7 +8,7 @@ export default class NavBar extends React.Component {
     render() {
         return (
             <Navbar bg="light" variant="light" sticky="top">
-                <Navbar.Brand href="#home" className="brand">EdiCat Learning</Navbar.Brand>
+                <Navbar.Brand href="#home" className="brand">Adaptive Learning</Navbar.Brand>
                 <Nav className="mr-auto">
                     <Nav.Link href="#about">About</Nav.Link>
                     <Nav.Link href="#login" className="btn">Log In</Nav.Link>
