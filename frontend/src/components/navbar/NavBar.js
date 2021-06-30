@@ -11,8 +11,8 @@ export default class NavBar extends React.Component {
                 <Navbar.Brand href="/" className="brand">Adaptive Learning</Navbar.Brand>
                 <Nav className="mr-auto">
                     <Nav.Link href="/about">About</Nav.Link>
-                    <Nav.Link href="/login" className="btn">Log In</Nav.Link>
-                    <Nav.Link href="/trial" className="btn">Try it for free</Nav.Link>
+                    <Nav.Link href="/" className="btn">Log In</Nav.Link>
+                    <Nav.Link href="/" className="btn">Try it for free</Nav.Link>
                 </Nav>
             </Navbar>
         )
