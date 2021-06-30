@@ -1,7 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
 import { Helmet } from "react-helmet";
-import HomePage from "./components/home_page/homePage";
+import HomePage from "./components/home_page/HomePage";
 import React from 'react';
 import axios from "axios";
 import { config } from "./constants";
