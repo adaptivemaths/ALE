@@ -5,7 +5,12 @@ import HomePage from "./components/home_page/HomePage";
 import React from 'react';
 import axios from "axios";
 import { config } from "./constants";
-
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+} from "react-router-dom";
+import About from "./components/about/About";
 
 async function test() {
   var result = false;
@@ -47,7 +52,14 @@ export default class App extends React.Component {
           <title>EdiCat</title>
         </Helmet>
         
-        <HomePage />
+        <Switch>
+          <Route exact path="/">
+            <HomePage/>
+          </Route>
+          <Route exact path="/about">
+            <About/>
+          </Route>
+        </Switch>
 
       </>
     );
