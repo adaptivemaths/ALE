@@ -11,6 +11,8 @@ import {
   Switch,
 } from "react-router-dom";
 import About from "./components/about/About";
+import Practice from "./components/practice/Practice";
+import Topics from "./components/practice/Topics";
 
 async function test() {
   var result = false;
@@ -56,8 +58,24 @@ export default class App extends React.Component {
           <Route exact path="/">
             <HomePage/>
           </Route>
+
           <Route exact path="/about">
             <About/>
+          </Route>
+
+          <Route exact path="/practice">
+            <Practice/>
+          </Route>
+
+          <Route exact path="/practice/topics">
+              <Topics/>
+          </Route>
+
+          <Route exact path="/practice/topics/:topic">
+              <Topics/>
+          </Route>
+
+          <Route exact path="/practice/assessment">
           </Route>
         </Switch>
 
