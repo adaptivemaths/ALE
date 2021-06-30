@@ -1,0 +1,12 @@
+.btn {
+    background-color: rgb(108, 78, 245);
+    color: white!important;
+}
+
+.btn:hover {
+    background-color: rgb(64, 39, 175);
+}
+
+.brand, .btn {
+    margin-left: 10px!important;
+}
