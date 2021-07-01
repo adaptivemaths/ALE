@@ -12,8 +12,8 @@ export default class NavBar extends React.Component {
                 <Nav className="mr-auto">
                     <Nav.Link href="/about">About</Nav.Link>
                     <Nav.Link href="/practice">Practice</Nav.Link>
-                    <Nav.Link href="/" className="btn">Log In</Nav.Link>
-                    <Nav.Link href="/signup" className="btn">Sign Up</Nav.Link>
+                    <Nav.Link href="/login" className="login-btn">Log In</Nav.Link>
+                    <Nav.Link href="/signup" className="signup-btn">Sign Up</Nav.Link>
                 </Nav>
             </Navbar>
         )
