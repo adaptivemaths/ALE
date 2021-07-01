@@ -8,7 +8,8 @@ const topics = [
     "Geometry",
     "Trigonometry",
     "Probability",
-    "Statistics"
+    "Statistics",
+    "Ratios"
 ]
 
 
