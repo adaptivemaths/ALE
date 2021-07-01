@@ -14,6 +14,7 @@ import About from "./components/about/About";
 import Practice from "./components/practice/Practice";
 import TopicsList from "./components/practice/TopicsList";
 import Topic from "./components/practice/Topic";
+import SignUp from "./components/signup/SignUp";
 
 async function test() {
   var result = false;
@@ -62,6 +63,10 @@ export default class App extends React.Component {
 
           <Route exact path="/about">
             <About/>
+          </Route>
+
+          <Route exact path="/signup">
+            <SignUp/>
           </Route>
 
           <Route exact path="/practice">
