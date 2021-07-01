@@ -27,6 +27,7 @@ export default class Topic extends React.Component {
             topic: ""
         }
     }
+    
     componentDidMount() {
         this.setState({topic: this.props.match.params.topic});
     }
