@@ -12,7 +12,8 @@ import {
 } from "react-router-dom";
 import About from "./components/about/About";
 import Practice from "./components/practice/Practice";
-import Topics from "./components/practice/Topics";
+import TopicsList from "./components/practice/TopicsList";
+import Topic from "./components/practice/Topic";
 
 async function test() {
   var result = false;
@@ -68,12 +69,10 @@ export default class App extends React.Component {
           </Route>
 
           <Route exact path="/practice/topics">
-              <Topics/>
+              <TopicsList/>
           </Route>
 
-          <Route exact path="/practice/topics/:topic">
-              <Topics/>
-          </Route>
+          <Route exact path="/practice/topics/:topic" component={Topic}/>
 
           <Route exact path="/practice/assessment">
           </Route>

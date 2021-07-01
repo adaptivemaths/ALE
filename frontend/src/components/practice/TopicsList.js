@@ -11,25 +11,8 @@ const topics = [
     "Statistics"
 ]
 
-const skills = {
-    "Algebra": [
 
-    ],
-    "Geometry": [
-
-    ],
-    "Trigonometry": [
-
-    ],
-    "Probability": [
-
-    ],
-    "Statistics": [
-
-    ],
-}
-
-export default class Topics extends React.Component {
+export default class TopicsList extends React.Component {
     render() {
         return (
             <div className="topics-wrapper">
@@ -37,6 +20,7 @@ export default class Topics extends React.Component {
                 <div className="topics-title">
                         Topics
                 </div>
+                <br/>
                 <div>
                     {topics.map((topic) => (
                         <Nav.Link href={`/practice/topics/${topic}`} className="topics-link">
