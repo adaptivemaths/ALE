@@ -1,10 +1,25 @@
-.btn {
+.signup-btn {
     background-color: rgb(108, 78, 245);
     color: white!important;
+    border-radius: 3px;
 }
 
-.btn:hover {
+.signup-btn:hover {
     background-color: rgb(64, 39, 175);
+}
+
+.login-btn {
+    border-style: solid;
+    border-color: rgb(108, 78, 245);
+    border-width: 2px;
+    margin-right: 5px;
+    border-radius: 3px;
+}
+
+.login-btn:hover {
+    border-color: rgb(64, 39, 175);
+    background-color: rgb(64, 39, 175);
+    color: white!important;
 }
 
 .brand, .btn {
