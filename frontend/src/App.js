@@ -5,11 +5,7 @@ import HomePage from "./components/home_page/HomePage";
 import React from 'react';
 import axios from "axios";
 import { config } from "./constants";
-import {
-  BrowserRouter as Router,
-  Route,
-  Switch,
-} from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import About from "./components/about/About";
 import Practice from "./components/practice/Practice";
 import TopicsList from "./components/practice/TopicsList";

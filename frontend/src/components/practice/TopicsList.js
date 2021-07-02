@@ -6,7 +6,7 @@ import { Nav } from "react-bootstrap";
 const topics = [
     "Algebra",
     "Geometry",
-    "Trigonometry",
+    "Numbers",
     "Probability",
     "Statistics",
     "Ratios"
