@@ -1,19 +1,22 @@
-.homepage {
-    text-align: center;
+html {
+    height: 100%;
 }
 
-.wrapper {
-    display: flex;
-    padding-bottom: 20px;
+.homepage {
+    text-align: center;
+    min-height: 100vh;
 }
 
 .info {
-    flex: 0 0 50%;
     width: 60%;
+    align-items: center;
+    text-align: center;
+    margin: auto;
+    margin-bottom: 20px;
 }
 
 .big-info {
-    color: rgb(70, 90, 121);
+    color: rgb(70, 77, 87);
     padding: 20px;
     text-align: center;
     font-size: 50px;
@@ -22,7 +25,6 @@
 
 .small-info {
     padding: 20px;
-    text-align: center;
     font-size: 30px;
 }
 
@@ -39,4 +41,27 @@ footer {
 
 .laptop {
     flex: 1;
+}
+
+.mailing-list-form {
+    width: 40%;
+    margin: auto;
+}
+
+.mail-container {
+    display: inline-block;
+    width: 100%;
+    margin: 20px;
+    margin-bottom: 100px;
+}
+
+#mail-signup {
+    background-color: rgb(108, 78, 245);
+    color: white!important;
+    border: none;
+    padding: 4px;
+}
+
+#mail-signup:hover {
+    background-color: rgb(64, 39, 175);
 }
