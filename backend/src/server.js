@@ -18,6 +18,15 @@ app.get('/test', (req, res) => {
   res.json({"test": true})
 })
 
+app.post('/addToMailingList', async (req, res) => {
+  try {
+    const email = await Database.addToMailingList(req.body);
+    res.json(email);
+  } catch (error) {
+    res.body = "Error: " + error;
+  }
+})
+
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 })
