@@ -2,8 +2,26 @@ import React from "react";
 import "./homePage.css";
 import NavBar from "../navbar/NavBar";
 import laptop from "./laptop.svg";
+import MailingListForm from "./MailingListForm";
 
 export default class HomePage extends React.Component {
+    constructor() {
+        super();
+        this.state = {
+            email: ""
+        }
+
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    handleChange(event) {
+        this.setState({email: event.target.value});
+    }
+
+    handleSubmit(event) {
+        event.preventDefault();
+    }
 
     render() {
         return (
@@ -20,19 +38,7 @@ export default class HomePage extends React.Component {
                     </div>
                 </div>
 
-                <div className="mailing-list-form">
-                        <form>
-                            <div className="mail-container">
-                                <label>Interested? Sign up to our mailing list and you will be the first to know when we launch</label>
-                                <div>
-                                    <input type="email"></input>
-                                    <button id="mail-signup">
-                                        SIGN UP
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
-                </div>
+                <MailingListForm/>
                 <footer className="footer">
                     We'd love to talk to you, reach out at hello@adaptivemaths.co.uk
                 </footer>
