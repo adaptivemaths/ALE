@@ -1,10 +1,10 @@
 import axios from "axios";
-// import { config } from "./constants";
-const API_URL = 'https://adaptivemaths.herokuapp.com/';
+import { config } from "./constants";
+
 export async function addToMailingList(data) {
     var result = false;
     await axios
-      .post(`${API_URL}/addToMailingList`, data)
+      .post(`${config.API_URL}/addToMailingList`, data)
       .then((res) => {
         const email = res.data;
         console.log(email);
