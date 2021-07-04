@@ -1,7 +1,7 @@
 import axios from "axios";
 import { config } from "./constants";
 
-async function addToMailingList(data) {
+export async function addToMailingList(data) {
     var result = false;
     await axios
       .post(`${config.API_URL}/addToMailingList`, data)
