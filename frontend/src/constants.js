@@ -1,9 +1,11 @@
+require("dotenv").config()
+
 const prod = {
   API_URL: "https://adaptivemaths.herokuapp.com/"
 };
 
 const dev = {
-  API_URL: "https://adaptivemaths-dev.herokuapp.com/"
+  API_URL: "https://adaptivemaths.herokuapp.com/"
 };
 
 const local = {
