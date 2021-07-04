@@ -5,13 +5,14 @@
   "main": "src/server.js",
   "scripts": {
     "test": "mocha",
-    "start": "cd src && node server.js"
+    "start": "node -r esm src/server.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
+    "esm": "^3.2.25",
     "express": "^4.17.1",
     "mocha": "^8.4.0",
     "pg": "^8.6.0",
