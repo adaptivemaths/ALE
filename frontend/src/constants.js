@@ -1,5 +1,3 @@
-require("dotenv").config()
-
 const prod = {
   API_URL: "https://adaptivemaths.herokuapp.com/"
 };
