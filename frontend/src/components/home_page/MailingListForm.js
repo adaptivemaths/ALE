@@ -1,11 +1,12 @@
 import React from "react";
-import { addToMailingList } from "../../api.js";
+import { addToMailingList, sendMailListConfirmationMail } from "../../api.js";
 
 export default class MailingListForm extends React.Component {
     constructor() {
         super();
         this.state = {
-            email: ""
+            email: "",
+            messsage: ""
         }
 
         this.handleChange = this.handleChange.bind(this);
@@ -13,12 +14,20 @@ export default class MailingListForm extends React.Component {
     }
 
     handleChange(event) {
-        this.setState({email: event.target.value});
+        this.setState({
+            email: event.target.value,
+            message: ""
+        });
     }
 
     handleSubmit(event) {
         addToMailingList(this.state);
-        this.setState({email: ""});
+        sendMailListConfirmationMail(this.state);
+        this.setState({
+            email: "",
+            message: "You should receive an email from us shortly"
+        });
+        
         event.preventDefault();
     }
 
@@ -34,6 +43,7 @@ export default class MailingListForm extends React.Component {
                                 SIGN UP
                             </button>
                         </div>
+                        <label>{this.state.message}</label>
                     </div>
                 </form>
             </div>
