@@ -37,8 +37,15 @@ export default class MailingListForm extends React.Component {
                 <form>
                     <div className="mail-container">
                         <label>Interested? Sign up to our mailing list and you will be the first to know when we launch</label>
-                        <div>
-                            <input type="email" value={this.state.email} onChange={this.handleChange}></input>
+                        <div className="flex-container">
+                            <div className="mail-input">
+                                <input 
+                                type="email" 
+                                value={this.state.email} 
+                                onChange={this.handleChange}
+                                placeholder="Your email"
+                                />
+                            </div>
                             <button id="mail-signup" onClick={this.handleSubmit}>
                                 SIGN UP
                             </button>

@@ -46,6 +46,7 @@ footer {
 .mailing-list-form {
     width: 40%;
     margin: auto;
+    align-items: center;
 }
 
 .mail-container {
@@ -53,6 +54,14 @@ footer {
     width: 100%;
     margin: 20px;
     margin-bottom: 100px;
+}
+
+.flex-container {
+    display: flex;
+    width: 100%;
+    margin: 20px;
+    margin-bottom: 100px;
+    justify-content: center;
 }
 
 #mail-signup {
@@ -64,4 +73,10 @@ footer {
 
 #mail-signup:hover {
     background-color: rgb(64, 39, 175);
+}
+
+.mail-input {
+    border: 5px solid rgb(108, 78, 245);
+    border-right: 0;
+    align-items: center;
 }
