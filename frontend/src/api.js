@@ -26,7 +26,7 @@ export async function sendMailListConfirmationMail(data) {
     var result = false;
     console.log(API_URL);
     await axios
-      .post(`${API_URL}/sendMail`, data)
+      .post(`${API_URL}/mailingListConfirmationMail`, data)
       .then((res) => {
         const email = res.data;
         console.log(email);
