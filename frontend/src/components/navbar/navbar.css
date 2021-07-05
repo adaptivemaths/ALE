@@ -11,6 +11,7 @@
 .hollow-btn {
     border-style: solid;
     border-color: rgb(108, 78, 245);
+    color: rgb(108, 78, 245)!important;
     border-width: 2px;
     margin-right: 5px;
     border-radius: 3px;
