@@ -1,5 +1,5 @@
 import React from "react";
-import { addToMailingList, sendMailListConfirmationMail } from "../../api.js";
+import { addToMailingList, sendMailListConfirmationMail } from "../../api";
 
 export default class MailingListForm extends React.Component {
     constructor() {

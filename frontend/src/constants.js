@@ -21,3 +21,9 @@ function getConfig() {
 }
 
 export const config = getConfig();
+
+
+export const axiosConfig = {
+  headers: { "Access-Control-Allow-Origin": "*" },
+};
+
