@@ -80,3 +80,7 @@ footer {
     border-right: 0;
     align-items: center;
 }
+
+.mail-input input {
+    border-style: none;
+}
