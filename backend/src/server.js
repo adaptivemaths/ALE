@@ -68,6 +68,15 @@ app.post('/mailingListConfirmationMail', async (req, res) => {
   }
 });
 
+app.post('/signup/addUser', async (req, res) => {
+  try {
+    const user = await Database.addUser(req.body);
+    res.json(user);
+  } catch (error) {
+    res.body = "Error: " + error;
+  }
+})
+
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
