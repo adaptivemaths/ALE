@@ -10,3 +10,7 @@ function sql(filename) {
 export const mailingListSQL = {
   addMail: sql("../sql/mailing_list/addMail.sql")
 }
+
+export const usersSQL = {
+  addUser: sql("../sql/users/addUser.sql")
+}
