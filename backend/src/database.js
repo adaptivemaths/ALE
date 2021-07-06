@@ -1,6 +1,8 @@
 import { mailingListSQL, usersSQL } from "./sql.js";
 
 const pgp = require("pg-promise")({});
+
+
 require("dotenv").config();
 
 const dbInfo = {
@@ -50,7 +52,7 @@ export default class Database {
     var result = { password: "" };
 
     await db
-      .one(userSQL.authUser, attr)
+      .one(usersSQL.authUser, attr)
       .then((data) => {
         console.log(data);
         result = data;

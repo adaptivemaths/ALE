@@ -17,7 +17,12 @@ require("dotenv").config();
 const port = process.env.PORT || 5000;
 
 
-app.use(cors());
+app.use(
+  cors({
+    credentials: true,
+    origin: config.ORIGIN,
+  })
+);
 app.use(express.json());
 
 
@@ -99,7 +104,7 @@ app.post('/users/login', async (req, res) => {
       res.json({ success: false });
     }
   } catch (error) {
-    res.body = "Error: " + error;
+    console.log(error);
   }
 })
 
