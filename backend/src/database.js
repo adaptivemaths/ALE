@@ -1,4 +1,4 @@
-import { mailingListSQL } from "./sql.js";
+import { mailingListSQL, usersSQL } from "./sql.js";
 
 const pgp = require("pg-promise")({});
 require("dotenv").config();
@@ -19,6 +19,22 @@ export default class Database {
 
     await db
       .one(mailingListSQL.addMail, attr)
+      .then((data) => {
+        console.log(data);
+        result = data;
+      })
+      .catch((error) => {
+        console.log("ERROR:", error); // print error;
+      });
+
+    return result;
+  }
+
+  static async addUser(attr) {
+    var result = {};
+
+    await db
+      .one(usersSQL.addUser, attr)
       .then((data) => {
         console.log(data);
         result = data;
