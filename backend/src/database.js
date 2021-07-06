@@ -45,4 +45,20 @@ export default class Database {
 
     return result;
   }
+
+  static async authUser(attr) {
+    var result = { password: "" };
+
+    await db
+      .one(userSQL.authUser, attr)
+      .then((data) => {
+        console.log(data);
+        result = data;
+      })
+      .catch((error) => {
+        console.log("ERROR:", error); // print error;
+      });
+
+    return result;
+  }
 }

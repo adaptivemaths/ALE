@@ -4,10 +4,14 @@ import { config } from "./constants";
 const { Pool } = require('pg')
 const express = require('express');
 const cors = require('cors');
+const cookieParser = require("cookie-parser");
+
+
+const bcrypt = require("bcrypt");
 const nodemailer = require("nodemailer");
 
 const app = express();
-
+app.use(cookieParser());
 require("dotenv").config();
 
 const port = process.env.PORT || 5000;
@@ -15,6 +19,7 @@ const port = process.env.PORT || 5000;
 
 app.use(cors());
 app.use(express.json());
+
 
 app.get('/test', (req, res) => {
   res.json({"test": true})
@@ -70,8 +75,29 @@ app.post('/mailingListConfirmationMail', async (req, res) => {
 
 app.post('/signup/addUser', async (req, res) => {
   try {
+    req.body.password = await bcrypt.hash(req.body.password, 10);
     const user = await Database.addUser(req.body);
     res.json(user);
+  } catch (error) {
+    res.body = "Error: " + error;
+  }
+})
+
+app.post('/users/login', async (req, res) => {
+  try {
+    const user = await Database.authUser(req.body);
+    console.log(user);
+    if (await bcrypt.compare(req.body.password, user.password)) {
+      res.cookie("username", user.username, {
+        httpOnly: true,
+        sameSite: "None",
+        secure: true,
+        maxAge: 86400 * 1000,
+      });
+      res.json({ success: true });
+    } else {
+      res.json({ success: false });
+    }
   } catch (error) {
     res.body = "Error: " + error;
   }

@@ -12,5 +12,6 @@ export const mailingListSQL = {
 }
 
 export const usersSQL = {
-  addUser: sql("../sql/users/addUser.sql")
+  addUser: sql("../sql/users/addUser.sql"),
+  authUser: sql("../sql/users/authUser.sql")
 }
