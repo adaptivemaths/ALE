@@ -39,8 +39,9 @@ export default class SignUp extends React.Component {
         if (this.state.passwordsAreSame && 
             this.state.passwordIsLong) {
             addUser(this.state);
+        } else {
+            event.preventDefault();
         }
-        event.preventDefault();
     }
 
     render() {

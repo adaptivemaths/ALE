@@ -1,9 +1,9 @@
 import axios from "axios";
 import { config, axiosConfig } from "./constants";
 
-// const API_URL = "https://adaptivemaths.herokuapp.com";
+const API_URL = "https://adaptivemaths.herokuapp.com";
 
-const API_URL = "http://localhost:5000";
+// const API_URL = "http://localhost:5000";
 
 export async function addToMailingList(data) {
     var result = false;
@@ -61,7 +61,7 @@ export async function loginUser(loginCredentials) {
     .post(`${API_URL}/users/login`, loginCredentials, axiosConfig)
     .then((res) => {
       const success = res.data.success;
-      console.log(success);
+      console.log("Status:", success);
       result = success;
     })
     .catch((error) => {

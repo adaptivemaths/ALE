@@ -23,8 +23,11 @@ export default class Login extends React.Component {
     }
 
     handleSubmit(event) {
-        loginUser(this.state);
-        event.preventDefault();
+        if (loginUser(this.state)) {
+            console.log("logged in");
+        } else {
+            event.preventDefault();
+        }
     }
 
     render() {
