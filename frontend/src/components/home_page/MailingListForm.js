@@ -1,5 +1,5 @@
 import React from "react";
-import { addToMailingList, sendMailListConfirmationMail } from "../../api";
+import { addToMailingList } from "../../api";
 
 export default class MailingListForm extends React.Component {
     constructor() {
@@ -22,7 +22,6 @@ export default class MailingListForm extends React.Component {
 
     handleSubmit(event) {
         addToMailingList(this.state);
-        sendMailListConfirmationMail(this.state);
         this.setState({
             email: "",
             message: "You should receive an email from us shortly"
