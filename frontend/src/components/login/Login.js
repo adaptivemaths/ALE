@@ -3,13 +3,16 @@ import NavBar from "../navbar/NavBar";
 import "bootstrap/dist/css/bootstrap.css";
 import "./login.css";
 import { loginUser } from "../../api";
+import { Redirect } from "react-router-dom";
 
 export default class Login extends React.Component {
     constructor() {
         super();
         this.state = {
             username: "",
-            password: ""
+            password: "",
+            loggedIn: false,
+            error: false
         }
 
         this.handleChange = this.handleChange.bind(this);
@@ -22,15 +25,25 @@ export default class Login extends React.Component {
         })
     }
 
-    handleSubmit(event) {
-        if (loginUser(this.state)) {
-            console.log("logged in");
+    async handleSubmit(event) {
+        event.preventDefault();
+        if (await loginUser(this.state)) {
+            this.setState({
+                loggedIn: true,
+                error: false
+            })
         } else {
-            event.preventDefault();
+            console.log('error');
+            this.setState({
+                error: true
+            })
         }
     }
 
     render() {
+        if (this.state.loggedIn) {
+            return <Redirect push to="/profile"/>;
+        }
         return (
            <div>
                 <NavBar/>
@@ -42,6 +55,8 @@ export default class Login extends React.Component {
                 <div className="login-wrapper">
                     <form>
                         <span className="login-form">
+                            {this.state.error ? "There was an issue with your username and password" : ""}
+                            {this.state.loggedIn ? `You are logged in now!` : ""}
                             <div className="login-field">
                                 <label className="login-label">Username</label>
                                 <input name="username" type="email" placeholder="Enter email" 
