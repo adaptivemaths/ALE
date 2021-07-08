@@ -12,6 +12,7 @@ import TopicsList from "./components/practice/TopicsList";
 import Topic from "./components/practice/Topic";
 import SignUp from "./components/signup/SignUp";
 import Login from "./components/login/Login";
+import Profile from "./components/profile/Profile";
 
 async function test() {
   var result = false;
@@ -68,6 +69,10 @@ export default class App extends React.Component {
 
           <Route exact path="/login">
             <Login/>
+          </Route>
+
+          <Route exact path="/profile">
+            <Profile/>
           </Route>
 
           <Route exact path="/practice">
