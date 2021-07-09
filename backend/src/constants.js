@@ -4,7 +4,7 @@ const prod = {
   };
   
   const dev = {
-    ORIGIN: `https://${process.env.AWS_BRANCH}.d2ujrjv31lp15s.amplifyapp.com`,
+    ORIGIN: `https://dev.d2ujrjv31lp15s.amplifyapp.com`,
   };
   
   const local = {
@@ -12,6 +12,7 @@ const prod = {
   };
   
   function getConfig() {
+    console.log("BE_NODE_ENV=", process.env.BE_NODE_ENV);
     if (process.env.BE_NODE_ENV === "production") {
       return prod;
     } else if (process.env.BE_NODE_ENV === "development") {
