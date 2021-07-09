@@ -9,6 +9,7 @@ frontend:
         - yarn install
     build:
       commands:
+        - echo "REACT_APP_NODE_ENV=$DEPLOY_ENV" >> .env
         - yarn run build
   artifacts:
     files:
