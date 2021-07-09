@@ -3,7 +3,7 @@ const prod = {
 };
 
 const dev = {
-  API_URL: "https://adaptivemaths.herokuapp.com"
+  API_URL: "https://adaptivemaths-dev.herokuapp.com"
 };
 
 const local = {
