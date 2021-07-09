@@ -11,11 +11,10 @@ const local = {
 }
 
 function getConfig() {
-  console.log("DEPLOY_ENV =", process.env.DEPLOY_ENV);
-  if (process.env.DEPLOY_ENV === "production") {
+  if (process.env.REACT_APP_NODE_ENV === "production") {
     return prod
   }
-  if (process.env.DEPLOY_ENV === "development") {
+  if (process.env.REACT_APP_NODE_ENV === "development") {
     return dev
   }
   return local

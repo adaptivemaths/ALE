@@ -12,6 +12,7 @@ const prod = {
   };
   
   function getConfig() {
+    console.log("BE_NODE_ENV=", process.env.BE_NODE_ENV);
     if (process.env.BE_NODE_ENV === "production") {
       return prod;
     } else if (process.env.BE_NODE_ENV === "development") {

@@ -48,7 +48,10 @@ export default class MailingListForm extends React.Component {
                             <button id="mail-signup" onClick={this.handleSubmit}>
                                 SIGN UP
                             </button>
-                            <label>{this.state.message}</label>
+                            <br/>
+                            <div>
+                                {this.state.message}
+                            </div>
                         </div>
                         
                     </div>
