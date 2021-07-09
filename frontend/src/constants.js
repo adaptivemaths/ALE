@@ -11,7 +11,7 @@ const local = {
 }
 
 function getConfig() {
-  console.log(process.env.DEPLOY_ENV);
+  console.log("DEPLOY_ENV =", process.env.DEPLOY_ENV);
   if (process.env.DEPLOY_ENV === "production") {
     return prod
   }
