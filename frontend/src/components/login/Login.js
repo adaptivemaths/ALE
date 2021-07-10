@@ -4,16 +4,25 @@ import "bootstrap/dist/css/bootstrap.css";
 import "./login.css";
 import { loginUser } from "../../api";
 import { Redirect } from "react-router-dom";
+import { instanceOf } from 'prop-types';
+import { withCookies, Cookies } from 'react-cookie';
 
-export default class Login extends React.Component {
-    constructor() {
-        super();
+class Login extends React.Component {
+
+    static propTypes = {
+        cookies: instanceOf(Cookies).isRequired
+    };
+
+    constructor(props) {
+        super(props);
         this.state = {
             username: "",
             password: "",
             loggedIn: false,
             error: false
         }
+
+        
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -31,6 +40,11 @@ export default class Login extends React.Component {
             this.setState({
                 loggedIn: true,
                 error: false
+            }, 
+            () => {
+                const { cookies } = this.props;
+ 
+                cookies.set('username', this.state.username, { path: '/' });
             })
         } else {
             console.log('error');
@@ -79,3 +93,5 @@ export default class Login extends React.Component {
         );
     }
 }
+
+export default withCookies(Login);
