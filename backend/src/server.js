@@ -70,7 +70,7 @@ app.post('/signup/addUser', async (req, res) => {
 
 app.post('/users/login', async (req, res) => {
   try {
-    const user = await Database.authUser(req.body);
+    const user = await Database.getUser(req.body);
     console.log(user);
     if (await bcrypt.compare(req.body.password, user.password)) {
       res.cookie("username", user.username, {
@@ -87,6 +87,19 @@ app.post('/users/login', async (req, res) => {
     console.log(error);
   }
 })
+
+app.post('/user/info', async (req, res) => {
+  try {
+    console.log("req=", req.body);
+    const user = await Database.getUser({
+      username: req.body.username,
+    });
+    console.log(user);
+    res.json(user);
+  } catch (error) {
+    res.body = "Error: " + error;
+  }
+});
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
