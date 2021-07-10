@@ -48,11 +48,11 @@ export default class Database {
     return result;
   }
 
-  static async authUser(attr) {
-    var result = { password: "" };
+  static async getUser(attr) {
+    var result = {};
 
     await db
-      .one(usersSQL.authUser, attr)
+      .one(usersSQL.getUser, attr)
       .then((data) => {
         console.log(data);
         result = data;
