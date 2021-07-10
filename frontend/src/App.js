@@ -47,33 +47,33 @@ class App extends React.Component {
             <HomePage/>
           </Route>
 
-          <Route exact path="/about">
+          <Route exact path="/about/">
             <About/>
           </Route>
 
-          <Route exact path="/signup">
+          <Route exact path="/signup/">
             <SignUp/>
           </Route>
 
-          <Route exact path="/login">
+          <Route exact path="/login/">
             <Login/>
           </Route>
 
-          <Route exact path="/profile">
+          <Route exact path="/profile/">
             <Profile/>
           </Route>
 
-          <Route exact path="/practice">
+          <Route exact path="/practice/">
             <Practice/>
           </Route>
 
-          <Route exact path="/practice/topics">
+          <Route exact path="/practice/topics/">
               <TopicsList/>
           </Route>
 
-          <Route exact path="/practice/topics/:topic" component={Topic}/>
+          <Route exact path="/practice/topics/:topic/" component={Topic}/>
 
-          <Route exact path="/practice/assessment">
+          <Route exact path="/practice/assessment/">
           </Route>
         </Switch>
 
