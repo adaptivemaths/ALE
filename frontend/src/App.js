@@ -6,6 +6,9 @@ import React from 'react';
 import axios from "axios";
 import { config } from "./constants";
 import { Route, Switch } from "react-router-dom";
+import { instanceOf } from 'prop-types';
+import { withCookies, Cookies } from 'react-cookie';
+
 import About from "./components/about/About";
 import Practice from "./components/practice/Practice";
 import TopicsList from "./components/practice/TopicsList";
@@ -14,36 +17,21 @@ import SignUp from "./components/signup/SignUp";
 import Login from "./components/login/Login";
 import Profile from "./components/profile/Profile";
 
-async function test() {
-  var result = false;
-  console.log(config.API_URL);
-  await axios
-    .get(`${config.API_URL}/test`)
-    .then((res) => {
-      const test = res.data.test;
-      console.log(res);
-      result = test;
-      console.log(result);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-
-  return result;
-}
 
 
-export default class App extends React.Component {
+class App extends React.Component {
+  
+  static propTypes = {
+    cookies: instanceOf(Cookies).isRequired
+};
+
   constructor() {
     super();
-    this.state = {
-      test: false
-    }
+    this.state = {}
   }
 
   async componentDidMount() {
-    const t = await test();
-    this.setState({test: t});
+    
   }
 
   render() {
@@ -93,3 +81,5 @@ export default class App extends React.Component {
     );
   }
 }
+
+export default withCookies(App);
