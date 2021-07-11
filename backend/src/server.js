@@ -1,5 +1,6 @@
 import Database from "./database";
 import { config } from "./constants";
+import { sendMail } from "./mail";
 
 const { Pool } = require('pg')
 const express = require('express');
@@ -8,7 +9,6 @@ const cookieParser = require("cookie-parser");
 
 
 const bcrypt = require("bcrypt");
-const nodemailer = require("nodemailer");
 
 const app = express();
 app.use(cookieParser());
@@ -107,32 +107,3 @@ app.listen(port, () => {
 
 
 
-function sendMail(recepient, subject, html) {
-  try {
-    const transporter = nodemailer.createTransport({
-      service: 'outlook',
-      auth: {
-        user: process.env.MAIL, 
-        pass: process.env.MAIL_PASS
-      }
-    });
-
-    // send mail with defined transport object
-    const mailOptions = {
-      from: process.env.MAIL, // sender address
-      to: recepient, // list of receivers
-      subject: subject, // Subject line
-      html: html
-    };
-
-    transporter.sendMail(mailOptions, function (error, info) {
-        if (error) {
-            console.log(error);
-        } else {
-            console.log('Email sent: ' + info.response);
-        }
-    });
-  } catch (error) {
-    console.log("Error: " + error);
-  }
-}
