@@ -6,7 +6,7 @@ class Assessments extends React.Component {
     render() {
         return (
             <div>
-
+                <NavBar/>
             </div>
         );
     }
