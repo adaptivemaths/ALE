@@ -55,9 +55,22 @@ export async function loginUser(loginCredentials) {
 
 export async function getUserDetails(username) {
   var result = {}
-  console.log("api username=", username);
   await axios
     .post(`${API_URL}/user/info`, username, axiosConfig)
+    .then((res) => {
+      const user = res.data;
+      result = user;
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  return result;
+}
+
+export async function getPaperNames() {
+  var result = {}
+  await axios
+    .get(`${API_URL}/assessments/getPaperNames`)
     .then((res) => {
       const user = res.data;
       result = user;
