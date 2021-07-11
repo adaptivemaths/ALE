@@ -101,7 +101,7 @@ app.post('/user/info', async (req, res) => {
   }
 });
 
-app.get('/assessments/getPaperNames', (req, res) => {
+app.get('/assessments/getPaperNames', async (req, res) => {
   try {
     const papers = await Database.getPaperNames();
     res.json(papers);
