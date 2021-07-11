@@ -63,4 +63,20 @@ export default class Database {
 
     return result;
   }
+
+  static async getPaperNames() {
+    var result = {};
+
+    await db
+      .any(questionsSQL.getPaperNames)
+      .then((data) => {
+        console.log(data);
+        result = data;
+      })
+      .catch((error) => {
+        console.log("ERROR:", error); // print error;
+      });
+
+    return result;
+  }
 }
