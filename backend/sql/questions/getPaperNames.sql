@@ -1,3 +1,1 @@
-SELECT DISTINCT "GCSE_Paper_Name"
-FROM "questions"
-RETURNING *
+SELECT DISTINCT "GCSE_Paper_Name" FROM "questions"
