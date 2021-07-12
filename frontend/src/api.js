@@ -72,8 +72,8 @@ export async function getPaperNames() {
   await axios
     .get(`${API_URL}/assessments/getPaperNames`)
     .then((res) => {
-      const user = res.data;
-      result = user;
+      const papers = res.data;
+      result = papers;
     })
     .catch((error) => {
       console.log(error);
