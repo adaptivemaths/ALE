@@ -64,6 +64,7 @@ class SignUp extends React.Component {
 
     render() {
         if (this.state.signedUp) {
+            console.log("username:", this.props.cookies.get("username"));
             return <Redirect push to="/profile/"/>;
         }
 
