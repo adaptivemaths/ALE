@@ -56,7 +56,7 @@ class Login extends React.Component {
 
     render() {
         if (this.state.loggedIn) {
-            return <Redirect push to="/profile"/>;
+            return <Redirect push to="/profile/"/>;
         }
         return (
            <div>
