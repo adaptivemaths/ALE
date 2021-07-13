@@ -66,9 +66,23 @@ export default class Database {
 
   static async getPaperNames() {
     var result = {};
-    console.log("database")
     await db
       .any(questionsSQL.getPaperNames)
+      .then((data) => {
+        console.log(data);
+        result = data;
+      })
+      .catch((error) => {
+        console.log("ERROR:", error); // print error;
+      });
+
+    return result;
+  }
+
+  static async getQuestions(paper) {
+    var result = {};
+    await db
+      .any(questionsSQL.getQuestions, paper)
       .then((data) => {
         console.log(data);
         result = data;
