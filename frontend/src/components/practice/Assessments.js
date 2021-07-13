@@ -1,6 +1,6 @@
 import React from "react";
 import NavBar from "../navbar/NavBar";
-
+import { Nav } from "react-bootstrap";
 import { getPaperNames } from "../../api";
 
 class Assessments extends React.Component {
@@ -23,9 +23,9 @@ class Assessments extends React.Component {
             <div>
                 <NavBar/><br/>
                 {this.state.paperNames.map(paper => (
-                    <div>
+                    <Nav.Link href={`/practice/assessments/${paper.GCSE_Paper_Name}/`}>
                         {paper.GCSE_Paper_Name}
-                    </div>
+                    </Nav.Link>
                 ))}
             </div>
         );
