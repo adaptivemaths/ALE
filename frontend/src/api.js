@@ -80,3 +80,17 @@ export async function getPaperNames() {
     });
   return result;
 }
+
+export async function getQuestions(paper) {
+  var result = {}
+  await axios
+    .post(`${API_URL}/assessments/getQuestions`, paper)
+    .then((res) => {
+      const questions = res.data;
+      result = questions;
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  return result;
+}
