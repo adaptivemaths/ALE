@@ -110,6 +110,15 @@ app.get('/assessments/getPaperNames', async (req, res) => {
   }
 })
 
+app.post('/assessments/getQuestions', async (req, res) => {
+  try {
+    const questions = await Database.getQuestions(req.body);
+    res.json(questions);
+  } catch (error) {
+    res.body = "Error: " + error;
+  }
+})
+
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
