@@ -1,49 +1,30 @@
 import React from "react";
 import NavBar from "../navbar/NavBar";
+import { getQuestions } from "../../api";
 
 export default class QuestionPage extends React.Component {
     constructor() {
         super();
         this.state = {
-            question: {
-
-            }
-        };
+            paperName: "",
+            questions: [],
+            currentQuestion: 0
+        }
     }
-
-    componentDidMount() {
-        this.setState({question: this.props.question});
+    
+    async componentDidMount() {
+        this.setState({paperName: this.props.match.params.paperName}, async () => {
+            const questions = await getQuestions({
+                GCSE_Paper_Name: this.state.paperName
+            });
+            this.setState({questions})
+        });
     }
 
     render() {
         return (
             <div>
-                <div>
-                    {question.text}
-                </div>
-                <div>
-                    {question.images.map((image) => (
-                        <div>
-                            <img src={image}></img>
-                        </div>
-                    ))}
-                </div>
-                <div>
-                    <form>
-                        {question.fields.map((field) => (
-                            <div>
-                                <label>{field + " = "}</label>
-                                <input type="number"></input>
-                            </div>
-                        ))}
-                        <button>
-                           <span>Skip</span> 
-                        </button>
-                        <button>
-                        <span>Submit</span>
-                        </button>
-                    </form>
-                </div>
+                {JSON.stringify(this.state.questions[this.state.currentQuestion])}
             </div>
         );
     }
