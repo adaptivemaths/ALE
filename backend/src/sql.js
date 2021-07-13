@@ -17,5 +17,6 @@ export const usersSQL = {
 }
 
 export const questionsSQL = {
-  getPaperNames: sql("../sql/questions/getPaperNames.sql")
+  getPaperNames: sql("../sql/questions/getPaperNames.sql"),
+  getQuestions: sql("../sql/questions/getQuestions.sql")
 }
