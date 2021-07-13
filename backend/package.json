@@ -5,7 +5,7 @@
   "main": "src/server.js",
   "scripts": {
     "test": "mocha",
-    "start": "nodemon -r esm src/server.js"
+    "start": "node -r esm src/server.js"
   },
   "author": "",
   "license": "ISC",
