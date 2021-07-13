@@ -3,10 +3,18 @@ import NavBar from "../navbar/NavBar";
 import "bootstrap/dist/css/bootstrap.css";
 import "./signup.css";
 import { addUser } from "../../api";
+import { Redirect } from "react-router-dom";
+import { instanceOf } from 'prop-types';
+import { withCookies, Cookies } from 'react-cookie';
 
-export default class SignUp extends React.Component {
-    constructor() {
-        super();
+class SignUp extends React.Component {
+    
+    static propTypes = {
+        cookies: instanceOf(Cookies).isRequired
+    };
+
+    constructor(props) {
+        super(props);
         this.state = {
             email: "",
             firstName: "",
@@ -15,6 +23,7 @@ export default class SignUp extends React.Component {
             reenterPassword: "",
             passwordsAreSame: true,
             passwordIsLong: false,
+            signedUp: false
         }
         
         this.handleChange = this.handleChange.bind(this);
@@ -35,16 +44,29 @@ export default class SignUp extends React.Component {
 
     }
 
-    handleSubmit(event) {
+    async handleSubmit(event) {
+        event.preventDefault();
         if (this.state.passwordsAreSame && 
             this.state.passwordIsLong) {
-            addUser(this.state);
-        } else {
-            event.preventDefault();
+            const user = await addUser(this.state);
+
+            this.setState({
+                signedUp: true,
+            }, 
+            () => {
+                const { cookies } = this.props;
+    
+                cookies.set('username', this.state.email, { path: '/' });
+            })
+
         }
     }
 
     render() {
+        if (this.state.signedUp) {
+            return <Redirect push to="/profile/"/>;
+        }
+
         return (
             <>
                 <NavBar/>
@@ -99,3 +121,5 @@ export default class SignUp extends React.Component {
         );
     }
 }
+
+export default withCookies(SignUp);
