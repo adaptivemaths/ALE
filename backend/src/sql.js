@@ -13,7 +13,8 @@ export const mailingListSQL = {
 
 export const usersSQL = {
   addUser: sql("../sql/users/addUser.sql"),
-  getUser: sql("../sql/users/getUser.sql")
+  getUser: sql("../sql/users/getUser.sql"),
+  deleteUser: sql("../sql/users/deleteUser.sql")
 }
 
 export const questionsSQL = {
