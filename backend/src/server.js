@@ -71,14 +71,11 @@ app.post('/signup/addUser', async (req, res) => {
 app.post('/users/login', async (req, res) => {
   try {
     const user = await Database.getUser(req.body);
-    console.log(user);
+    if (user.password === undefined) {
+      res.json({ success: false });
+      return;
+    }
     if (await bcrypt.compare(req.body.password, user.password)) {
-      res.cookie("username", user.username, {
-        httpOnly: true,
-        sameSite: "None",
-        secure: true,
-        maxAge: 86400 * 1000,
-      });
       res.json({ success: true });
     } else {
       res.json({ success: false });
@@ -90,8 +87,19 @@ app.post('/users/login', async (req, res) => {
 
 app.post('/user/info', async (req, res) => {
   try {
-    console.log("req=", req.body);
     const user = await Database.getUser({
+      username: req.body.username,
+    });
+    console.log(user);
+    res.json(user);
+  } catch (error) {
+    res.body = "Error: " + error;
+  }
+});
+
+app.post('/user/deleteUser', async (req, res) => {
+  try {
+    const user = await Database.deleteUser({
       username: req.body.username,
     });
     console.log(user);
