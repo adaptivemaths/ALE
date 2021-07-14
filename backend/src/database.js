@@ -93,4 +93,19 @@ export default class Database {
 
     return result;
   }
+
+  static async deleteUser(user) {
+    var result = {};
+    await db
+      .any(usersSQL.deleteUser, user)
+      .then((data) => {
+        console.log(data);
+        result = data;
+      })
+      .catch((error) => {
+        console.log("ERROR:", error); // print error;
+      });
+
+    return result;
+  }
 }
