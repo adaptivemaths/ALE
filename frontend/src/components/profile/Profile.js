@@ -1,5 +1,5 @@
 import React from "react";
-import { getUserDetails } from "../../api";
+import { getUserDetails, deleteAccount } from "../../api";
 import { instanceOf } from 'prop-types';
 import { withCookies, Cookies } from 'react-cookie';
 import NavBar from "../navbar/NavBar";
@@ -20,7 +20,7 @@ class Profile extends React.Component {
         }
 
         this.signOutUser = this.signOutUser.bind(this);
-
+        this.deleteUserAccount = this.deleteUserAccount.bind(this);
     }
 
     async componentDidMount() {
@@ -46,6 +46,13 @@ class Profile extends React.Component {
         })
     }
 
+    deleteUserAccount(event) {
+        deleteAccount({
+            username: this.props.cookies.get('username')
+        });
+        this.signOutUser();
+    }
+
     render() {
         if (!this.state.signedIn) {
             return <Redirect push to="/"/>;
@@ -69,11 +76,13 @@ class Profile extends React.Component {
                         <label>
                             Last name: {this.state.userDetails.last_name}
                         </label><br/>
-                        {this.state.signedIn ? 
-                            <button onClick={this.signOutUser}>
-                                Sign Out
-                            </button> : ""
-                        }
+                        <button onClick={this.signOutUser}>
+                            Sign Out
+                        </button> 
+
+                        <button onClick={this.deleteUserAccount}>
+                            Delete account
+                        </button>
                     </>
                 }
             </div>
