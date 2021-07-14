@@ -3,10 +3,18 @@ import "./homePage.css";
 import NavBar from "../navbar/NavBar";
 import laptop from "./laptop.svg";
 import MailingListForm from "./MailingListForm";
+import { instanceOf } from 'prop-types';
+import { withCookies, Cookies } from 'react-cookie';
+import { Redirect } from "react-router";
 
-export default class HomePage extends React.Component {
-    constructor() {
-        super();
+class HomePage extends React.Component {
+    
+    static propTypes = {
+        cookies: instanceOf(Cookies).isRequired
+    };
+
+    constructor(props) {
+        super(props);
         this.state = {
             email: ""
         }
@@ -24,6 +32,9 @@ export default class HomePage extends React.Component {
     }
 
     render() {
+        if (this.props.cookies.get('username')) {
+            return <Redirect push to="/profile/"/>;
+        }
         return (
             <div className="homepage">
                 <NavBar />
@@ -46,3 +57,5 @@ export default class HomePage extends React.Component {
         )
     }
 }
+
+export default withCookies(HomePage);
