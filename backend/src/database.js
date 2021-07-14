@@ -1,4 +1,4 @@
-import { mailingListSQL, usersSQL } from "./sql.js";
+import { mailingListSQL, usersSQL, questionsSQL } from "./sql.js";
 
 const pgp = require("pg-promise")({});
 
@@ -53,6 +53,36 @@ export default class Database {
 
     await db
       .one(usersSQL.getUser, attr)
+      .then((data) => {
+        console.log(data);
+        result = data;
+      })
+      .catch((error) => {
+        console.log("ERROR:", error); // print error;
+      });
+
+    return result;
+  }
+
+  static async getPaperNames() {
+    var result = {};
+    await db
+      .any(questionsSQL.getPaperNames)
+      .then((data) => {
+        console.log(data);
+        result = data;
+      })
+      .catch((error) => {
+        console.log("ERROR:", error); // print error;
+      });
+
+    return result;
+  }
+
+  static async getQuestions(paper) {
+    var result = {};
+    await db
+      .any(questionsSQL.getQuestions, paper)
       .then((data) => {
         console.log(data);
         result = data;

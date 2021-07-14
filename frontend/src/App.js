@@ -16,6 +16,8 @@ import Topic from "./components/practice/Topic";
 import SignUp from "./components/signup/SignUp";
 import Login from "./components/login/Login";
 import Profile from "./components/profile/Profile";
+import Assessments from './components/practice/Assessments';
+import QuestionPage from './components/question/QuestionPage';
 
 
 
@@ -73,8 +75,11 @@ class App extends React.Component {
 
           <Route exact path="/practice/topics/:topic/" component={Topic}/>
 
-          <Route exact path="/practice/assessment/">
+          <Route exact path="/practice/assessments/">
+            <Assessments/>
           </Route>
+
+          <Route exact path="/practice/assessments/:paperName/" component={QuestionPage}/>
         </Switch>
 
       </>

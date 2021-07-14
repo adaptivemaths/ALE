@@ -15,7 +15,7 @@ export default class Practice extends React.Component {
                 <Nav.Link href="/practice/topics">
                     <span className="practice-btn">By Topic</span>
                 </Nav.Link>
-                <Nav.Link href="/practice/assessment">
+                <Nav.Link href="/practice/assessments/">
                     <span className="practice-btn">Comprehensive Assessment</span>
                 </Nav.Link>
             </div>

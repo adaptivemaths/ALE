@@ -39,9 +39,9 @@ class Profile extends React.Component {
     }
 
     signOutUser(event) {
-        this.props.cookies.remove("username");
+        this.props.cookies.remove("username", {path: '/'});
         this.setState({
-            userDetails: "Your are signed out",
+            userDetails: "You are signed out",
             signedIn: false
         })
     }

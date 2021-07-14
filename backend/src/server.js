@@ -1,5 +1,6 @@
 import Database from "./database";
 import { config } from "./constants";
+import { sendMail } from "./mail";
 
 const { Pool } = require('pg')
 const express = require('express');
@@ -8,7 +9,6 @@ const cookieParser = require("cookie-parser");
 
 
 const bcrypt = require("bcrypt");
-const nodemailer = require("nodemailer");
 
 const app = express();
 app.use(cookieParser());
@@ -101,38 +101,27 @@ app.post('/user/info', async (req, res) => {
   }
 });
 
+app.get('/assessments/getPaperNames', async (req, res) => {
+  try {
+    const papers = await Database.getPaperNames();
+    res.json(papers);
+  } catch (error) {
+    res.body = "Error: " + error;
+  }
+})
+
+app.post('/assessments/getQuestions', async (req, res) => {
+  try {
+    const questions = await Database.getQuestions(req.body);
+    res.json(questions);
+  } catch (error) {
+    res.body = "Error: " + error;
+  }
+})
+
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
 
 
 
-function sendMail(recepient, subject, html) {
-  try {
-    const transporter = nodemailer.createTransport({
-      service: 'outlook',
-      auth: {
-        user: process.env.MAIL, 
-        pass: process.env.MAIL_PASS
-      }
-    });
-
-    // send mail with defined transport object
-    const mailOptions = {
-      from: process.env.MAIL, // sender address
-      to: recepient, // list of receivers
-      subject: subject, // Subject line
-      html: html
-    };
-
-    transporter.sendMail(mailOptions, function (error, info) {
-        if (error) {
-            console.log(error);
-        } else {
-            console.log('Email sent: ' + info.response);
-        }
-    });
-  } catch (error) {
-    console.log("Error: " + error);
-  }
-}
