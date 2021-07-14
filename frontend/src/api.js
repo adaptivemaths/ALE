@@ -94,3 +94,17 @@ export async function getQuestions(paper) {
     });
   return result;
 }
+
+export async function deleteAccount(user) {
+  var result = {}
+  await axios
+    .post(`${API_URL}/user/deleteUser`, user)
+    .then((res) => {
+      const questions = res.data;
+      result = questions;
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  return result;
+}
