@@ -1,6 +1,7 @@
 import React from "react";
 import NavBar from "../navbar/NavBar";
 import { getQuestions } from "../../api";
+import "./question.css";
 
 export default class QuestionPage extends React.Component {
     constructor() {
@@ -41,6 +42,8 @@ export default class QuestionPage extends React.Component {
 
     previousQuestion(event) {
         event.preventDefault();
+        if (this.state.currentQuestion === 0) 
+            return
         this.setState({
             currentQuestion: (this.state.currentQuestion - 1) % this.state.questions.length
         });
@@ -49,69 +52,86 @@ export default class QuestionPage extends React.Component {
     render() {
         return (
         this.state.questionsLoaded ? (
-                <div>
-                    <button onClick={this.previousQuestion}>
-                        <span>Back</span> 
+            <div className="question-page-container">
+                <h1>{this.state.paperName}</h1> <br/>
+                <div className="question-buttons">
+
+                    <button onClick={this.previousQuestion} id="question-back">
+                        &lt; Back
                     </button>
 
-                    <button onClick={this.nextQuestion}>
-                        <span>Skip</span> 
+                    <button onClick={this.nextQuestion} id="question-skip">
+                        Skip
                     </button>
 
-                    <button onClick={this.nextQuestion}>
-                        <span>Next</span> 
+                    <button onClick={this.nextQuestion} id="question-next">
+                        Next &gt;
                     </button>
 
-                    <button>
-                        <span>Submit</span>
-                    </button>
-                    <div>
-                        <div>
+                </div>
+                <div className="question-container">
+                    <div className="">
+                        <div className="question-number">
+                            Question:&nbsp;
                             {this.getCurrentQuestion().QUESTION_NUMBER + '.' + 
-                            (this.getCurrentQuestion().SUB_QUESTION_NO ? this.getCurrentQuestion().SUB_QUESTION_NO : "")}
+                            (this.getCurrentQuestion().SUB_QUESTION_NO ? 
+                            this.getCurrentQuestion().SUB_QUESTION_NO : "")}
                         </div>
 
-                        <div>
+                        <div className="question-text">
                             {this.getCurrentQuestion().QUESTION_TEXT}
                         </div>
 
-                        <div> 
+                        <div className="question-instructions"> 
                             {this.getCurrentQuestion().QUESTION_INSTRUCTIONS}
                         </div>
 
-                        <div>
+                        <div className="question-marks">
                             Marks: {this.getCurrentQuestion().QUESTION_MARKS}
                         </div>
 
-                        <div>
+                        <div className="question-difficulty">
                             Difficulty: {this.getCurrentQuestion().GRD_DIFFICULTY}
                         </div>
 
-                        <div>
+                        <div className="question-topic">
                             Topic: {this.getCurrentQuestion().TOPIC}
                         </div>
                     </div>
-
-                    <div>
-                            <div>
-                                {this.getCurrentQuestion().QUESTION_OPTION_1}
-                            </div>   
-                                        
-                            <div>
-                                {this.getCurrentQuestion().QUESTION_OPTION_2}
-                            </div>
-
-                            <div>
-                                {this.getCurrentQuestion().QUESTION_OPTION_3}
-                            </div>
-
-                            <div>
-                                {this.getCurrentQuestion().QUESTION_OPTION_4}
-                            </div>
-
-
-                    </div> 
                 </div>
+
+                {this.getCurrentQuestion().QUESTION_TYPE === "MCQ" ?
+                        <>
+                            <div className="options-container">
+                                Options: <br/>
+                                <div className="question-option">
+                                    {this.getCurrentQuestion().QUESTION_OPTION_1}
+                                </div>   
+                                            
+                                <div className="question-option">
+                                    {this.getCurrentQuestion().QUESTION_OPTION_2}
+                                </div>
+
+                                <div className="question-option">
+                                    {this.getCurrentQuestion().QUESTION_OPTION_3}
+                                </div>
+
+                                <div className="question-option">
+                                    {this.getCurrentQuestion().QUESTION_OPTION_4}
+                                </div>
+                            </div> 
+                        </> :
+                        <>
+                            Answer:
+                            <input></input>
+                            <br/>
+                        </>
+                }
+
+                <button id="question-submit">
+                    Submit
+                </button>
+            </div>
             )
             : ""
         );
