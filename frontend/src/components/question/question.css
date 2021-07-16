@@ -71,10 +71,16 @@
 }
 
 .question-option {
-
+    border: 2px solid rgb(108, 78, 245);
+    color: rgb(108, 78, 245);
 }
 
-.question-buttons {
+.question-buttons{
     display: inline-flex;
     align-self: center;
+}
+
+.option-container {
+    display: inline-flex;
+    vertical-align: middle;
 }
