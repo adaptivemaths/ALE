@@ -10,11 +10,13 @@ export default class QuestionPage extends React.Component {
             paperName: "",
             questions: [],
             currentQuestion: 0,
-            questionsLoaded: false
+            questionsLoaded: false,
+            currentAnswer: ""
         }
 
         this.nextQuestion = this.nextQuestion.bind(this);
         this.previousQuestion = this.previousQuestion.bind(this);
+        this.setAnswer = this.setAnswer.bind(this);
     }
     
     async componentDidMount() {
@@ -22,6 +24,7 @@ export default class QuestionPage extends React.Component {
             const questions = await getQuestions({
                 GCSE_Paper_Name: this.state.paperName
             });
+            questions.forEach(q => {q.answer = ""})
             this.setState({
                 questions,
                 questionsLoaded: true
@@ -35,18 +38,39 @@ export default class QuestionPage extends React.Component {
 
     nextQuestion(event) {
         event.preventDefault();
+        this.state.questions[this.state.currentQuestion].answer = this.state.currentAnswer;
+        console.log(this.getCurrentQuestion().answer)
         this.setState({
             currentQuestion: (this.state.currentQuestion + 1) % this.state.questions.length
+        }, () => {
+            this.setState({
+                currentAnswer: this.getCurrentQuestion().answer
+            })
         });
     }
 
     previousQuestion(event) {
         event.preventDefault();
+        this.state.questions[this.state.currentQuestion].answer = this.state.currentAnswer;
+
         if (this.state.currentQuestion === 0) 
             return
+
         this.setState({
             currentQuestion: (this.state.currentQuestion - 1) % this.state.questions.length
+        }, () => {
+            this.setState({
+                currentAnswer: this.getCurrentQuestion().answer
+            })
         });
+
+
+    }
+
+    setAnswer(event) {
+        this.setState({
+            currentAnswer: event.target.value
+        }, () => console.log(this.state.currentAnswer));
     }
 
     render() {
@@ -104,32 +128,56 @@ export default class QuestionPage extends React.Component {
                         <>
                             <div className="options-container">
                                 Options: <br/>
+                                <div className="option-container">
+                                    <input name="answer" type="radio"
+                                            value={this.getCurrentQuestion().QUESTION_OPTION_1}
+                                            checked={this.state.currentAnswer === this.getCurrentQuestion().QUESTION_OPTION_1}
+                                            onChange={this.setAnswer}>
+                                    </input>
+                                </div>
                                 <div className="question-option">
-                                    {this.getCurrentQuestion().QUESTION_OPTION_1}
-                                </div>   
-                                            
+                                        {this.getCurrentQuestion().QUESTION_OPTION_1}<br/>
+                                </div>
+                                
+
+                                <input name="answer" type="radio" id="question-option2"
+                                        value={this.getCurrentQuestion().QUESTION_OPTION_2}
+                                        checked={this.state.currentAnswer === this.getCurrentQuestion().QUESTION_OPTION_2}
+                                        onChange={this.setAnswer}>
+                                </input>
                                 <div className="question-option">
-                                    {this.getCurrentQuestion().QUESTION_OPTION_2}
+                                    {this.getCurrentQuestion().QUESTION_OPTION_2}<br/>
                                 </div>
 
+                                <input name="answer" type="radio" id="question-option3" 
+                                        value={this.getCurrentQuestion().QUESTION_OPTION_3}
+                                        checked={this.state.currentAnswer === this.getCurrentQuestion().QUESTION_OPTION_3}
+                                        onChange={this.setAnswer}>
+                                </input>
                                 <div className="question-option">
-                                    {this.getCurrentQuestion().QUESTION_OPTION_3}
+                                    {this.getCurrentQuestion().QUESTION_OPTION_3}<br/>
                                 </div>
 
+                                <input name="answer" type="radio" id="question-option4"
+                                        value={this.getCurrentQuestion().QUESTION_OPTION_4}
+                                        checked={this.state.currentAnswer === this.getCurrentQuestion().QUESTION_OPTION_4}
+                                        onChange={this.setAnswer}>
+                                </input>
                                 <div className="question-option">
-                                    {this.getCurrentQuestion().QUESTION_OPTION_4}
+                                    {this.getCurrentQuestion().QUESTION_OPTION_4}<br/>
                                 </div>
+    
                             </div> 
                         </> :
                         <>
                             Answer:
-                            <input></input>
+                            <input value={this.state.currentAnswer} onChange={this.setAnswer}></input>
                             <br/>
                         </>
-                }
+                }<br/>
 
                 <button id="question-submit">
-                    Submit
+                    Submit all
                 </button>
             </div>
             )
