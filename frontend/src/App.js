@@ -18,7 +18,7 @@ import Login from "./components/login/Login";
 import Profile from "./components/profile/Profile";
 import Assessments from './components/practice/Assessments';
 import QuestionPage from './components/question/QuestionPage';
-
+import ResultsPage from './components/results/ResultsPage';
 
 
 class App extends React.Component {
@@ -80,6 +80,8 @@ class App extends React.Component {
           </Route>
 
           <Route exact path="/practice/assessments/:paperName/" component={QuestionPage}/>
+
+          <Route exact path="/results" component={ResultsPage}/>
         </Switch>
 
       </>
