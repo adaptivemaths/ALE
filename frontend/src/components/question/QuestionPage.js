@@ -2,6 +2,7 @@ import React from "react";
 import NavBar from "../navbar/NavBar";
 import { getQuestions } from "../../api";
 import "./question.css";
+import { Redirect } from "react-router";
 
 export default class QuestionPage extends React.Component {
     constructor() {
@@ -11,12 +12,14 @@ export default class QuestionPage extends React.Component {
             questions: [],
             currentQuestion: 0,
             questionsLoaded: false,
-            currentAnswer: ""
+            currentAnswer: "",
+            showResults: false
         }
 
         this.nextQuestion = this.nextQuestion.bind(this);
         this.previousQuestion = this.previousQuestion.bind(this);
         this.setAnswer = this.setAnswer.bind(this);
+        this.onSubmit = this.onSubmit.bind(this);
     }
     
     async componentDidMount() {
@@ -73,113 +76,131 @@ export default class QuestionPage extends React.Component {
         }, () => console.log(this.state.currentAnswer));
     }
 
+    onSubmit(event) {
+        this.setState({
+            showResults: true
+        });
+    }
+
     render() {
+        if (this.state.showResults) {
+            const questions = this.state.questions;
+            const paperName = this.state.paperName;
+            return <Redirect to={{
+                                pathname: '/results',
+                                state: {questions, paperName}
+                                }}/>;
+        }
         return (
         this.state.questionsLoaded ? (
-            <div className="question-page-container">
-                <h1>{this.state.paperName}</h1> <br/>
-                <div className="question-buttons">
+            <>
+                <NavBar/>
+                <div className="question-page-container">
+                    
+                    <h1>{this.state.paperName}</h1> <br/>
+                    <div className="question-buttons">
 
-                    <button onClick={this.previousQuestion} id="question-back">
-                        &lt; Back
-                    </button>
+                        <button onClick={this.previousQuestion} id="question-back">
+                            &lt; Back
+                        </button>
 
-                    <button onClick={this.nextQuestion} id="question-skip">
-                        Skip
-                    </button>
+                        <button onClick={this.nextQuestion} id="question-skip">
+                            Skip
+                        </button>
 
-                    <button onClick={this.nextQuestion} id="question-next">
-                        Next &gt;
-                    </button>
+                        <button onClick={this.nextQuestion} id="question-next">
+                            Next &gt;
+                        </button>
 
-                </div>
-                <div className="question-container">
-                    <div className="">
-                        <div className="question-number">
-                            Question:&nbsp;
-                            {this.getCurrentQuestion().QUESTION_NUMBER + '.' + 
-                            (this.getCurrentQuestion().SUB_QUESTION_NO ? 
-                            this.getCurrentQuestion().SUB_QUESTION_NO : "")}
-                        </div>
+                    </div>
+                    <div className="question-container">
+                        <div className="">
+                            <div className="question-number">
+                                Question&nbsp;
+                                {this.getCurrentQuestion().QUESTION_NUMBER + '.' + 
+                                (this.getCurrentQuestion().SUB_QUESTION_NO ? 
+                                this.getCurrentQuestion().SUB_QUESTION_NO : "")}
+                            </div>
 
-                        <div className="question-text">
-                            {this.getCurrentQuestion().QUESTION_TEXT}
-                        </div>
+                            <div className="question-text">
+                                {this.getCurrentQuestion().QUESTION_TEXT}
+                            </div>
 
-                        <div className="question-instructions"> 
-                            {this.getCurrentQuestion().QUESTION_INSTRUCTIONS}
-                        </div>
+                            <div className="question-instructions"> 
+                                {this.getCurrentQuestion().QUESTION_INSTRUCTIONS}
+                            </div>
 
-                        <div className="question-marks">
-                            Marks: {this.getCurrentQuestion().QUESTION_MARKS}
-                        </div>
+                            <div className="question-marks">
+                                Marks: {this.getCurrentQuestion().QUESTION_MARKS}
+                            </div>
 
-                        <div className="question-difficulty">
-                            Difficulty: {this.getCurrentQuestion().GRD_DIFFICULTY}
-                        </div>
+                            <div className="question-difficulty">
+                                Difficulty: {this.getCurrentQuestion().GRD_DIFFICULTY}
+                            </div>
 
-                        <div className="question-topic">
-                            Topic: {this.getCurrentQuestion().TOPIC}
+                            <div className="question-topic">
+                                Topic: {this.getCurrentQuestion().TOPIC}
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                {this.getCurrentQuestion().QUESTION_TYPE === "MCQ" ?
-                        <>
-                            <div className="options-container">
-                                Options: <br/>
-                                <div className="option-container">
-                                    <input name="answer" type="radio"
-                                            value={this.getCurrentQuestion().QUESTION_OPTION_1}
-                                            checked={this.state.currentAnswer === this.getCurrentQuestion().QUESTION_OPTION_1}
+                    {this.getCurrentQuestion().QUESTION_TYPE === "MCQ" ?
+                            <>
+                                <div className="options-container">
+                                    Options: <br/>
+                                    <div className="option-container">
+                                        <input name="answer" type="radio"
+                                                value={this.getCurrentQuestion().QUESTION_OPTION_1}
+                                                checked={this.state.currentAnswer === this.getCurrentQuestion().QUESTION_OPTION_1}
+                                                onChange={this.setAnswer}>
+                                        </input>
+                                    </div>
+                                    <div className="question-option">
+                                            {this.getCurrentQuestion().QUESTION_OPTION_1}<br/>
+                                    </div>
+                                    
+
+                                    <input name="answer" type="radio" id="question-option2"
+                                            value={this.getCurrentQuestion().QUESTION_OPTION_2}
+                                            checked={this.state.currentAnswer === this.getCurrentQuestion().QUESTION_OPTION_2}
                                             onChange={this.setAnswer}>
                                     </input>
-                                </div>
-                                <div className="question-option">
-                                        {this.getCurrentQuestion().QUESTION_OPTION_1}<br/>
-                                </div>
-                                
+                                    <div className="question-option">
+                                        {this.getCurrentQuestion().QUESTION_OPTION_2}<br/>
+                                    </div>
 
-                                <input name="answer" type="radio" id="question-option2"
-                                        value={this.getCurrentQuestion().QUESTION_OPTION_2}
-                                        checked={this.state.currentAnswer === this.getCurrentQuestion().QUESTION_OPTION_2}
-                                        onChange={this.setAnswer}>
-                                </input>
-                                <div className="question-option">
-                                    {this.getCurrentQuestion().QUESTION_OPTION_2}<br/>
-                                </div>
+                                    <input name="answer" type="radio" id="question-option3" 
+                                            value={this.getCurrentQuestion().QUESTION_OPTION_3}
+                                            checked={this.state.currentAnswer === this.getCurrentQuestion().QUESTION_OPTION_3}
+                                            onChange={this.setAnswer}>
+                                    </input>
+                                    <div className="question-option">
+                                        {this.getCurrentQuestion().QUESTION_OPTION_3}<br/>
+                                    </div>
 
-                                <input name="answer" type="radio" id="question-option3" 
-                                        value={this.getCurrentQuestion().QUESTION_OPTION_3}
-                                        checked={this.state.currentAnswer === this.getCurrentQuestion().QUESTION_OPTION_3}
-                                        onChange={this.setAnswer}>
-                                </input>
-                                <div className="question-option">
-                                    {this.getCurrentQuestion().QUESTION_OPTION_3}<br/>
-                                </div>
+                                    <input name="answer" type="radio" id="question-option4"
+                                            value={this.getCurrentQuestion().QUESTION_OPTION_4}
+                                            checked={this.state.currentAnswer === this.getCurrentQuestion().QUESTION_OPTION_4}
+                                            onChange={this.setAnswer}>
+                                    </input>
+                                    <div className="question-option">
+                                        {this.getCurrentQuestion().QUESTION_OPTION_4}<br/>
+                                    </div>
+        
+                                </div> 
+                            </> :
+                            <>
+                                Answer:
+                                <input value={this.state.currentAnswer} onChange={this.setAnswer}></input>
+                                <br/>
+                            </>
+                    }<br/>
 
-                                <input name="answer" type="radio" id="question-option4"
-                                        value={this.getCurrentQuestion().QUESTION_OPTION_4}
-                                        checked={this.state.currentAnswer === this.getCurrentQuestion().QUESTION_OPTION_4}
-                                        onChange={this.setAnswer}>
-                                </input>
-                                <div className="question-option">
-                                    {this.getCurrentQuestion().QUESTION_OPTION_4}<br/>
-                                </div>
-    
-                            </div> 
-                        </> :
-                        <>
-                            Answer:
-                            <input value={this.state.currentAnswer} onChange={this.setAnswer}></input>
-                            <br/>
-                        </>
-                }<br/>
-
-                <button id="question-submit">
-                    Submit all
-                </button>
-            </div>
+                    <button id="question-submit" onClick={this.onSubmit}>
+                        Submit all
+                    </button>
+                </div>
+            </>
             )
             : ""
         );
