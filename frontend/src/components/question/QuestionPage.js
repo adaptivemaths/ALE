@@ -222,17 +222,19 @@ export default class QuestionPage extends React.Component {
                     {this.buttons()}
 
                     {this.displayQuestion()}
-
-                    {this.answerInput()}
                     
                     {this.state.showResults ?
                     <>
+                        Your answer: {this.getCurrentQuestion().answer}<br/>
                         Correct answer: {this.getCurrentQuestion().QUESTION_ANSWER}
                     </>
                     :
-                    <button id="question-submit" onClick={this.onSubmit}>
-                        Submit all
-                    </button>
+                    <>
+                        {this.answerInput()}
+                        <button id="question-submit" onClick={this.onSubmit}>
+                            Submit all
+                        </button>
+                    </>
                     }
                 </div>
             </>
