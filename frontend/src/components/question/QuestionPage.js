@@ -2,7 +2,6 @@ import React from "react";
 import NavBar from "../navbar/NavBar";
 import { getQuestions } from "../../api";
 import "./question.css";
-import { Redirect } from "react-router";
 
 export default class QuestionPage extends React.Component {
     constructor() {
@@ -77,11 +76,13 @@ export default class QuestionPage extends React.Component {
     }
 
     onSubmit(event) {
+        event.preventDefault()
         this.state.questions[this.state.currentQuestion].answer = this.state.currentAnswer;
 
         this.setState({
             showResults: true
         });
+        this.calculateCorrectAnswers()
     }
 
     buttons() {
@@ -91,10 +92,11 @@ export default class QuestionPage extends React.Component {
                 <button onClick={this.previousQuestion} id="question-back">
                     &lt; Back
                 </button>
-
+                {this.state.showResults ? "" :
                 <button onClick={this.nextQuestion} id="question-skip">
                     Skip
                 </button>
+                }
 
                 <button onClick={this.nextQuestion} id="question-next">
                     Next &gt;
@@ -197,30 +199,41 @@ export default class QuestionPage extends React.Component {
         ;
     }
 
-    render() {
-        if (this.state.showResults) {
-            const questions = this.state.questions;
-            const paperName = this.state.paperName;
-            return <Redirect to={{
-                                pathname: '/results',
-                                state: {questions, paperName}
-                                }}/>;
+    calculateCorrectAnswers() {
+        let correct = 0;
+        for (let question of this.state.questions) {
+            if (question.answer == question.QUESTION_ANSWER) {
+                correct++;
+            }
         }
+
+        this.setState({correct});
+    }
+
+    render() {
         return (
         this.state.questionsLoaded ? (
             <>
                 <NavBar/>
-                <h1>{this.state.paperName}</h1> <br/>
+                <h1>{this.state.showResults ? "Results for " : ""}{this.state.paperName}</h1> <br/>
                 <div className="question-page-container">
+                    {this.state.showResults ? 
+                    <h2>{`You got ${this.state.correct} out of ${this.state.questions.length} correct`}</h2> : ""}
                     {this.buttons()}
 
                     {this.displayQuestion()}
 
                     {this.answerInput()}
                     
+                    {this.state.showResults ?
+                    <>
+                        Correct answer: {this.getCurrentQuestion().QUESTION_ANSWER}
+                    </>
+                    :
                     <button id="question-submit" onClick={this.onSubmit}>
                         Submit all
                     </button>
+                    }
                 </div>
             </>
             )
