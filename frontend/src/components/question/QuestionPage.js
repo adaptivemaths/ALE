@@ -2,6 +2,7 @@ import React from "react";
 import NavBar from "../navbar/NavBar";
 import { getQuestions } from "../../api";
 import "./question.css";
+import parse from "html-react-parser";
 
 export default class QuestionPage extends React.Component {
     constructor() {
@@ -118,7 +119,7 @@ export default class QuestionPage extends React.Component {
                     </div>
 
                     <div className="question-text">
-                        {this.getCurrentQuestion().QUESTION_TEXT}
+                        {parse(this.getCurrentQuestion().QUESTION_TEXT)}
                     </div>
 
                     <div className="question-instructions"> 
@@ -225,8 +226,8 @@ export default class QuestionPage extends React.Component {
                     
                     {this.state.showResults ?
                     <>
-                        Your answer: {this.getCurrentQuestion().answer}<br/>
-                        Correct answer: {this.getCurrentQuestion().QUESTION_ANSWER}
+                        Your answer: {parse(this.getCurrentQuestion().answer)}<br/>
+                        Correct answer: {parse(this.getCurrentQuestion().QUESTION_ANSWER)}
                     </>
                     :
                     <>
