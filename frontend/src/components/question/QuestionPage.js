@@ -21,13 +21,51 @@ export default class QuestionPage extends React.Component {
         this.setAnswer = this.setAnswer.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
     }
+
+    async resetState() {
+        this.setState({
+            paperName: "",
+            questions: [],
+            currentQuestion: 0,
+            questionsLoaded: false,
+            currentAnswer: "",
+            showResults: false
+        });
+    }
     
+    setState(state, callback = async () => {}) {
+        super.setState(state, async () => {
+                await callback();
+                console.log('this.state', this.state);
+                window.localStorage.setItem('state', JSON.stringify(this.state));
+            }
+        );
+    }
+
     async componentDidMount() {
-        this.setState({paperName: this.props.match.params.paperName}, async () => {
+        var state = JSON.parse(window.localStorage.getItem('state'));
+        if (state.paperName != this.props.match.params.paperName) {
+            state = {};
+            this.resetState();
+        }
+        console.log('state', state);
+        console.log('this.state', this.state);
+        this.setState(state, async () => {
+            if (this.state.questions.length === 0)
+                await this.loadQuestions();
+        });
+    }
+
+    async loadQuestions() {
+        await this.resetState();
+        console.log('inside');
+        console.log('paperName', this.props.match.params.paperName);
+        this.setState({...this.state, paperName: this.props.match.params.paperName}, async () => {
+            console.log('loadQuestions paperName', this.state.paperName);
             const questions = await getQuestions({
                 GCSE_Paper_Name: this.state.paperName
             });
-            questions.forEach(q => {q.answer = ""})
+            questions.forEach(q => {q.answer = ""});
             this.setState({
                 questions,
                 questionsLoaded: true
@@ -36,6 +74,8 @@ export default class QuestionPage extends React.Component {
     }
 
     getCurrentQuestion() {
+        console.log("currentQuestion", this.state.currentQuestion);
+        console.log('currentQuestion', this.state.questions);
         return this.state.questions[this.state.currentQuestion];
     }
 
