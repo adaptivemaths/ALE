@@ -108,3 +108,17 @@ export async function deleteAccount(user) {
     });
   return result;
 }
+
+export async function addAnswer(answer) {
+  var result = {}
+  await axios
+    .post(`${API_URL}/user/addAnswer`, answer)
+    .then((res) => {
+      const answer = res.data;
+      result = answer;
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  return result;
+}
