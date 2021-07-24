@@ -1,6 +1,6 @@
 import React from "react";
 import NavBar from "../navbar/NavBar";
-import { getQuestions } from "../../api";
+import { getQuestions, addAnswer } from "../../api";
 import "./question.css";
 import parse from "html-react-parser";
 
@@ -124,6 +124,15 @@ export default class QuestionPage extends React.Component {
             showResults: true
         });
         this.calculateCorrectAnswers()
+        this.state.questions.forEach((question) => {
+            const currentUser = this.props.cookies.get("username");
+            const answer = {
+                username: currentUser,
+                question_id: question.question_id,
+                answer: question.answer,
+            }
+            addAnswer(answer);
+        });
     }
 
     buttons() {
