@@ -128,7 +128,7 @@ app.post('/assessments/getQuestions', async (req, res) => {
 })
 
 
-app.post('/user/addAnswer', (req, res) => {
+app.post('/user/addAnswer', async (req, res) => {
   try {
     const answer = await Database.addAnswer(req.body);
     res.json(answer);
