@@ -21,3 +21,7 @@ export const questionsSQL = {
   getPaperNames: sql("../sql/questions/getPaperNames.sql"),
   getQuestions: sql("../sql/questions/getQuestions.sql")
 }
+
+export const answersSQL = {
+  addAnswer: sql("../sql/answers/addAnswer.sql"),
+}
