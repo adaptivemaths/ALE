@@ -1,10 +1,17 @@
 import React from "react";
+import { instanceOf } from 'prop-types';
+import { withCookies, Cookies } from 'react-cookie';
 import NavBar from "../navbar/NavBar";
 import { getQuestions, addAnswer } from "../../api";
 import "./question.css";
 import parse from "html-react-parser";
 
-export default class QuestionPage extends React.Component {
+class QuestionPage extends React.Component {
+    
+    static propTypes = {
+        cookies: instanceOf(Cookies).isRequired
+    };
+
     constructor() {
         super();
         this.state = {
@@ -293,3 +300,5 @@ export default class QuestionPage extends React.Component {
         );
     }
 }
+
+export default withCookies(QuestionPage);
