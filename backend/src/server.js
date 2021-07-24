@@ -127,6 +127,16 @@ app.post('/assessments/getQuestions', async (req, res) => {
   }
 })
 
+
+app.post('/user/addAnswer', (req, res) => {
+  try {
+    const answer = await Database.addAnswer(req.body);
+    res.json(answer);
+  } catch (error) {
+    res.body = "Error: " + error;
+  }
+})
+
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
