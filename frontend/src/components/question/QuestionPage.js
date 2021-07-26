@@ -5,6 +5,7 @@ import NavBar from "../navbar/NavBar";
 import { getQuestions, addAnswer } from "../../api";
 import "./question.css";
 import parse from "html-react-parser";
+import { getElapsedTime } from "./timer";
 
 class QuestionPage extends React.Component {
     
@@ -20,13 +21,16 @@ class QuestionPage extends React.Component {
             currentQuestion: 0,
             questionsLoaded: false,
             currentAnswer: "",
-            showResults: false
+            showResults: false,
+            startTime: new Date(),
+            timeElapsed: "00:00",
         }
 
         this.nextQuestion = this.nextQuestion.bind(this);
         this.previousQuestion = this.previousQuestion.bind(this);
         this.setAnswer = this.setAnswer.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
+        this.setElapsedTime = this.setElapsedTime.bind(this);
     }
 
     async resetState() {
@@ -50,6 +54,8 @@ class QuestionPage extends React.Component {
     }
 
     async componentDidMount() {
+        let intervalId = setInterval(this.setElapsedTime, 1000);
+
         var state = JSON.parse(window.localStorage.getItem('state'));
         if (state.paperName != this.props.match.params.paperName) {
             state = {};
@@ -130,7 +136,9 @@ class QuestionPage extends React.Component {
         this.setState({
             showResults: true
         });
+
         this.calculateCorrectAnswers()
+
         this.state.questions.forEach((question) => {
             const currentUser = this.props.cookies.get("username");
             const answer = {
@@ -273,21 +281,28 @@ class QuestionPage extends React.Component {
             <>
                 <NavBar/>
                 <h1>{this.state.showResults ? "Results for " : ""}{this.state.paperName}</h1> <br/>
+
                 <div className="question-page-container">
                     {this.state.showResults ? 
                     <h2>{`You got ${this.state.correct} out of ${this.state.questions.length} correct`}</h2> : ""}
-                    {this.buttons()}
+                    
+
+                    {this.state.showResults ? "" : "Time: " + this.state.timeElapsed}
 
                     {this.displayQuestion()}
+                    
                     
                     {this.state.showResults ?
                     <>
                         Your answer: {parse(this.getCurrentQuestion().answer)}<br/>
                         Correct answer: {parse(this.getCurrentQuestion().QUESTION_ANSWER)}
+                        {this.buttons()}
+
                     </>
                     :
                     <>
                         {this.answerInput()}
+                        {this.buttons()}
                         <button id="question-submit" onClick={this.onSubmit}>
                             Submit all
                         </button>
@@ -298,6 +313,16 @@ class QuestionPage extends React.Component {
             )
             : ""
         );
+    }
+
+    setElapsedTime() {
+        console.log('inside1')
+        if (this.state == undefined)
+          return;
+          console.log('inside2')
+        this.setState({
+            timeElapsed: getElapsedTime(this.state.startTime)
+        }, () => console.log(this.state.timeElapsed));
     }
 }
 
