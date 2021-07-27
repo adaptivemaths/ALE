@@ -124,4 +124,20 @@ export default class Database {
 
     return result;
   }
+
+  static async getSubmittedTests(username) {
+    var result = [];
+
+    await db
+      .any(answersSQL.submittedTests, username)
+      .then((data) => {
+        console.log(data);
+        result = data;
+      })
+      .catch((error) => {
+        console.log("ERROR:", error); // print error;
+      });
+
+    return result;
+  }
 }
