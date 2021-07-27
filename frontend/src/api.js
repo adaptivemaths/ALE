@@ -122,3 +122,17 @@ export async function addAnswer(answer) {
     });
   return result;
 }
+
+export async function getSubmittedTests(username) {
+  var result = {}
+  await axios
+    .post(`${API_URL}/user/getSubmittedTests`, username)
+    .then((res) => {
+      const answer = res.data;
+      result = answer;
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  return result;
+}
