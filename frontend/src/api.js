@@ -136,3 +136,17 @@ export async function getSubmittedTests(username) {
     });
   return result;
 }
+
+export async function getAnswers(data) {
+  var result = {}
+  await axios
+    .post(`${API_URL}/user/getAnswers`, data)
+    .then((res) => {
+      const answer = res.data;
+      result = answer;
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  return result;
+}
