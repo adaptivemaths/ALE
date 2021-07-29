@@ -140,4 +140,20 @@ export default class Database {
 
     return result;
   }
+
+
+  static async getAnswers(info) {
+    var result = [];
+
+    await db
+      .any(answersSQL.getAnswers, info)
+      .then((data) => {
+        result = data;
+      })
+      .catch((error) => {
+        console.log("ERROR:", error); // print error;
+      });
+
+    return result;
+  }
 }
