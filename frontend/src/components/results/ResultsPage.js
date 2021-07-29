@@ -15,6 +15,7 @@ class ResultsPage extends React.Component {
         super();
         this.state = {
             paperName: "",
+            correct: 0,
         }
     }
 
@@ -22,6 +23,17 @@ class ResultsPage extends React.Component {
         this.setState({
             paperName: this.props.match.params.paperName,
         });
+    }
+
+    calculateCorrectAnswers() {
+        let correct = 0;
+        for (let question of this.state.questions) {
+            if (question.answer == question.QUESTION_ANSWER) {
+                correct++;
+            }
+        }
+
+        this.setState({correct});
     }
 
     render() {
