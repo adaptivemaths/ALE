@@ -1,8 +1,10 @@
 import React from "react";
+import { Redirect } from "react-router";
 import { instanceOf } from 'prop-types';
 import { withCookies, Cookies } from 'react-cookie';
+import { Nav } from "react-bootstrap";
 import NavBar from "../navbar/NavBar";
-import { getQuestions, addAnswer } from "../../api";
+import { getQuestions, addAnswer, getSubmittedTests, getAnswers } from "../../api";
 import "./question.css";
 import parse from "html-react-parser";
 import { getElapsedTime } from "./timer";
@@ -13,8 +15,8 @@ class QuestionPage extends React.Component {
         cookies: instanceOf(Cookies).isRequired
     };
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             paperName: "",
             questions: [],
@@ -43,38 +45,26 @@ class QuestionPage extends React.Component {
             showResults: false
         });
     }
-    
-    setState(state, callback = async () => {}) {
-        super.setState(state, async () => {
-                await callback();
-                console.log('this.state', this.state);
-                window.localStorage.setItem('state', JSON.stringify(this.state));
-            }
-        );
-    }
 
     async componentDidMount() {
         let intervalId = setInterval(this.setElapsedTime, 1000);
 
-        var state = JSON.parse(window.localStorage.getItem('state'));
-        if (state.paperName != this.props.match.params.paperName) {
-            state = {};
-            this.resetState();
-        }
-        console.log('state', state);
-        console.log('this.state', this.state);
-        this.setState(state, async () => {
-            if (this.state.questions.length === 0)
+        const username = this.props.cookies.get('username');
+        const completedTests = await getSubmittedTests({username});
+        const paperName = this.props.match.params.paperName;
+
+        this.setState({paperName}, async () => {
+            if (!completedTests.map(paper => paper.GCSE_Paper_Name).includes(this.state.paperName)) {
                 await this.loadQuestions();
+            } else {
+                await this.loadAnswers(username);
+            }
         });
+    
     }
 
     async loadQuestions() {
-        await this.resetState();
-        console.log('inside');
-        console.log('paperName', this.props.match.params.paperName);
-        this.setState({...this.state, paperName: this.props.match.params.paperName}, async () => {
-            console.log('loadQuestions paperName', this.state.paperName);
+        this.setState({paperName: this.props.match.params.paperName}, async () => {
             const questions = await getQuestions({
                 GCSE_Paper_Name: this.state.paperName
             });
@@ -86,9 +76,22 @@ class QuestionPage extends React.Component {
         });
     }
 
+    async loadAnswers(username) {
+        this.setState({paperName: this.props.match.params.paperName}, async () => {
+            const questions = await getAnswers({
+                username,
+                GCSE_Paper_Name: this.state.paperName
+            });
+            console.log('questions', questions);
+            this.setState({
+                questions,
+                questionsLoaded: true,
+                showResults: true,
+            },  () => this.calculateCorrectAnswers())
+        });
+    }
+
     getCurrentQuestion() {
-        console.log("currentQuestion", this.state.currentQuestion);
-        console.log('currentQuestion', this.state.questions);
         return this.state.questions[this.state.currentQuestion];
     }
 
@@ -126,7 +129,7 @@ class QuestionPage extends React.Component {
     setAnswer(event) {
         this.setState({
             currentAnswer: event.target.value
-        }, () => console.log(this.state.currentAnswer));
+        });
     }
 
     onSubmit(event) {
@@ -280,11 +283,18 @@ class QuestionPage extends React.Component {
         this.state.questionsLoaded ? (
             <>
                 <NavBar/>
-                <h1>{this.state.showResults ? "Results for " : ""}{this.state.paperName}</h1> <br/>
+                <h1>{this.state.showResults ? "Review your answers for " : ""}{this.state.paperName}</h1> <br/>
 
                 <div className="question-page-container">
                     {this.state.showResults ? 
-                    <h2>{`You got ${this.state.correct} out of ${this.state.questions.length} correct`}</h2> : ""}
+                        <div>
+                            <h2>{`You got ${this.state.correct} out of ${this.state.questions.length} correct`}</h2>
+                            <Nav.Link href={`/assessments/results/${this.state.paperName}`}>
+                                See detailed results<br/>
+                            </Nav.Link>
+                        </div>
+                     : ""
+                     }
                     
 
                     {this.state.showResults ? "" : "Time: " + this.state.timeElapsed}
@@ -318,10 +328,8 @@ class QuestionPage extends React.Component {
     }
 
     setElapsedTime() {
-        console.log('inside1')
         if (this.state == undefined)
           return;
-          console.log('inside2')
         this.setState({
             timeElapsed: getElapsedTime(this.state.startTime)
         }, () => console.log(this.state.timeElapsed));
