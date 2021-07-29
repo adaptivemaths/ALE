@@ -81,7 +81,7 @@ class App extends React.Component {
 
           <Route exact path="/practice/assessments/:paperName/" component={QuestionPage}/>
 
-          <Route exact path="/practice/results/:paperName/" component={ResultsPage}/>
+          <Route exact path="/assessments/results/:paperName/" component={ResultsPage}/>
 
         </Switch>
 
