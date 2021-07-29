@@ -68,12 +68,12 @@ class Profile extends React.Component {
     submittedTests() {
         const papers = this.state.submittedTests.map((paper) => (
             <div>
-                <Nav.Link href={`/practice/results/${paper.GCSE_Paper_Name}`}>
+                <Nav.Link href={`/practice/assessments/${paper.GCSE_Paper_Name}`}>
                     <span>{paper.GCSE_Paper_Name}</span>
                 </Nav.Link>
             </div>
         ));
-        console.log("papers", papers);
+
         return (
             <div>
                 {papers}
