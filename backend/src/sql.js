@@ -25,4 +25,5 @@ export const questionsSQL = {
 export const answersSQL = {
   addAnswer: sql("../sql/answers/addAnswer.sql"),
   submittedTests: sql("../sql/answers/submittedTests.sql"),
+  getAnswers: sql("../sql/answers/getAnswers.sql"),
 }
