@@ -289,8 +289,10 @@ class QuestionPage extends React.Component {
 
                     {this.state.showResults ? "" : "Time: " + this.state.timeElapsed}
 
+                    {this.buttons()}
+
                     {this.displayQuestion()}
-                    
+                    <br/>
                     
                     {this.state.showResults ?
                     <>
@@ -302,7 +304,7 @@ class QuestionPage extends React.Component {
                     :
                     <>
                         {this.answerInput()}
-                        {this.buttons()}
+                        
                         <button id="question-submit" onClick={this.onSubmit}>
                             Submit all
                         </button>
