@@ -41,6 +41,9 @@ class ResultsPage extends React.Component {
             <div>
                 <NavBar/>
                 <h1>Results for {this.state.paperName}</h1>
+
+                <h2>{`You got ${this.state.correct} out of ${this.state.questions.length} correct`}</h2>
+                    
             </div>
         )
     }
