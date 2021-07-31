@@ -4,7 +4,7 @@ import { instanceOf } from 'prop-types';
 import { withCookies, Cookies } from 'react-cookie';
 import { Nav } from "react-bootstrap";
 import NavBar from "../navbar/NavBar";
-import { getQuestions, addAnswer, getSubmittedTests, getAnswers } from "../../api";
+import { getQuestions, addAnswer, getSubmittedTests, getAnswers, deleteAnswers } from "../../api";
 import "./question.css";
 import parse from "html-react-parser";
 import { getElapsedTime } from "./timer";
@@ -33,6 +33,7 @@ class QuestionPage extends React.Component {
         this.setAnswer = this.setAnswer.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
         this.setElapsedTime = this.setElapsedTime.bind(this);
+        this.redoTest = this.redoTest.bind(this);
     }
 
     async resetState() {
@@ -42,7 +43,9 @@ class QuestionPage extends React.Component {
             currentQuestion: 0,
             questionsLoaded: false,
             currentAnswer: "",
-            showResults: false
+            showResults: false,
+            startTime: new Date(),
+            timeElapsed: "00:00",
         });
     }
 
@@ -278,6 +281,20 @@ class QuestionPage extends React.Component {
         this.setState({correct});
     }
 
+    async redoTest(event) {
+        event.preventDefault();
+        const username = this.props.cookies.get('username');
+        const paperName = this.state.paperName;
+        const answers = await deleteAnswers({
+            username,
+            GCSE_Paper_Name : this.state.paperName,
+        });
+
+        await this.resetState()
+        .then(() => this.setState({paperName}, () => this.componentDidMount()))
+        
+    }
+
     render() {
         return (
         this.state.questionsLoaded ? (
@@ -309,6 +326,11 @@ class QuestionPage extends React.Component {
                         Your answer: {parse(this.getCurrentQuestion().answer)}<br/>
                         Correct answer: {parse(this.getCurrentQuestion().QUESTION_ANSWER)}
                         {this.buttons()}
+                        <div>
+                            <button onClick={this.redoTest}>
+                                Redo Test
+                            </button>
+                        </div>
 
                     </>
                     :
@@ -330,9 +352,10 @@ class QuestionPage extends React.Component {
     setElapsedTime() {
         if (this.state == undefined)
           return;
+
         this.setState({
             timeElapsed: getElapsedTime(this.state.startTime)
-        }, () => console.log(this.state.timeElapsed));
+        });
     }
 }
 
