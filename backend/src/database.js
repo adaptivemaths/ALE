@@ -156,4 +156,19 @@ export default class Database {
 
     return result;
   }
+
+  static async deleteAnswers(info) {
+    var result = [];
+
+    await db
+      .any(answersSQL.deleteAnswers, info)
+      .then((data) => {
+        result = data;
+      })
+      .catch((error) => {
+        console.log("ERROR:", error); // print error;
+      });
+
+    return result;
+  }
 }
