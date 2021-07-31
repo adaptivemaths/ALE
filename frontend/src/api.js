@@ -150,3 +150,17 @@ export async function getAnswers(data) {
     });
   return result;
 }
+
+export async function deleteAnswers(data) {
+  var result = {}
+  await axios
+    .post(`${API_URL}/user/deleteAnswers`, data)
+    .then((res) => {
+      const answer = res.data;
+      result = answer;
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  return result;
+}
