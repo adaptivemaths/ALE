@@ -30,6 +30,7 @@ class QuestionPage extends React.Component {
 
         this.nextQuestion = this.nextQuestion.bind(this);
         this.previousQuestion = this.previousQuestion.bind(this);
+        this.skipQuestion = this.skipQuestion.bind(this);
         this.setAnswer = this.setAnswer.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
         this.setElapsedTime = this.setElapsedTime.bind(this);
@@ -129,6 +130,12 @@ class QuestionPage extends React.Component {
 
     }
 
+    skipQuestion(event) {
+        this.setState({
+            currentAnswer: "",
+        }, () => this.nextQuestion(event));
+    }
+
     setAnswer(event) {
         this.setState({
             currentAnswer: event.target.value
@@ -163,8 +170,9 @@ class QuestionPage extends React.Component {
                 <button onClick={this.previousQuestion} id="question-back">
                     &lt; Back
                 </button>
+
                 {this.state.showResults ? "" :
-                <button onClick={this.nextQuestion} id="question-skip">
+                <button onClick={this.skipQuestion} id="question-skip">
                     Skip
                 </button>
                 }
