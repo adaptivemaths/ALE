@@ -4,6 +4,7 @@ import { withCookies, Cookies } from 'react-cookie';
 
 import "./ResultsPage.css";
 import NavBar from "../navbar/NavBar";
+import { getAnswers } from "../../api";
 
 class ResultsPage extends React.Component {
     
@@ -16,12 +17,29 @@ class ResultsPage extends React.Component {
         this.state = {
             paperName: "",
             correct: 0,
+            questions: []
         }
     }
 
     componentDidMount() {
+        const username = this.props.cookies.get('username');
         this.setState({
             paperName: this.props.match.params.paperName,
+        }, () => this.loadAnswers(username));
+    }
+
+    async loadAnswers(username) {
+        this.setState({paperName: this.props.match.params.paperName}, async () => {
+            const questions = await getAnswers({
+                username,
+                GCSE_Paper_Name: this.state.paperName
+            });
+            console.log('questions', questions);
+            this.setState({
+                questions,
+                questionsLoaded: true,
+                showResults: true,
+            },  () => this.calculateCorrectAnswers())
         });
     }
 
