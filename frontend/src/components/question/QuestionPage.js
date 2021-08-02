@@ -303,6 +303,32 @@ class QuestionPage extends React.Component {
         
     }
 
+    checkAnswer(userAnswer, correctAnswer) {
+        if (userAnswer === "") {
+            return (
+                <div>
+                    You skipped this question<br/>
+                    The correct answer was<br/>{parse(correctAnswer)}
+                </div>
+            );
+        }
+        if (userAnswer == correctAnswer) {
+            return (
+                <div>
+                    You gave the right answer:<br/>
+                    {parse(correctAnswer)}
+                </div>
+            );
+        }
+        return (
+            <div>
+                Your answer was incorrect<br/>
+                The correct answer was<br/>
+                {parse(correctAnswer)}
+            </div>
+        );
+    }
+
     render() {
         return (
         this.state.questionsLoaded ? (
@@ -331,9 +357,8 @@ class QuestionPage extends React.Component {
                     
                     {this.state.showResults ?
                     <>
-                        Your answer: {parse(this.getCurrentQuestion().answer)}<br/>
-                        Correct answer: {parse(this.getCurrentQuestion().QUESTION_ANSWER)}
-                        {this.buttons()}
+                        {this.checkAnswer(this.getCurrentQuestion().answer, this.getCurrentQuestion().QUESTION_ANSWER)}
+                        <br/>
                         <div>
                             <button onClick={this.redoTest}>
                                 Redo Test
