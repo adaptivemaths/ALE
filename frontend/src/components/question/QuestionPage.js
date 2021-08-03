@@ -1,36 +1,97 @@
 import React from "react";
+import { Redirect } from "react-router";
+import { instanceOf } from 'prop-types';
+import { withCookies, Cookies } from 'react-cookie';
+import { Nav } from "react-bootstrap";
 import NavBar from "../navbar/NavBar";
-import { getQuestions } from "../../api";
+import { getQuestions, addAnswer, getSubmittedTests, getAnswers, deleteAnswers } from "../../api";
 import "./question.css";
+import parse from "html-react-parser";
+import { getElapsedTime } from "./timer";
 
-export default class QuestionPage extends React.Component {
-    constructor() {
-        super();
+class QuestionPage extends React.Component {
+    
+    static propTypes = {
+        cookies: instanceOf(Cookies).isRequired
+    };
+
+    constructor(props) {
+        super(props);
         this.state = {
             paperName: "",
             questions: [],
             currentQuestion: 0,
             questionsLoaded: false,
             currentAnswer: "",
-            showResults: false
+            showResults: false,
+            startTime: new Date(),
+            timeElapsed: "00:00",
         }
 
         this.nextQuestion = this.nextQuestion.bind(this);
         this.previousQuestion = this.previousQuestion.bind(this);
+        this.skipQuestion = this.skipQuestion.bind(this);
         this.setAnswer = this.setAnswer.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
+        this.setElapsedTime = this.setElapsedTime.bind(this);
+        this.redoTest = this.redoTest.bind(this);
     }
-    
+
+    async resetState() {
+        this.setState({
+            paperName: "",
+            questions: [],
+            currentQuestion: 0,
+            questionsLoaded: false,
+            currentAnswer: "",
+            showResults: false,
+            startTime: new Date(),
+            timeElapsed: "00:00",
+        });
+    }
+
     async componentDidMount() {
+        let intervalId = setInterval(this.setElapsedTime, 1000);
+
+        const username = this.props.cookies.get('username');
+        const completedTests = await getSubmittedTests({username});
+        const paperName = this.props.match.params.paperName;
+
+        this.setState({paperName}, async () => {
+            if (!completedTests.map(paper => paper.GCSE_Paper_Name).includes(this.state.paperName)) {
+                await this.loadQuestions();
+            } else {
+                await this.loadAnswers(username);
+            }
+        });
+    
+    }
+
+    async loadQuestions() {
         this.setState({paperName: this.props.match.params.paperName}, async () => {
             const questions = await getQuestions({
                 GCSE_Paper_Name: this.state.paperName
             });
-            questions.forEach(q => {q.answer = ""})
+            questions.forEach(q => {q.answer = ""});
             this.setState({
                 questions,
                 questionsLoaded: true
             })
+        });
+    }
+
+    async loadAnswers(username) {
+        this.setState({paperName: this.props.match.params.paperName}, async () => {
+            const questions = await getAnswers({
+                username,
+                GCSE_Paper_Name: this.state.paperName
+            });
+            console.log('questions', questions);
+            this.setState({
+                questions,
+                questionsLoaded: true,
+                showResults: true,
+            },  () => this.calculateCorrectAnswers())
         });
     }
 
@@ -69,10 +130,16 @@ export default class QuestionPage extends React.Component {
 
     }
 
+    skipQuestion(event) {
+        this.setState({
+            currentAnswer: "",
+        }, () => this.nextQuestion(event));
+    }
+
     setAnswer(event) {
         this.setState({
             currentAnswer: event.target.value
-        }, () => console.log(this.state.currentAnswer));
+        });
     }
 
     onSubmit(event) {
@@ -82,7 +149,18 @@ export default class QuestionPage extends React.Component {
         this.setState({
             showResults: true
         });
+
         this.calculateCorrectAnswers()
+
+        this.state.questions.forEach((question) => {
+            const currentUser = this.props.cookies.get("username");
+            const answer = {
+                username: currentUser,
+                question_id: question.question_id,
+                answer: question.answer,
+            }
+            addAnswer(answer);
+        });
     }
 
     buttons() {
@@ -92,8 +170,9 @@ export default class QuestionPage extends React.Component {
                 <button onClick={this.previousQuestion} id="question-back">
                     &lt; Back
                 </button>
+
                 {this.state.showResults ? "" :
-                <button onClick={this.nextQuestion} id="question-skip">
+                <button onClick={this.skipQuestion} id="question-skip">
                     Skip
                 </button>
                 }
@@ -118,7 +197,7 @@ export default class QuestionPage extends React.Component {
                     </div>
 
                     <div className="question-text">
-                        {this.getCurrentQuestion().QUESTION_TEXT}
+                        {parse(this.getCurrentQuestion().QUESTION_TEXT)}
                     </div>
 
                     <div className="question-instructions"> 
@@ -210,27 +289,87 @@ export default class QuestionPage extends React.Component {
         this.setState({correct});
     }
 
+    async redoTest(event) {
+        event.preventDefault();
+        const username = this.props.cookies.get('username');
+        const paperName = this.state.paperName;
+        const answers = await deleteAnswers({
+            username,
+            GCSE_Paper_Name : this.state.paperName,
+        });
+
+        await this.resetState()
+        .then(() => this.setState({paperName}, () => this.componentDidMount()))
+        
+    }
+
+    checkAnswer(userAnswer, correctAnswer) {
+        if (userAnswer === "") {
+            return (
+                <div>
+                    You skipped this question<br/>
+                    The correct answer was<br/>{parse(correctAnswer)}
+                </div>
+            );
+        }
+        if (userAnswer == correctAnswer) {
+            return (
+                <div>
+                    You gave the right answer:<br/>
+                    {parse(correctAnswer)}
+                </div>
+            );
+        }
+        return (
+            <div>
+                Your answer was incorrect<br/>
+                The correct answer was<br/>
+                {parse(correctAnswer)}
+            </div>
+        );
+    }
+
     render() {
         return (
         this.state.questionsLoaded ? (
             <>
                 <NavBar/>
-                <h1>{this.state.showResults ? "Results for " : ""}{this.state.paperName}</h1> <br/>
+                <h1>{this.state.showResults ? "Review your answers for " : ""}{this.state.paperName}</h1> <br/>
+
                 <div className="question-page-container">
                     {this.state.showResults ? 
-                    <h2>{`You got ${this.state.correct} out of ${this.state.questions.length} correct`}</h2> : ""}
+                        <div>
+                            <h2>{`You got ${this.state.correct} out of ${this.state.questions.length} correct`}</h2>
+                            <Nav.Link href={`/assessments/results/${this.state.paperName}`}>
+                                See detailed results<br/>
+                            </Nav.Link>
+                        </div>
+                     : ""
+                     }
+                    
+
+                    {this.state.showResults ? "" : "Time: " + this.state.timeElapsed}
+
                     {this.buttons()}
 
                     {this.displayQuestion()}
+                    <br/>
                     
                     {this.state.showResults ?
                     <>
-                        Your answer: {this.getCurrentQuestion().answer}<br/>
-                        Correct answer: {this.getCurrentQuestion().QUESTION_ANSWER}
+                        {this.checkAnswer(this.getCurrentQuestion().answer, this.getCurrentQuestion().QUESTION_ANSWER)}
+                        <br/>
+                        <div>
+                            <button onClick={this.redoTest}>
+                                Redo Test
+                            </button>
+                        </div>
+
                     </>
                     :
                     <>
                         {this.answerInput()}
+                        
                         <button id="question-submit" onClick={this.onSubmit}>
                             Submit all
                         </button>
@@ -242,4 +381,15 @@ export default class QuestionPage extends React.Component {
             : ""
         );
     }
+
+    setElapsedTime() {
+        if (this.state == undefined)
+          return;
+
+        this.setState({
+            timeElapsed: getElapsedTime(this.state.startTime)
+        });
+    }
 }
+
+export default withCookies(QuestionPage);

@@ -1,4 +1,4 @@
-import { mailingListSQL, usersSQL, questionsSQL } from "./sql.js";
+import { mailingListSQL, usersSQL, questionsSQL, answersSQL } from "./sql.js";
 
 const pgp = require("pg-promise")({});
 
@@ -100,6 +100,69 @@ export default class Database {
       .any(usersSQL.deleteUser, user)
       .then((data) => {
         console.log(data);
+        result = data;
+      })
+      .catch((error) => {
+        console.log("ERROR:", error); // print error;
+      });
+
+    return result;
+  }
+
+  static async addAnswer(attr) {
+    var result = {};
+
+    await db
+      .one(answersSQL.addAnswer, attr)
+      .then((data) => {
+        console.log(data);
+        result = data;
+      })
+      .catch((error) => {
+        console.log("ERROR:", error); // print error;
+      });
+
+    return result;
+  }
+
+  static async getSubmittedTests(username) {
+    var result = [];
+
+    await db
+      .any(answersSQL.submittedTests, username)
+      .then((data) => {
+        console.log(data);
+        result = data;
+      })
+      .catch((error) => {
+        console.log("ERROR:", error); // print error;
+      });
+
+    return result;
+  }
+
+
+  static async getAnswers(info) {
+    var result = [];
+
+    await db
+      .any(answersSQL.getAnswers, info)
+      .then((data) => {
+        result = data;
+      })
+      .catch((error) => {
+        console.log("ERROR:", error); // print error;
+      });
+
+    return result;
+  }
+
+  static async deleteAnswers(info) {
+    var result = [];
+
+    await db
+      .any(answersSQL.deleteAnswers, info)
+      .then((data) => {
         result = data;
       })
       .catch((error) => {

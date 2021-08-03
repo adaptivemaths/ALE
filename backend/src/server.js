@@ -127,6 +127,47 @@ app.post('/assessments/getQuestions', async (req, res) => {
   }
 })
 
+
+app.post('/user/addAnswer', async (req, res) => {
+  try {
+    const answer = await Database.addAnswer(req.body);
+    res.json(answer);
+  } catch (error) {
+    res.body = "Error: " + error;
+  }
+})
+
+app.post('/user/getSubmittedTests', async (req, res) => {
+  try {
+    const papers = await Database.getSubmittedTests(req.body);
+    console.log(papers);
+    res.json(papers);
+  } catch (error) {
+    res.body = "Error: " + error;
+    console.log(res.body);
+  }
+})
+
+app.post('/user/getAnswers', async (req, res) => {
+  try {
+    const answers = await Database.getAnswers(req.body);
+    res.json(answers);
+  } catch (error) {
+    res.body = "Error: " + error;
+    console.log(res.body);
+  }
+})
+
+app.post('/user/deleteAnswers', async (req, res) => {
+  try {
+    const answers = await Database.deleteAnswers(req.body);
+    res.json(answers);
+  } catch (error) {
+    res.body = "Error: " + error;
+    console.log(res.body);
+  }
+})
+
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });

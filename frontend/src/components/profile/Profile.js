@@ -1,9 +1,10 @@
 import React from "react";
-import { getUserDetails, deleteAccount } from "../../api";
+import { getUserDetails, deleteAccount, getSubmittedTests } from "../../api";
 import { instanceOf } from 'prop-types';
 import { withCookies, Cookies } from 'react-cookie';
 import NavBar from "../navbar/NavBar";
 import { Redirect } from "react-router-dom";
+import { Nav } from "react-bootstrap";
 
 class Profile extends React.Component {
 
@@ -16,7 +17,8 @@ class Profile extends React.Component {
         this.state = {
             userDetails: "",
             signedIn: true,
-            loading: true
+            loading: true,
+            submittedTests: []
         }
 
         this.signOutUser = this.signOutUser.bind(this);
@@ -25,14 +27,24 @@ class Profile extends React.Component {
 
     async componentDidMount() {
         const currentUser = this.props.cookies.get("username");
-        const details = await 
-        getUserDetails({
+        const username = {
             username: currentUser
-        })
+        };
+        const submittedTests = await 
+        getSubmittedTests(username)
+        .then(res => {
+            console.log('submittedTests', res);
+            this.setState({
+                submittedTests: res
+            })
+        });
+
+        const details = await 
+        getUserDetails(username)
         .then(res => {
             this.setState({
                 userDetails: res,
-                loading: false
+                loading: false,
             })
         });
 
@@ -53,11 +65,26 @@ class Profile extends React.Component {
         this.signOutUser();
     }
 
+    submittedTests() {
+        const papers = this.state.submittedTests.map((paper) => (
+            <div>
+                <Nav.Link href={`/practice/assessments/${paper.GCSE_Paper_Name}`}>
+                    <span>{paper.GCSE_Paper_Name}</span>
+                </Nav.Link>
+            </div>
+        ));
+
+        return (
+            <div>
+                {papers}
+            </div>
+        )
+    }
+
     render() {
         if (!this.state.signedIn) {
             return <Redirect push to="/"/>;
         }
-        
         return (
             <div>
                 <NavBar/>
@@ -76,10 +103,19 @@ class Profile extends React.Component {
                         <label>
                             Last name: {this.state.userDetails.last_name}
                         </label><br/>
+
+                        <br/>
+                        <label>
+                            Tests completed:
+                            {this.submittedTests()}
+                        </label>
+                        <br/>
+
                         <button onClick={this.signOutUser}>
                             Sign Out
                         </button> 
 
+                        
                         <button onClick={this.deleteUserAccount}>
                             Delete account
                         </button>

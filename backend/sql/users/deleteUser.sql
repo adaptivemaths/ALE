@@ -1,3 +1,3 @@
 DELETE FROM users
 WHERE
-    "username"=${username}
+    "username" = ${username}
