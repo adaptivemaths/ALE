@@ -46,23 +46,62 @@ class ResultsPage extends React.Component {
     calculateCorrectAnswers() {
         let correct = 0;
         for (let question of this.state.questions) {
+            question.correct = false;
             if (question.answer == question.QUESTION_ANSWER) {
                 correct++;
+                question.correct = true;
             }
         }
 
         this.setState({correct});
     }
 
+    topicsAccuracy() {
+        const questions = this.state.questions;
+        const topics = []
+        const accuracy = {}
+        for (let question of questions) {
+            if (!topics.includes(question.TOPIC)) {
+                topics.push(question.TOPIC);
+                accuracy[question.TOPIC] = {
+                    correct: 0,
+                    total: 0,
+                }
+            }
+            let correct = accuracy[question.TOPIC].correct;
+            if (question.correct) {
+                correct++;
+            }
+            let total = accuracy[question.TOPIC].total;
+            total++;
+            accuracy[question.TOPIC] = {
+                correct,
+                total,
+            }
+        }
+        return (
+            <>
+                <h3>Accuracy by topic</h3><br/>
+                {topics.map((topic) => (
+                    <div>
+                        {topic}: {(100 * accuracy[topic].correct / accuracy[topic].total).toFixed(2)}%<br/>
+                    </div>
+                ))}
+            </>  
+        );
+    }
+
     render() {
         return (
-            <div>
+            <>
                 <NavBar/>
-                <h1>Results for {this.state.paperName}</h1>
-
-                <h2>{`You got ${this.state.correct} out of ${this.state.questions.length} correct`}</h2>
-                    
-            </div>
+                <div className="results-container">
+                    <h1>Results for {this.state.paperName}</h1>
+                    <br/>
+                    <h2>{`You got ${(100 * this.state.correct / this.state.questions.length).toFixed(2)}% overall`}</h2><br/>
+                    {this.topicsAccuracy()}
+                </div>
+            </>
         )
     }
 }
