@@ -5,6 +5,7 @@ import { withCookies, Cookies } from 'react-cookie';
 import NavBar from "../navbar/NavBar";
 import { Redirect } from "react-router-dom";
 import { Nav } from "react-bootstrap";
+import "./profile.css";
 
 class Profile extends React.Component {
 
@@ -94,6 +95,10 @@ class Profile extends React.Component {
                     </> 
                     :  
                     <>
+                    <div className="profile-container">
+                        <div className="profile-title">
+                            Profile
+                        </div>
                         <label>
                             Email: {this.state.userDetails.username}
                         </label><br/>
@@ -110,15 +115,16 @@ class Profile extends React.Component {
                             {this.submittedTests()}
                         </label>
                         <br/>
-
-                        <button onClick={this.signOutUser}>
+                        <br/>
+                        <button id="signout-button" onClick={this.signOutUser}>
                             Sign Out
                         </button> 
-
+                        <br/>
                         
-                        <button onClick={this.deleteUserAccount}>
+                        <button id="delete-account-button" onClick={this.deleteUserAccount}>
                             Delete account
                         </button>
+                    </div>
                     </>
                 }
             </div>
