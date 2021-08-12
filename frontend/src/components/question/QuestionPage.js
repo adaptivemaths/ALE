@@ -151,11 +151,10 @@ class QuestionPage extends React.Component {
         });
 
         this.calculateCorrectAnswers()
-
+        const userId = this.props.cookies.get("userId");
         this.state.questions.forEach((question) => {
-            const currentUser = this.props.cookies.get("username");
             const answer = {
-                username: currentUser,
+                userId,
                 question_id: question.question_id,
                 answer: question.answer,
             }

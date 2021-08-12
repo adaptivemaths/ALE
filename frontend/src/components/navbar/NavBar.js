@@ -16,11 +16,11 @@ class NavBar extends React.Component {
     render() {
         return (
             <Navbar bg="light" variant="light" sticky="top">
-                <Navbar.Brand href="/" className="brand">Adaptive Learning</Navbar.Brand>
+                <Navbar.Brand href="/" className="brand">Adaptive Maths</Navbar.Brand>
                 <Nav className="mr-auto">
                     <Nav.Link href="/about/">About</Nav.Link>
 
-                    {this.props.cookies.get("username") ? 
+                    {this.props.cookies.get("userId") && this.props.cookies.get("userId") != "undefined" ? 
                         <>
                             <Nav.Link href="/profile/">Profile</Nav.Link> 
                             <Nav.Link href="/practice/">Practice</Nav.Link>

@@ -2,7 +2,7 @@ import React from "react";
 import NavBar from "../navbar/NavBar";
 import "bootstrap/dist/css/bootstrap.css";
 import "./login.css";
-import { loginUser } from "../../api";
+import { getUserDetails, loginUser } from "../../api";
 import { Redirect } from "react-router-dom";
 import { instanceOf } from 'prop-types';
 import { withCookies, Cookies } from 'react-cookie';
@@ -36,16 +36,22 @@ class Login extends React.Component {
 
     async handleSubmit(event) {
         event.preventDefault();
-        if (await loginUser(this.state)) {
+        
+        if (await loginUser(this.state)) { 
+            const { cookies } = this.props;
+            console.log('state', this.state)
+            const user = await getUserDetails({
+                username: this.state.username,
+            });
+
+            console.log('here');
+            cookies.set('userId', user.user_id, { path: '/' });
+            console.log('userId', user.user_id);
             this.setState({
                 loggedIn: true,
                 error: false
-            }, 
-            () => {
-                const { cookies } = this.props;
- 
-                cookies.set('username', this.state.username, { path: '/' });
-            })
+            });
+            
         } else {
             console.log('error');
             this.setState({
@@ -74,7 +80,7 @@ class Login extends React.Component {
                             <div className="login-field">
                                 <label className="login-label">Username</label>
                                 <input name="username" type="email" placeholder="Enter email" 
-                                value={this.state.username} onChange={this.handleChange}/>
+                                value={this.state.email} onChange={this.handleChange}/>
                             </div>
 
                             <div className="login-field">

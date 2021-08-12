@@ -27,12 +27,11 @@ class Profile extends React.Component {
     }
 
     async componentDidMount() {
-        const currentUser = this.props.cookies.get("username");
-        const username = {
-            username: currentUser
-        };
+        const userId = this.props.cookies.get("userId");
         const submittedTests = await 
-        getSubmittedTests(username)
+        getSubmittedTests({
+            userId,
+        })
         .then(res => {
             console.log('submittedTests', res);
             this.setState({
@@ -41,7 +40,9 @@ class Profile extends React.Component {
         });
 
         const details = await 
-        getUserDetails(username)
+        getUserDetails({
+            userId,
+        })
         .then(res => {
             this.setState({
                 userDetails: res,
@@ -52,7 +53,7 @@ class Profile extends React.Component {
     }
 
     signOutUser(event) {
-        this.props.cookies.remove("username", {path: '/'});
+        this.props.cookies.remove("userId", {path: '/'});
         this.setState({
             userDetails: "You are signed out",
             signedIn: false
@@ -60,8 +61,9 @@ class Profile extends React.Component {
     }
 
     deleteUserAccount(event) {
+        const userId = this.props.cookies.get('userId');
         deleteAccount({
-            username: this.props.cookies.get('username')
+            userId,
         });
         this.signOutUser();
     }

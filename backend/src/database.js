@@ -42,7 +42,7 @@ export default class Database {
         result = data;
       })
       .catch((error) => {
-        console.log("ERROR:", error); // print error;
+        console.log("addUser ERROR:", error); // print error;
       });
 
     return result;
@@ -50,7 +50,7 @@ export default class Database {
 
   static async getUser(attr) {
     var result = {};
-
+    console.log('getUser data', attr);
     await db
       .one(usersSQL.getUser, attr)
       .then((data) => {
@@ -58,7 +58,23 @@ export default class Database {
         result = data;
       })
       .catch((error) => {
-        console.log("ERROR:", error); // print error;
+        console.log("getUser ERROR:", error); // print error;
+      });
+
+    return result;
+  }
+
+    static async getUserWithEmail(attr) {
+    var result = {};
+
+    await db
+      .one(usersSQL.getUserWithEmail, attr)
+      .then((data) => {
+        console.log(data);
+        result = data;
+      })
+      .catch((error) => {
+        console.log("getUserWithEmail ERROR:", error); // print error;
       });
 
     return result;

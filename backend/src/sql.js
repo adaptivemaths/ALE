@@ -8,18 +8,19 @@ function sql(filename) {
 
 
 export const mailingListSQL = {
-  addMail: sql("../sql/mailing_list/addMail.sql")
+  addMail: sql("../sql/mailing_list/addMail.sql"),
 }
 
 export const usersSQL = {
   addUser: sql("../sql/users/addUser.sql"),
   getUser: sql("../sql/users/getUser.sql"),
-  deleteUser: sql("../sql/users/deleteUser.sql")
+  deleteUser: sql("../sql/users/deleteUser.sql"),
+  getUserWithEmail: sql("../sql/users/getUserWithEmail.sql"),
 }
 
 export const questionsSQL = {
   getPaperNames: sql("../sql/questions/getPaperNames.sql"),
-  getQuestions: sql("../sql/questions/getQuestions.sql")
+  getQuestions: sql("../sql/questions/getQuestions.sql"),
 }
 
 export const answersSQL = {

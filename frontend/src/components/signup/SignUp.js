@@ -56,7 +56,7 @@ class SignUp extends React.Component {
             () => {
                 const { cookies } = this.props;
     
-                cookies.set('username', this.state.email, { path: '/' });
+                cookies.set('userId', this.state.user_id, { path: '/' });
             })
 
         }

@@ -1,6 +1,6 @@
 DELETE FROM answers
 WHERE
-    username = ${username} AND
+    user_id = ${userId} AND
     question_id IN ( SELECT question_id 
                      FROM questions 
                      WHERE 

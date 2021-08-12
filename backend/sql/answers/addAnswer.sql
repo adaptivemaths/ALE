@@ -1,3 +1,3 @@
-INSERT INTO answers  ("question_id", "username", "answer") VALUES
-(${question_id}, ${username}, ${answer})
+INSERT INTO answers  ("question_id", "user_id", "answer") VALUES
+(${question_id}, ${userId}, ${answer})
 RETURNING *
