@@ -53,26 +53,32 @@ class QuestionPage extends React.Component {
     async componentDidMount() {
         let intervalId = setInterval(this.setElapsedTime, 1000);
 
-        const username = this.props.cookies.get('username');
-        const completedTests = await getSubmittedTests({username});
+        const userId = this.props.cookies.get('userId');
+        const completedTests = await getSubmittedTests({
+            userId
+        });
         const paperName = this.props.match.params.paperName;
 
         this.setState({paperName}, async () => {
             if (!completedTests.map(paper => paper.GCSE_Paper_Name).includes(this.state.paperName)) {
                 await this.loadQuestions();
             } else {
-                await this.loadAnswers(username);
+                await this.loadAnswers(userId);
             }
         });
     
     }
 
     async loadQuestions() {
-        this.setState({paperName: this.props.match.params.paperName}, async () => {
+        this.setState({
+            paperName: this.props.match.params.paperName
+        }, async () => {
             const questions = await getQuestions({
                 GCSE_Paper_Name: this.state.paperName
             });
-            questions.forEach(q => {q.answer = ""});
+            questions.forEach(q => {
+                q.answer = ""
+            });
             this.setState({
                 questions,
                 questionsLoaded: true
@@ -80,13 +86,12 @@ class QuestionPage extends React.Component {
         });
     }
 
-    async loadAnswers(username) {
+    async loadAnswers(userId) {
         this.setState({paperName: this.props.match.params.paperName}, async () => {
             const questions = await getAnswers({
-                username,
+                userId,
                 GCSE_Paper_Name: this.state.paperName
             });
-            console.log('questions', questions);
             this.setState({
                 questions,
                 questionsLoaded: true,

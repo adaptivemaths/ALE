@@ -187,6 +187,17 @@ app.post('/user/deleteAnswers', async (req, res) => {
   }
 })
 
+app.post('/paper/info', async (req, res) => {
+  try {
+    const paper = await Database.getPaperInfo(req.body);
+    res.json(paper);
+  } catch (error) {
+    res.body = "Error: " + error;
+    console.log(res.body);
+  }
+})
+
+
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });

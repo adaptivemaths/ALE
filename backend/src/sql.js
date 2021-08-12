@@ -29,3 +29,7 @@ export const answersSQL = {
   getAnswers: sql("../sql/answers/getAnswers.sql"),
   deleteAnswers: sql("../sql/answers/deleteAnswers.sql"),
 }
+
+export const testsSQL = {
+  getTest: sql("../sql/tests/getTest.sql"),
+}

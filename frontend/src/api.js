@@ -81,6 +81,20 @@ export async function getPaperNames() {
   return result;
 }
 
+export async function getPaperInfo(testId) {
+  var result = {}
+  await axios
+    .post(`${API_URL}/paper/info`, testId)
+    .then((res) => {
+      const paper = res.data;
+      result = paper;
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  return result;
+}
+
 export async function getQuestions(paper) {
   var result = {}
   await axios
