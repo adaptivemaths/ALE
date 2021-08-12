@@ -70,15 +70,21 @@ app.post('/signup/addUser', async (req, res) => {
 
 app.post('/users/login', async (req, res) => {
   try {
-    const user = await Database.getUser(req.body);
+    const user = await Database.getUserWithEmail(req.body);
     if (user.password === undefined) {
-      res.json({ success: false });
+      res.json({ 
+        success: false, 
+      });
       return;
     }
     if (await bcrypt.compare(req.body.password, user.password)) {
-      res.json({ success: true });
+      res.json({ 
+        success: true, 
+      });
     } else {
-      res.json({ success: false });
+      res.json({ 
+        success: false, 
+      });
     }
   } catch (error) {
     console.log(error);
@@ -87,20 +93,33 @@ app.post('/users/login', async (req, res) => {
 
 app.post('/user/info', async (req, res) => {
   try {
-    const user = await Database.getUser({
-      username: req.body.username,
-    });
-    console.log(user);
+    const body = req.body;
+    console.log('body', body);
+    let user = {};
+    if (body.username != undefined) {
+      console.log('should be here')
+      user = await Database.getUserWithEmail({
+        username: body.username,
+      });
+    } else if (body.userId != undefined) {
+      console.log('should not be here')
+      user = await Database.getUser({
+        userId: body.userId,
+      })
+    }
+    console.log('/user/info', user);
     res.json(user);
+    return;
   } catch (error) {
-    res.body = "Error: " + error;
+    res.body = "user/info Error: " + error;
   }
+  console.log('end');
 });
 
 app.post('/user/deleteUser', async (req, res) => {
   try {
     const user = await Database.deleteUser({
-      username: req.body.username,
+      userId: req.body.userId,
     });
     console.log(user);
     res.json(user);
@@ -167,6 +186,17 @@ app.post('/user/deleteAnswers', async (req, res) => {
     console.log(res.body);
   }
 })
+
+app.post('/paper/info', async (req, res) => {
+  try {
+    const paper = await Database.getPaperInfo(req.body);
+    res.json(paper);
+  } catch (error) {
+    res.body = "Error: " + error;
+    console.log(res.body);
+  }
+})
+
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);

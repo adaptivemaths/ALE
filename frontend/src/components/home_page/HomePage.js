@@ -32,7 +32,9 @@ class HomePage extends React.Component {
     }
 
     render() {
-        if (this.props.cookies.get('username')) {
+        console.log('homepage userId', this.props.cookies.get('userId'));
+        const userId = this.props.cookies.get('userId');
+        if (userId && this.props.cookies.get('userId') != "undefined") {
             return <Redirect push to="/profile/"/>;
         }
         return (
