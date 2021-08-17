@@ -59,7 +59,9 @@ class QuestionPage extends React.Component {
         });
         const paperName = this.props.match.params.paperName;
 
-        this.setState({paperName}, async () => {
+        this.setState({
+            paperName
+        }, async () => {
             if (!completedTests.map(paper => paper.GCSE_Paper_Name).includes(this.state.paperName)) {
                 await this.loadQuestions();
             } else {
@@ -295,10 +297,10 @@ class QuestionPage extends React.Component {
 
     async redoTest(event) {
         event.preventDefault();
-        const username = this.props.cookies.get('username');
+        const userId = this.props.cookies.get('userId');
         const paperName = this.state.paperName;
         const answers = await deleteAnswers({
-            username,
+            userId,
             GCSE_Paper_Name : this.state.paperName,
         });
 
