@@ -2,34 +2,19 @@ import React from "react";
 import NavBar from "../navbar/NavBar";
 import "./topic.css";
 
-const skills = {
-    "Algebra": [
-        "Quadratic Equations",
-    ],
-    "Geometry": [
-
-    ],
-    "Trigonometry": [
-
-    ],
-    "Probability": [
-
-    ],
-    "Statistics": [
-
-    ],
-}
-
 export default class Topic extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
-            topic: ""
+            learningObjective: this.props.learningObjective,
+            question: {
+
+            },
         }
     }
     
     componentDidMount() {
-        this.setState({topic: this.props.match.params.topic});
+        
     }
 
     render() {
@@ -40,6 +25,6 @@ export default class Topic extends React.Component {
                     {this.state.topic}
                 </div>
             </div>
-        )
+        );
     }
 }
