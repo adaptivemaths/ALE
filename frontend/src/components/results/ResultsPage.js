@@ -46,7 +46,7 @@ class ResultsPage extends React.Component {
         let correct = 0;
         for (let question of this.state.questions) {
             question.correct = false;
-            if (question.answer == question.QUESTION_ANSWER) {
+            if (question.QUESTION_ANSWER.split(';').includes(question.answer)) {
                 correct++;
                 question.correct = true;
             }
@@ -71,15 +71,16 @@ class ResultsPage extends React.Component {
             }
             let correct = accuracy[question.TOPIC].correct;
             if (question.correct) {
-                correct++;
+                correct += question.QUESTION_MARKS;
             }
             let total = accuracy[question.TOPIC].total;
-            total++;
+            total += question.QUESTION_MARKS;
             accuracy[question.TOPIC] = {
                 correct,
                 total,
             }
         }
+
         return (
             <>
                 <h3>Accuracy by topic</h3><br/>
@@ -92,6 +93,23 @@ class ResultsPage extends React.Component {
         );
     }
 
+    marksScore() {
+        let correct = 0;
+        let total = 0;
+        for (let question of this.state.questions) {
+            total += question.QUESTION_MARKS;
+            if (question.correct) {
+                correct += question.QUESTION_MARKS;
+            }
+        }
+        let score = (100 * correct / total).toFixed(2)
+        return (
+            <>
+                <h2>{`You got ${score}% overall`}</h2><br/>
+            </>
+        );
+    }
+
     render() {
         return (
             <>
@@ -99,7 +117,7 @@ class ResultsPage extends React.Component {
                 <div className="results-container">
                     <h1>Results for {this.state.paperName}</h1>
                     <br/>
-                    <h2>{`You got ${(100 * this.state.correct / this.state.questions.length).toFixed(2)}% overall`}</h2><br/>
+                    {this.marksScore()}
                     {this.topicsAccuracy()}
                 </div>
             </>

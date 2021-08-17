@@ -287,12 +287,14 @@ class QuestionPage extends React.Component {
     calculateCorrectAnswers() {
         let correct = 0;
         for (let question of this.state.questions) {
-            if (question.answer == question.QUESTION_ANSWER) {
+            if (question.QUESTION_ANSWER.split(';').includes(question.answer)) {
                 correct++;
             }
         }
 
-        this.setState({correct});
+        this.setState({
+            correct
+        });
     }
 
     async redoTest(event) {
@@ -318,11 +320,11 @@ class QuestionPage extends React.Component {
                 </div>
             );
         }
-        if (userAnswer == correctAnswer) {
+        if (correctAnswer.split(';').includes(userAnswer)) {
             return (
                 <div>
                     You gave the right answer:<br/>
-                    {parse(correctAnswer)}
+                    {parse(userAnswer)}
                 </div>
             );
         }
@@ -345,7 +347,7 @@ class QuestionPage extends React.Component {
                 <div className="question-page-container">
                     {this.state.showResults ? 
                         <div>
-                            <h2>{`You got ${this.state.correct} out of ${this.state.questions.length} correct`}</h2>
+                            <h2>You got {this.state.correct} / {this.state.questions.length} correct</h2>
                             <Nav.Link href={`/assessments/results/${this.state.paperName}`}>
                                 See detailed results<br/>
                             </Nav.Link>
