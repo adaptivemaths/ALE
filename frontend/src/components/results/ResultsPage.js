@@ -21,20 +21,19 @@ class ResultsPage extends React.Component {
         }
     }
 
-    componentDidMount() {
-        const username = this.props.cookies.get('username');
-        this.setState({
-            paperName: this.props.match.params.paperName,
-        }, () => this.loadAnswers(username));
+    async componentDidMount() {
+        const userId = this.props.cookies.get('userId');
+        await this.loadAnswers(userId);
     }
 
-    async loadAnswers(username) {
-        this.setState({paperName: this.props.match.params.paperName}, async () => {
+    async loadAnswers(userId) {
+        this.setState({
+                paperName: this.props.match.params.paperName
+            }, async () => {
             const questions = await getAnswers({
-                username,
-                GCSE_Paper_Name: this.state.paperName
+                userId,
+                GCSE_Paper_Name: this.state.paperName,
             });
-            console.log('questions', questions);
             this.setState({
                 questions,
                 questionsLoaded: true,
@@ -53,7 +52,9 @@ class ResultsPage extends React.Component {
             }
         }
 
-        this.setState({correct});
+        this.setState({
+            correct,
+        });
     }
 
     topicsAccuracy() {
