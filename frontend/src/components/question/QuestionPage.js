@@ -59,7 +59,9 @@ class QuestionPage extends React.Component {
         });
         const paperName = this.props.match.params.paperName;
 
-        this.setState({paperName}, async () => {
+        this.setState({
+            paperName
+        }, async () => {
             if (!completedTests.map(paper => paper.GCSE_Paper_Name).includes(this.state.paperName)) {
                 await this.loadQuestions();
             } else {
@@ -285,20 +287,22 @@ class QuestionPage extends React.Component {
     calculateCorrectAnswers() {
         let correct = 0;
         for (let question of this.state.questions) {
-            if (question.answer == question.QUESTION_ANSWER) {
+            if (question.QUESTION_ANSWER.split(';').includes(question.answer)) {
                 correct++;
             }
         }
 
-        this.setState({correct});
+        this.setState({
+            correct
+        });
     }
 
     async redoTest(event) {
         event.preventDefault();
-        const username = this.props.cookies.get('username');
+        const userId = this.props.cookies.get('userId');
         const paperName = this.state.paperName;
         const answers = await deleteAnswers({
-            username,
+            userId,
             GCSE_Paper_Name : this.state.paperName,
         });
 
@@ -316,11 +320,11 @@ class QuestionPage extends React.Component {
                 </div>
             );
         }
-        if (userAnswer == correctAnswer) {
+        if (correctAnswer.split(';').includes(userAnswer)) {
             return (
                 <div>
                     You gave the right answer:<br/>
-                    {parse(correctAnswer)}
+                    {parse(userAnswer)}
                 </div>
             );
         }
@@ -343,7 +347,7 @@ class QuestionPage extends React.Component {
                 <div className="question-page-container">
                     {this.state.showResults ? 
                         <div>
-                            <h2>{`You got ${this.state.correct} out of ${this.state.questions.length} correct`}</h2>
+                            <h2>You got {this.state.correct} / {this.state.questions.length} correct</h2>
                             <Nav.Link href={`/assessments/results/${this.state.paperName}`}>
                                 See detailed results<br/>
                             </Nav.Link>
