@@ -4,10 +4,10 @@ function getRandomInt(min, max) {
 
 export function factoriseQuadraticEquation() {
     const MAX = 5
-    const a = getRandomInt(1, MAX);
-    const b = getRandomInt(1, MAX);
-    const c = getRandomInt(1, MAX);
-    const d = getRandomInt(1, MAX);
+    const a = getRandomInt(-MAX, MAX);
+    const b = getRandomInt(-MAX, MAX);
+    const c = getRandomInt(-MAX, MAX);
+    const d = getRandomInt(-MAX, MAX);
     // (ax + b)(cx + d)
     // acx^2 + (ad + bc)x + bd 
     const A = a * c;
@@ -17,14 +17,14 @@ export function factoriseQuadraticEquation() {
     const question = `
         Factorise the following quadratic:
         ${A > 1 ? A : ''}x² + ${B > 1 ? B : ''}x + ${C}
-        in the form (ax + b)(cx + d) where a <= c and b <= d.
+        in the form (ax + b)(cx + d).
     `
 
     const answer = {
-        a: Math.min(a, c),
-        b: Math.min(b, d),
-        c: Math.max(a, c),
-        d: Math.max(b, d),
+        a,
+        b,
+        c,
+        d,
     }
 
     return {
@@ -35,8 +35,9 @@ export function factoriseQuadraticEquation() {
             'c',
             'd',
         ],
-        answer,
+        checkAnswer: (values) => {
+            const {a, b, c, d} = values;
+            return (a * c == A) && (a * d + b * c == B) && (b * d == C);
+        },
     }
 }
-
-console.log(factoriseQuadraticEquation());
