@@ -8,6 +8,7 @@
     "@testing-library/user-event": "^12.1.10",
     "axios": "^0.21.1",
     "bootstrap": "^5.0.2",
+    "build-esm": "^4.2.2",
     "esm": "^3.2.25",
     "history": "^5.0.0",
     "html-react-parser": "^1.2.7",
@@ -23,7 +24,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "build-esm",
     "test": "react-scripts test",
     "test:ci": "react-scripts test --json --outputFile result.json",
     "eject": "react-scripts eject"
