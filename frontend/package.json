@@ -24,7 +24,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "build-esm",
+    "build": "react-scripts build",
     "test": "react-scripts test",
     "test:ci": "react-scripts test --json --outputFile result.json",
     "eject": "react-scripts eject"
