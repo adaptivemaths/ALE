@@ -20,13 +20,6 @@ export function factoriseQuadraticEquation() {
         in the form (ax + b)(cx + d).
     `
 
-    const answer = {
-        a,
-        b,
-        c,
-        d,
-    }
-
     return {
         question,
         values: [
