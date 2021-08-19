@@ -3,7 +3,6 @@ import './App.css';
 import { Helmet } from "react-helmet";
 import HomePage from "./components/home_page/HomePage";
 import React from 'react';
-import axios from "axios";
 import { config } from "./constants";
 import { Route, Switch } from "react-router-dom";
 import { instanceOf } from 'prop-types';
@@ -25,7 +24,7 @@ class App extends React.Component {
   
   static propTypes = {
     cookies: instanceOf(Cookies).isRequired
-};
+  };
 
   constructor() {
     super();
