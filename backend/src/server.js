@@ -197,7 +197,7 @@ app.post('/paper/info', async (req, res) => {
 
 app.post('/skills/info', async (req, res) => {
   try {
-    const skill = await Database.getSkillsInfo(req.body);
+    const skill = await Database.getSkillInfo(req.body);
     res.json(skill);
   } catch (error) {
     res.body = "Error: " + error;
