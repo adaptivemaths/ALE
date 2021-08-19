@@ -1,6 +1,6 @@
 import React from "react";
 import NavBar from "../navbar/NavBar";
-import "./topics.css";
+import "./TopicsList.css";
 import { Nav } from "react-bootstrap";
 
 const topics = [
