@@ -9,7 +9,7 @@ const topics = [
     "Numbers",
     "Probability",
     "Statistics",
-    "Ratios"
+    "Ratios and Proportion"
 ]
 
 
