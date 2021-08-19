@@ -301,7 +301,8 @@ class QuestionPage extends React.Component {
         event.preventDefault();
         const userId = this.props.cookies.get('userId');
         const paperName = this.state.paperName;
-        const answers = await deleteAnswers({
+        
+        await deleteAnswers({
             userId,
             GCSE_Paper_Name : this.state.paperName,
         });
@@ -365,7 +366,8 @@ class QuestionPage extends React.Component {
                     
                     {this.state.showResults ?
                     <>
-                        {this.checkAnswer(this.getCurrentQuestion().answer, this.getCurrentQuestion().QUESTION_ANSWER)}
+                        {this.checkAnswer(this.getCurrentQuestion().answer, 
+                                          this.getCurrentQuestion().QUESTION_ANSWER)}
                         <br/>
                         <div>
                             <button onClick={this.redoTest}>
