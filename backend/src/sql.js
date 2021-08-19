@@ -33,3 +33,8 @@ export const answersSQL = {
 export const testsSQL = {
   getTest: sql("../sql/tests/getTest.sql"),
 }
+
+export const skillsSQL = {
+  getSkill: sql("../sql/skills/getSkill.sql"),
+  getSkillsForTopic: sql("../sql/skills/getSkillsForTopic.sql"),
+}
