@@ -16,7 +16,6 @@ export default class Topic extends React.Component {
         this.setState({
             topic: this.props.match.params.topic,
         }, async () => {
-            console.log('topic', this.state.topic);
             this.setState({
                 skills: await getSkillsForTopic(this.state.topic),
             });
