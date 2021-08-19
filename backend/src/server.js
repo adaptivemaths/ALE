@@ -87,33 +87,32 @@ app.post('/users/login', async (req, res) => {
       });
     }
   } catch (error) {
-    console.log(error);
+    // console.log(error);
   }
 })
 
 app.post('/user/info', async (req, res) => {
   try {
     const body = req.body;
-    console.log('body', body);
     let user = {};
+    
     if (body.username != undefined) {
-      console.log('should be here')
+      // console.log('should be here')
       user = await Database.getUserWithEmail({
         username: body.username,
       });
     } else if (body.userId != undefined) {
-      console.log('should not be here')
       user = await Database.getUser({
         userId: body.userId,
       })
     }
-    console.log('/user/info', user);
+    // console.log('/user/info', user);
     res.json(user);
     return;
   } catch (error) {
     res.body = "user/info Error: " + error;
   }
-  console.log('end');
+  // console.log('end');
 });
 
 app.post('/user/deleteUser', async (req, res) => {
@@ -121,7 +120,7 @@ app.post('/user/deleteUser', async (req, res) => {
     const user = await Database.deleteUser({
       userId: req.body.userId,
     });
-    console.log(user);
+    // console.log(user);
     res.json(user);
   } catch (error) {
     res.body = "Error: " + error;
@@ -159,7 +158,6 @@ app.post('/user/addAnswer', async (req, res) => {
 app.post('/user/getSubmittedTests', async (req, res) => {
   try {
     const papers = await Database.getSubmittedTests(req.body);
-    console.log(papers);
     res.json(papers);
   } catch (error) {
     res.body = "Error: " + error;
@@ -173,7 +171,7 @@ app.post('/user/getAnswers', async (req, res) => {
     res.json(answers);
   } catch (error) {
     res.body = "Error: " + error;
-    console.log(res.body);
+    // console.log(res.body);
   }
 })
 
@@ -183,7 +181,7 @@ app.post('/user/deleteAnswers', async (req, res) => {
     res.json(answers);
   } catch (error) {
     res.body = "Error: " + error;
-    console.log(res.body);
+    // console.log(res.body);
   }
 })
 
@@ -193,13 +191,33 @@ app.post('/paper/info', async (req, res) => {
     res.json(paper);
   } catch (error) {
     res.body = "Error: " + error;
+    // console.log(res.body);
+  }
+})
+
+app.post('/skills/info', async (req, res) => {
+  try {
+    const skill = await Database.getSkillsInfo(req.body);
+    res.json(skill);
+  } catch (error) {
+    res.body = "Error: " + error;
+    // console.log(res.body);
+  }
+})
+
+app.post('/skills/forTopic', async (req, res) => {
+  try {
+    const skills = await Database.getSkillsForTopic(req.body);
+    res.json(skills);
+  } catch (error) {
+    res.body = "Error: " + error;
     console.log(res.body);
   }
 })
 
 
 app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
+  // console.log(`Server is running on port ${port}`);
 });
 
 
