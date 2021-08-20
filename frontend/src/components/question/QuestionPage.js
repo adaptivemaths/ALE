@@ -397,7 +397,7 @@ class QuestionPage extends React.Component {
           return;
 
         this.setState({
-            timeElapsed: getElapsedTime(this.state.startTime)
+            timeElapsed: getElapsedTime(this.state.startTime),
         });
     }
 }
