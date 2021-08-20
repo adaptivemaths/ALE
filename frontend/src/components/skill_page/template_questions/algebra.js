@@ -14,14 +14,14 @@ export function factoriseQuadraticEquation() {
     const B = a * d + b * c;
     const C = b * d;
 
-    const question = `
-        Factorise the following quadratic:
-        ${A > 1 ? A : ''}x² + ${B > 1 ? B : ''}x + ${C}
-        in the form (ax + b)(cx + d).
+    const text = `\
+        Factorise the following quadratic:<br/>\
+        ${A > 1 ? A : ''}x² + ${B > 1 ? B : ''}x + ${C}<br/>\
+        in the form (ax + b)(cx + d).<br/>\
     `
 
     return {
-        question,
+        text,
         values: [
             'a',
             'b',
@@ -29,7 +29,12 @@ export function factoriseQuadraticEquation() {
             'd',
         ],
         checkAnswer: (values) => {
-            const {a, b, c, d} = values;
+            console.log(values);
+            var {a, b, c, d} = values;
+            a = parseInt(a);
+            b = parseInt(b);
+            c = parseInt(c);
+            d = parseInt(d);
             return (a * c == A) && (a * d + b * c == B) && (b * d == C);
         },
     }
