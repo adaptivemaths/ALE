@@ -60,14 +60,14 @@ class SkillQuestion extends React.Component {
         return (
             <>
                 {parse(this.state.question.text)}<br/>
-                {this.state.question.values.map((value) => (
+                {this.state.question.values.map((val) => (
                     <>  
                         <label>
-                            {value}=
+                            {val}=
                             <input 
-                                name={value} 
+                                name={val} 
                                 type='text' 
-                                value={this.state.answer[value]}
+                                value={this.state.answer[val]}
                                 onChange={this.setAnswer}
                             >
                             </input>
@@ -84,8 +84,8 @@ class SkillQuestion extends React.Component {
         this.setState({
             showResult: false,
             question,
-            answer: {},
         });
+        
     }
 
     checkAnswer() {
@@ -101,12 +101,14 @@ class SkillQuestion extends React.Component {
                 <NavBar/>
                 <div className="skill-container">
                     <h1>{this.state.skillName}</h1>
-                    {this.displayQuestion()}
-                    {this.state.showResult ? 'Your answer was ' + (this.state.correct ? 'correct' : 'incorrect') : ''}
-                    <br/>
-                    <button onClick={this.checkAnswer}>Check answer</button>
-                    <br/>
-                    <button onClick={this.setNewQuestion}>New question</button>
+                    <form>
+                        {this.displayQuestion()}
+                        {this.state.showResult ? 'Your answer was ' + (this.state.correct ? 'correct' : 'incorrect') : ''}
+                        <br/>
+                        <button onClick={this.checkAnswer}>Check answer</button>
+                        <br/>
+                        <button type="submit" onClick={this.setNewQuestion}>New question</button>
+                    </form>
                 </div>
             </>
         )
