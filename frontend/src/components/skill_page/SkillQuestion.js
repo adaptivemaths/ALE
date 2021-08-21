@@ -52,6 +52,9 @@ class SkillQuestion extends React.Component {
     }
 
     setAnswer(event) {
+        if (this.state.showResult) {
+            return;
+        }
         this.state.answer[event.target.name] = event.target.value;
     }
 
@@ -88,7 +91,8 @@ class SkillQuestion extends React.Component {
         
     }
 
-    checkAnswer() {
+    checkAnswer(event) {
+        event.preventDefault();
         this.setState({
             showResult: true,
             correct: this.state.question.checkAnswer(this.state.answer),
@@ -103,7 +107,8 @@ class SkillQuestion extends React.Component {
                     <h1>{this.state.skillName}</h1>
                     <form>
                         {this.displayQuestion()}
-                        {this.state.showResult ? 'Your answer was ' + (this.state.correct ? 'correct' : 'incorrect') : ''}
+                        {this.state.showResult ? 
+                            'Your answer was ' + (this.state.correct ? 'correct' : 'incorrect') : ''}
                         <br/>
                         <button onClick={this.checkAnswer}>Check answer</button>
                         <br/>
