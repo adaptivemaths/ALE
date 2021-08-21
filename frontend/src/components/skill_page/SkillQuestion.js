@@ -22,17 +22,21 @@ class SkillQuestion extends React.Component {
             question: {
                 text: '',
                 values: [],
+                answer: {},
                 checkAnswer: () => false,
             },
             answer: {},
             newQuestion: () => {},
             showResult: false,
             correct: false,
+            revealAnswer: false,
+            attempts: 0,
         }
 
         this.setNewQuestion = this.setNewQuestion.bind(this);
         this.setAnswer = this.setAnswer.bind(this);
         this.checkAnswer = this.checkAnswer.bind(this);
+        this.revealAnswer = this.revealAnswer.bind(this);
     }
 
     async componentDidMount() {
@@ -52,7 +56,7 @@ class SkillQuestion extends React.Component {
     }
 
     setAnswer(event) {
-        if (this.state.showResult) {
+        if (this.state.revealAnswer) {
             return;
         }
         this.state.answer[event.target.name] = event.target.value;
@@ -63,21 +67,35 @@ class SkillQuestion extends React.Component {
         return (
             <>
                 {parse(this.state.question.text)}<br/>
-                {this.state.question.values.map((val) => (
-                    <>  
-                        <label>
-                            {val}=
-                            <input 
-                                name={val} 
-                                type='text' 
-                                value={this.state.answer[val]}
-                                onChange={this.setAnswer}
-                            >
-                            </input>
-                        </label>
-                        <br/>
-                    </>
-                ))}
+
+                {this.state.revealAnswer ? 
+                    <>
+                    Answer:<br/>
+                    {this.state.question.values.map((value) => (
+                        <>
+                            {value}={this.state.question.answer[value]}<br/>
+                        </>
+                    ))}
+                </> 
+                :
+                <>
+                    {this.state.question.values.map((val) => (
+                        <>  
+                            <label>
+                                {val}=
+                                <input 
+                                    name={val} 
+                                    type='text' 
+                                    value={this.state.answer[val]}
+                                    onChange={this.setAnswer}
+                                >
+                                </input>
+                            </label>
+                            <br/>
+                        </>
+                    ))}
+                </>
+                }
             </>
         )
     }
@@ -99,21 +117,46 @@ class SkillQuestion extends React.Component {
         })
     }
 
+    revealAnswer(event) {
+        event.preventDefault();
+        this.setState({
+            revealAnswer: true,
+        });
+    }
+
     render() {
         return (
             <>
                 <NavBar/>
                 <div className="skill-container">
                     <h1>{this.state.skillName}</h1>
+
                     <form>
                         {this.displayQuestion()}
+
                         {this.state.showResult ? 
-                            'Your answer was ' + (this.state.correct ? 'correct' : 'incorrect') : ''}
+                            'Your answer was ' + 
+                            (this.state.correct ? 'correct' : 'incorrect') : ''}
                         <br/>
-                        <button onClick={this.checkAnswer}>Check answer</button>
-                        <br/>
+                        
+                        {this.state.revealAnswer ? '' : 
+                            <>
+                                <button onClick={this.checkAnswer}>Check answer</button>
+                                <br/>
+                            </>
+                        }
+
                         <button type="submit" onClick={this.setNewQuestion}>New question</button>
                     </form>
+
+                    {this.state.revealAnswer ? 
+                            ''
+                            : 
+                            <>
+                                <button onClick={this.revealAnswer}>Reveal answer</button>
+                                <br/>
+                            </>
+                        }
                 </div>
             </>
         )
