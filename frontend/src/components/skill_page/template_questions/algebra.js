@@ -27,12 +27,11 @@ export function factoriseQuadraticEquation() {
     console.log(a, b, c, d);
     return {
         text,
-        values: [
-            'a',
-            'b',
-            'c',
-            'd',
-        ],
+        
+        values: ['a', 'b', 'c', 'd',],
+
+        answer: {a, b, c, d, },
+
         checkAnswer: (values) => {
             console.log(values);
             var {a, b, c, d} = values;
