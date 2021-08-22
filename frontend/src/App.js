@@ -3,7 +3,6 @@ import './App.css';
 import { Helmet } from "react-helmet";
 import HomePage from "./components/home_page/HomePage";
 import React from 'react';
-import axios from "axios";
 import { config } from "./constants";
 import { Route, Switch } from "react-router-dom";
 import { instanceOf } from 'prop-types';
@@ -19,13 +18,13 @@ import Profile from "./components/profile/Profile";
 import Assessments from './components/practice/Assessments';
 import QuestionPage from './components/question/QuestionPage';
 import ResultsPage from './components/results/ResultsPage';
-
+import SkillQuestion from "./components/skill_page/SkillQuestion";
 
 class App extends React.Component {
   
   static propTypes = {
     cookies: instanceOf(Cookies).isRequired
-};
+  };
 
   constructor() {
     super();
@@ -82,6 +81,8 @@ class App extends React.Component {
           <Route exact path="/practice/assessments/:paperName/" component={QuestionPage}/>
 
           <Route exact path="/assessments/results/:paperName/" component={ResultsPage}/>
+
+          <Route exact path="/practice/skills/:skillId/" component={SkillQuestion}/>
 
         </Switch>
 

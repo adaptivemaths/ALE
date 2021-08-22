@@ -3,26 +3,24 @@ import { config, axiosConfig } from "./constants";
 
 const API_URL = config.API_URL;
 
-export async function addToMailingList(data) {
-    var result = false;
-    console.log(API_URL);
-    await axios
-      .post(`${API_URL}/addToMailingList`, data)
-      .then((res) => {
-        const email = res.data;
-        console.log(email);
-        console.log('api call')
-        result = email;
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    return result;
+export async function addToMailingList({ email }) {
+  // Add email to database and send automated confirmation email
+  var result = false;
+
+  await axios
+    .post(`${API_URL}/addToMailingList`, { email })
+    .then((res) => {
+      const email = res.data;
+      result = email;
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  return result;
 }
 
 export async function addUser(accountDetails) {
   var result = false;
-  console.log(API_URL);
   await axios
     .post(`${API_URL}/signup/addUser`, accountDetails)
     .then((res) => {
@@ -41,7 +39,6 @@ export async function loginUser(loginCredentials) {
     .post(`${API_URL}/users/login`, loginCredentials, axiosConfig)
     .then((res) => {
       const success = res.data.success;
-      console.log("Status:", success);
       result = success;
     })
     .catch((error) => {
@@ -50,25 +47,23 @@ export async function loginUser(loginCredentials) {
   return result;
 }
 
-export async function getUserDetails(username) {
-  var result = {}
-  console.log('username1', username)
+export async function getUserDetails(userCredentials) {
+  var result = {};
   await axios
-    .post(`${API_URL}/user/info`, username, axiosConfig)
+    .post(`${API_URL}/user/info`, userCredentials, axiosConfig)
     .then((res) => {
-      console.log('res.data', res.data);
       const user = res.data;
       result = user;
     })
     .catch((error) => {
       console.log(error);
     });
-  console.log('results', result);
+  console.log("results", result);
   return result;
 }
 
 export async function getPaperNames() {
-  var result = {}
+  var result = {};
   await axios
     .get(`${API_URL}/assessments/getPaperNames`)
     .then((res) => {
@@ -81,10 +76,10 @@ export async function getPaperNames() {
   return result;
 }
 
-export async function getPaperInfo(testId) {
-  var result = {}
+export async function getPaperInfo({ testId }) {
+  var result = {};
   await axios
-    .post(`${API_URL}/paper/info`, testId)
+    .post(`${API_URL}/paper/info`, { testId })
     .then((res) => {
       const paper = res.data;
       result = paper;
@@ -96,7 +91,7 @@ export async function getPaperInfo(testId) {
 }
 
 export async function getQuestions(paper) {
-  var result = {}
+  var result = {};
   await axios
     .post(`${API_URL}/assessments/getQuestions`, paper)
     .then((res) => {
@@ -110,7 +105,7 @@ export async function getQuestions(paper) {
 }
 
 export async function deleteAccount(user) {
-  var result = {}
+  var result = {};
   await axios
     .post(`${API_URL}/user/deleteUser`, user)
     .then((res) => {
@@ -124,7 +119,7 @@ export async function deleteAccount(user) {
 }
 
 export async function addAnswer(answer) {
-  var result = {}
+  var result = {};
   await axios
     .post(`${API_URL}/user/addAnswer`, answer)
     .then((res) => {
@@ -137,10 +132,10 @@ export async function addAnswer(answer) {
   return result;
 }
 
-export async function getSubmittedTests(username) {
-  var result = {}
+export async function getSubmittedTests({ userId }) {
+  var result = {};
   await axios
-    .post(`${API_URL}/user/getSubmittedTests`, username)
+    .post(`${API_URL}/user/getSubmittedTests`, { userId })
     .then((res) => {
       const answer = res.data;
       result = answer;
@@ -152,7 +147,7 @@ export async function getSubmittedTests(username) {
 }
 
 export async function getAnswers(data) {
-  var result = {}
+  var result = {};
   await axios
     .post(`${API_URL}/user/getAnswers`, data)
     .then((res) => {
@@ -166,12 +161,40 @@ export async function getAnswers(data) {
 }
 
 export async function deleteAnswers(data) {
-  var result = {}
+  var result = {};
   await axios
     .post(`${API_URL}/user/deleteAnswers`, data)
     .then((res) => {
       const answer = res.data;
       result = answer;
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  return result;
+}
+
+export async function getSkill(skillId) {
+  var result = {};
+  await axios
+    .post(`${API_URL}/skills/info`, { skillId })
+    .then((res) => {
+      const answer = res.data;
+      result = answer;
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  return result;
+}
+
+export async function getSkillsForTopic(topic) {
+  var result = [];
+  await axios
+    .post(`${API_URL}/skills/forTopic`, { topic })
+    .then((res) => {
+      const skills = res.data;
+      result = skills;
     })
     .catch((error) => {
       console.log(error);
