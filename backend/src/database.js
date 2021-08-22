@@ -1,8 +1,15 @@
-import { mailingListSQL, usersSQL, questionsSQL, answersSQL, testsSQL, skillsSQL } from "./sql.js";
+import {
+  mailingListSQL,
+  usersSQL,
+  questionsSQL,
+  answersSQL,
+  testsSQL,
+  skillsSQL,
+} from "./sql.js";
 
+// Library for PostgreSQL
 const pgp = require("pg-promise")({});
-
-
+// To use variables in .env file
 require("dotenv").config();
 
 const dbInfo = {
@@ -13,6 +20,7 @@ const dbInfo = {
   port: process.env.DB_PORT,
 };
 
+// Database client
 const db = pgp(dbInfo);
 
 export default class Database {
@@ -64,7 +72,7 @@ export default class Database {
     return result;
   }
 
-    static async getUserWithEmail(attr) {
+  static async getUserWithEmail(attr) {
     var result = {};
 
     await db
@@ -172,7 +180,6 @@ export default class Database {
     return result;
   }
 
-
   static async getAnswers(info) {
     var result = [];
 
@@ -233,5 +240,4 @@ export default class Database {
 
     return result;
   }
-
 }
