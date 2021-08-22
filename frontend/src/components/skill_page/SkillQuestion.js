@@ -114,6 +114,7 @@ class SkillQuestion extends React.Component {
         this.setState({
             showResult: true,
             correct: this.state.question.checkAnswer(this.state.answer),
+            attempts: this.state.attempts + 1,
         })
     }
 
