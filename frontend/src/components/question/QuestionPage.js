@@ -10,6 +10,7 @@ import {
   getSubmittedTests,
   getAnswers,
   deleteAnswers,
+  getPaperInfo,
 } from "../../api";
 import "./question.css";
 import parse from "html-react-parser";
@@ -45,6 +46,9 @@ class QuestionPage extends React.Component {
   async resetState() {
     this.setState({
       paperName: "",
+      paper: {
+        title: "",
+      },
       questions: [],
       currentQuestion: 0,
       questionsLoaded: false,
@@ -66,10 +70,13 @@ class QuestionPage extends React.Component {
     });
     // Get code of current paper (url parameter)
     const paperName = this.props.match.params.paperName;
-
+    const paper = await getPaperInfo({
+      testId: paperName,
+    });
     this.setState(
       {
         paperName,
+        paper,
       },
       async () => {
         // If paper has already been submitted then load the answers for reviewing
@@ -423,7 +430,7 @@ class QuestionPage extends React.Component {
         <NavBar />
         <h1>
           {this.state.showResults ? "Review your answers for " : ""}
-          {this.state.paperName}
+          {this.state.paper.title}
         </h1>{" "}
         <br />
         <div className="question-page-container">
