@@ -1,16 +1,20 @@
-function getRandomInt(min, max) {
-  return min + Math.floor(Math.random() * (max - min));
+function getRandomInt(min, max, nonZero = false) {
+  let n = min + Math.floor(Math.random() * (max - min));
+  if (nonZero) {
+    while (n == 0) {
+      n = getRandomInt(min, max);
+    }
+  }
+  return n;
 }
 
 export function factoriseQuadraticEquation() {
   const MAX = 5;
-  var a = getRandomInt(-MAX, MAX);
-  while (a == 0) {
-    a = getRandomInt(-MAX, MAX);
-  }
-  const b = getRandomInt(-MAX, MAX);
-  const c = getRandomInt(-MAX, MAX);
-  const d = getRandomInt(-MAX, MAX);
+  const a = getRandomInt(-MAX, MAX, true);
+  const b = getRandomInt(-MAX, MAX, true);
+  const c = getRandomInt(-MAX, MAX, true);
+  const d = getRandomInt(-MAX, MAX, true);
+
   // (ax + b)(cx + d)
   // acx^2 + (ad + bc)x + bd
   const A = a * c;
@@ -19,9 +23,10 @@ export function factoriseQuadraticEquation() {
   const text = `\
         Factorise the following quadratic:<br/>\
         ${A == 1 ? "" : A}x²
-        ${B > 0 ? "+" : ""} 
-        ${Math.abs(B) > 1 ? B + "x" : ""} ${C > 0 ? "+" : ""} 
-        ${Math.abs(C) > 0 ? C : ""}<br/>\
+        ${B > 0 ? "+" : B < 0 ? "-" : ""} 
+        ${B != 0 ? Math.abs(B) : ""}x 
+        ${C > 0 ? "+" : C < 0 ? "-" : ""} 
+        ${C != 0 ? Math.abs(C) : ""}<br/>\
         in the form (ax + b)(cx + d).<br/>\
     `;
   console.log(a, b, c, d);
