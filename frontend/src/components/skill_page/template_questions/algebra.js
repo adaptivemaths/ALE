@@ -18,7 +18,7 @@ export function factoriseQuadraticEquation() {
   const C = b * d;
   const text = `\
         Factorise the following quadratic:<br/>\
-        ${A}x²
+        ${A == 1 ? "" : A}x²
         ${B > 0 ? "+" : ""} 
         ${Math.abs(B) > 1 ? B + "x" : ""} ${C > 0 ? "+" : ""} 
         ${Math.abs(C) > 0 ? C : ""}<br/>\
