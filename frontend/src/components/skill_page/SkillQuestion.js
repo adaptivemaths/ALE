@@ -75,7 +75,7 @@ class SkillQuestion extends React.Component {
             <br />
             {this.state.question.values.map((value) => (
               <>
-                {value}={this.state.question.answer[value]}
+                {value} = {this.state.question.answer[value]}
                 <br />
               </>
             ))}
