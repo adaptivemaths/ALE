@@ -260,7 +260,7 @@ class QuestionPage extends React.Component {
           </div>
 
           <div className="question-instructions">
-            {this.getCurrentQuestion().QUESTION_INSTRUCTIONS}
+            <i>{this.getCurrentQuestion().QUESTION_INSTRUCTIONS}</i>
           </div>
 
           <div className="question-marks">
