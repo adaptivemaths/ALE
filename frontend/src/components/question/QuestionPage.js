@@ -256,11 +256,18 @@ class QuestionPage extends React.Component {
           </div>
 
           <div className="question-text">
-            {parse(this.getCurrentQuestion().QUESTION_TEXT)}
+            {parse(
+              this.getCurrentQuestion().QUESTION_TEXT.replaceAll("\n", "<br/>")
+            )}
           </div>
 
           <div className="question-instructions">
-            <i>{this.getCurrentQuestion().QUESTION_INSTRUCTIONS}</i>
+            <i>
+              {this.getCurrentQuestion().QUESTION_INSTRUCTIONS.replaceAll(
+                "\n",
+                "<br/>"
+              )}
+            </i>
           </div>
 
           <div className="question-marks">
