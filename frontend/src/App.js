@@ -78,13 +78,13 @@ class App extends React.Component {
 
           <Route
             exact
-            path="/practice/assessments/:paperName/"
+            path="/practice/assessments/:testId/"
             component={QuestionPage}
           />
 
           <Route
             exact
-            path="/assessments/results/:paperName/"
+            path="/assessments/results/:testId/"
             component={ResultsPage}
           />
 
@@ -98,7 +98,7 @@ class App extends React.Component {
 
           <Route
             exact
-            path="/learningObjective/:lo"
+            path="/learningObjective/:lo/"
             component={LearningObjective}
           />
         </Switch>
