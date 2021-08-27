@@ -38,7 +38,7 @@ class ResultsPage extends React.Component {
     this.setState(
       {
         paper: {
-          testId: paper.test_id,
+          testId,
           title: paper.title,
         },
       },
