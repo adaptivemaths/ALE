@@ -41,3 +41,8 @@ export const skillsSQL = {
   getSkill: sql("../sql/skills/getSkill.sql"),
   getSkillsForTopic: sql("../sql/skills/getSkillsForTopic.sql"),
 };
+
+export const learningObjectivesSQL = {
+  getLo: sql("../sql/learning_objectives/getLo.sql"),
+  getSubLo: sql("../sql/learning_objectives/getSubLo.sql"),
+};

@@ -201,3 +201,17 @@ export async function getSkillsForTopic(topic) {
     });
   return result;
 }
+
+export async function getLo(lo) {
+  var result = [];
+  await axios
+    .post(`${API_URL}/lo/info`, { lo })
+    .then((res) => {
+      const skills = res.data;
+      result = skills;
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  return result;
+}

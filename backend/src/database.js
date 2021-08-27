@@ -5,6 +5,7 @@ import {
   answersSQL,
   testsSQL,
   skillsSQL,
+  learningObjectivesSQL,
 } from "./sql.js";
 
 // Library for PostgreSQL
@@ -233,6 +234,38 @@ export default class Database {
       .then((skills) => {
         // console.log('skills', skills);
         result = skills;
+      })
+      .catch((error) => {
+        console.log("ERROR:", error); // print error;
+      });
+
+    return result;
+  }
+
+  static async getLo({ lo }) {
+    var result = [];
+
+    await db
+      .any(learningObjectivesSQL.getLo, { lo })
+      .then((lo) => {
+        // console.log('skills', skills);
+        result = lo;
+      })
+      .catch((error) => {
+        console.log("ERROR:", error); // print error;
+      });
+
+    return result;
+  }
+
+  static async getSubLo({ subLo }) {
+    var result = {};
+
+    await db
+      .one(learningObjectivesSQL.getSubLo, { subLo })
+      .then((subLo) => {
+        // console.log('skills', skills);
+        result = subLo;
       })
       .catch((error) => {
         console.log("ERROR:", error); // print error;

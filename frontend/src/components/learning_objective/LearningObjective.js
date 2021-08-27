@@ -1,8 +1,10 @@
 import React, { Component } from "react";
 import { instanceOf } from "prop-types";
 import { withCookies, Cookies } from "react-cookie";
-
+import NavBar from "../navbar/NavBar";
+import SubLoList from "./SubLoList";
 import "./LearningObjective.css";
+import { getLo } from "../../api";
 
 class LearningObjective extends Component {
   static propTypes = {
@@ -13,17 +15,29 @@ class LearningObjective extends Component {
     super(props);
     this.state = {
       lo: "",
+      subLos: [],
     };
   }
 
-  componentDidMount() {
+  async componentDidMount() {
+    const lo = this.props.match.params.lo;
+    const subLos = await getLo(lo);
+
     this.setState({
-      lo: this.props.match.params.lo,
+      lo,
+      subLos,
     });
   }
 
   render() {
-    return <>{this.state.lo}</>;
+    return (
+      <div>
+        <NavBar />
+        <h1>Learning Objective - {this.state.lo}</h1>
+        <br />
+        <SubLoList subLos={this.state.subLos} />
+      </div>
+    );
   }
 }
 

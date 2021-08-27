@@ -222,6 +222,26 @@ app.post("/skills/forTopic", async (req, res) => {
   }
 });
 
+app.post("/lo/info", async (req, res) => {
+  try {
+    const lo = await Database.getLo(req.body);
+    res.json(lo);
+  } catch (error) {
+    res.body = "Error: " + error;
+    console.log(res.body);
+  }
+});
+
+app.post("/subLo/info", async (req, res) => {
+  try {
+    const subLo = await Database.getSubLo(req.body);
+    res.json(subLo);
+  } catch (error) {
+    res.body = "Error: " + error;
+    console.log(res.body);
+  }
+});
+
 app.listen(port, () => {
   // console.log(`Server is running on port ${port}`);
 });
