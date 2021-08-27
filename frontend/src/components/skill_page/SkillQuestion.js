@@ -142,15 +142,15 @@ class SkillQuestion extends React.Component {
 
           <form>
             {this.displayQuestion()}
-
+            <br />
             {this.state.showResult
               ? "Your answer was " +
                 (this.state.correct ? "correct" : "incorrect")
               : ""}
             <br />
-
+            <br />
             {this.state.revealAnswer ? (
-              ""
+              <br />
             ) : (
               <>
                 <button onClick={this.checkAnswer}>Check answer</button>
@@ -158,13 +158,13 @@ class SkillQuestion extends React.Component {
               </>
             )}
 
-            <button type="submit" onClick={this.setNewQuestion}>
+            <button type="submit" onClick={this.componentDidMount}>
               New question
             </button>
           </form>
 
           {this.state.revealAnswer ? (
-            ""
+            <br />
           ) : (
             <>
               <button onClick={this.revealAnswer}>Reveal answer</button>
