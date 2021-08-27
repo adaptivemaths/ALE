@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { instanceOf } from "prop-types";
 import { withCookies, Cookies } from "react-cookie";
-
+import PersonalPlan from "./PersonalPlan";
+import NavBar from "../navbar/NavBar";
 import "./Recommendations.css";
 
 class Recommendations extends Component {
@@ -16,7 +17,12 @@ class Recommendations extends Component {
   componentDidMount() {}
 
   render() {
-    return <></>;
+    return (
+      <>
+        <NavBar />
+        <PersonalPlan />
+      </>
+    );
   }
 }
 
