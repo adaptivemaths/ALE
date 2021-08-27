@@ -424,7 +424,7 @@ class QuestionPage extends React.Component {
           <br />
           The correct answer was
           <br />
-          {parse(correctAnswer)}
+          {parse(correctAnswer.split(";")[0])}
         </div>
       );
     }
@@ -471,7 +471,7 @@ class QuestionPage extends React.Component {
                 You got {this.state.correct} / {this.state.questions.length}{" "}
                 correct
               </h2>
-              <Nav.Link href={`/assessments/results/${this.state.paperName}`}>
+              <Nav.Link href={`/assessments/results/${this.state.testId}`}>
                 See detailed results
                 <br />
               </Nav.Link>
