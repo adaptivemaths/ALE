@@ -10,7 +10,9 @@ export default class SubLoList extends React.Component {
   render() {
     return this.props.subLos.map((subLo) => (
       <div className="sublolist-container">
-        {subLo.description}
+        <a href={`https://www.bossmaths.com/${subLo.sub_lo.toLowerCase()}`}>
+          {subLo.description}
+        </a>
         <br />
       </div>
     ));
