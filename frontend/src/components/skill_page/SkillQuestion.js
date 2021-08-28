@@ -16,6 +16,7 @@ class SkillQuestion extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      skill: null,
       skillId: 0,
       skillName: "",
       question: {
@@ -50,6 +51,7 @@ class SkillQuestion extends React.Component {
     const question = newQuestion();
 
     this.setState({
+      skill,
       skillId,
       skillName,
       newQuestion,
@@ -63,7 +65,7 @@ class SkillQuestion extends React.Component {
 
   displayQuestion() {
     return (
-      <>
+      <div className="skill-question">
         {parse(this.state.question.text)}
         <br />
         {/* If user has clicked the Reveal Answer button then display the correct answer 
@@ -99,7 +101,7 @@ class SkillQuestion extends React.Component {
             ))}
           </>
         )}
-      </>
+      </div>
     );
   }
 
@@ -139,6 +141,19 @@ class SkillQuestion extends React.Component {
         <NavBar />
         <div className="skill-container">
           <h1>{this.state.skillName}</h1>
+
+          {this.state.skill && (
+            <>
+              Learning objective:&nbsp;
+              <a
+                href={`https://www.bossmaths.com/${this.state.skill.sub_lo.toLowerCase()}`}
+              >
+                {this.state.skill.sub_lo}
+              </a>
+              <br />
+              <br />
+            </>
+          )}
 
           <form>
             {this.displayQuestion()}
