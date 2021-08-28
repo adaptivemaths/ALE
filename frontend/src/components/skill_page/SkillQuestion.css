@@ -1,4 +1,15 @@
 .skill-container {
-    align-items: center;
-    text-align: center;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+}
+
+.skill-question {
+  border: 3px black;
+  border-style: solid;
+  max-width: 50%;
+  align-items: center;
+  text-align: center;
+  margin: auto;
+  padding: 10px;
 }
