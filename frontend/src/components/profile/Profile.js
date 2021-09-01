@@ -1,5 +1,10 @@
 import React from "react";
-import { getUserDetails, deleteAccount, getSubmittedTests } from "../../api";
+import {
+  getUserDetails,
+  deleteAccount,
+  getSubmittedTests,
+  getPaperInfo,
+} from "../../api";
 import { instanceOf } from "prop-types";
 import { withCookies, Cookies } from "react-cookie";
 import NavBar from "../navbar/NavBar";
@@ -40,9 +45,14 @@ class Profile extends React.Component {
     // Get tests submitted by user from database
     await getSubmittedTests({
       userId,
-    }).then((res) => {
+    }).then(async (res) => {
       this.setState({
-        submittedTests: res,
+        submittedTests: await Promise.all(
+          res.map(
+            async (paper) =>
+              await getPaperInfo({ testId: paper.GCSE_Paper_Name })
+          )
+        ),
       });
     });
   }
@@ -67,15 +77,14 @@ class Profile extends React.Component {
   }
 
   submittedTests() {
-    const papers = this.state.submittedTests.map((paper) => (
+    console.log("submittedTests", this.state.submittedTests);
+    return this.state.submittedTests.map((paper) => (
       <div>
-        <Nav.Link href={`/practice/assessments/${paper.GCSE_Paper_Name}`}>
-          <span>{paper.GCSE_Paper_Name}</span>
+        <Nav.Link href={`/practice/assessments/${paper.test_id}`}>
+          <span>{paper.title}</span>
         </Nav.Link>
       </div>
     ));
-
-    return <div>{papers}</div>;
   }
 
   render() {
@@ -83,6 +92,7 @@ class Profile extends React.Component {
     if (!this.state.signedIn) {
       return <Redirect push to="/" />;
     }
+
     return (
       <div>
         <NavBar />

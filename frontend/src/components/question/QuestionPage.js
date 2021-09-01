@@ -10,6 +10,7 @@ import {
   getSubmittedTests,
   getAnswers,
   deleteAnswers,
+  getPaperInfo,
 } from "../../api";
 import "./question.css";
 import parse from "html-react-parser";
@@ -23,7 +24,7 @@ class QuestionPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      paperName: "",
+      testId: "",
       questions: [],
       currentQuestion: 0,
       questionsLoaded: false,
@@ -44,7 +45,10 @@ class QuestionPage extends React.Component {
 
   async resetState() {
     this.setState({
-      paperName: "",
+      testId: "",
+      paper: {
+        title: "",
+      },
       questions: [],
       currentQuestion: 0,
       questionsLoaded: false,
@@ -57,7 +61,10 @@ class QuestionPage extends React.Component {
 
   async componentDidMount() {
     // interval to update timer
-    let intervalId = setInterval(this.setElapsedTime, 1000);
+    let timerIntervalId = setInterval(this.setElapsedTime, 1000);
+    this.setState({
+      timerIntervalId,
+    });
     // Get current userId
     const userId = this.props.cookies.get("userId");
     // Get codes of submitted tests
@@ -65,18 +72,21 @@ class QuestionPage extends React.Component {
       userId,
     });
     // Get code of current paper (url parameter)
-    const paperName = this.props.match.params.paperName;
-
+    const testId = this.props.match.params.testId;
+    const paper = await getPaperInfo({
+      testId,
+    });
     this.setState(
       {
-        paperName,
+        testId,
+        paper,
       },
       async () => {
         // If paper has already been submitted then load the answers for reviewing
         if (
           !completedTests
             .map((paper) => paper.GCSE_Paper_Name)
-            .includes(this.state.paperName)
+            .includes(this.state.testId)
         ) {
           await this.loadQuestions();
         } else {
@@ -86,15 +96,21 @@ class QuestionPage extends React.Component {
     );
   }
 
+  componentWillUnmount() {
+    clearInterval(this.state.timerIntervalId);
+  }
+
   async loadQuestions() {
+    const testId = this.props.match.params.testId;
     this.setState(
       {
-        paperName: this.props.match.params.paperName,
+        testId,
       },
       async () => {
         const questions = await getQuestions({
-          GCSE_Paper_Name: this.state.paperName,
+          testId,
         });
+        console.log("questions", questions);
         questions.forEach((q) => {
           q.answer = "";
         });
@@ -107,13 +123,17 @@ class QuestionPage extends React.Component {
   }
 
   async loadAnswers(userId) {
+    const testId = this.props.match.params.testId;
     this.setState(
-      { paperName: this.props.match.params.paperName },
+      {
+        testId,
+      },
       async () => {
         const questions = await getAnswers({
           userId,
-          GCSE_Paper_Name: this.state.paperName,
+          testId,
         });
+        console.log("questions", questions);
         this.setState(
           {
             questions,
@@ -193,6 +213,7 @@ class QuestionPage extends React.Component {
     // Set answer for current question object in array
     this.state.questions[this.state.currentQuestion].answer =
       this.state.currentAnswer;
+
     // Set showResults to true
     this.setState({
       showResults: true,
@@ -201,6 +222,7 @@ class QuestionPage extends React.Component {
     this.calculateCorrectAnswers();
 
     const userId = this.props.cookies.get("userId");
+
     this.state.questions.forEach((question) => {
       const answer = {
         userId,
@@ -210,6 +232,9 @@ class QuestionPage extends React.Component {
       // Add each answer to the database
       addAnswer(answer);
     });
+
+    // clear timer interval
+    clearInterval(this.state.timerIntervalId);
   }
 
   buttons() {
@@ -249,11 +274,18 @@ class QuestionPage extends React.Component {
           </div>
 
           <div className="question-text">
-            {parse(this.getCurrentQuestion().QUESTION_TEXT)}
+            {parse(
+              this.getCurrentQuestion().QUESTION_TEXT.replaceAll("\n", "<br/>")
+            )}
           </div>
 
           <div className="question-instructions">
-            {this.getCurrentQuestion().QUESTION_INSTRUCTIONS}
+            <i>
+              {this.getCurrentQuestion().QUESTION_INSTRUCTIONS.replaceAll(
+                "\n",
+                "<br/>"
+              )}
+            </i>
           </div>
 
           <div className="question-marks">
@@ -371,15 +403,15 @@ class QuestionPage extends React.Component {
   async redoTest(event) {
     event.preventDefault();
     const userId = this.props.cookies.get("userId");
-    const paperName = this.state.paperName;
+    const testId = this.state.testId;
     // Delete all user answers for current test paper from database
     await deleteAnswers({
       userId,
-      GCSE_Paper_Name: this.state.paperName,
+      testId,
     });
     // Reset state
     await this.resetState().then(() =>
-      this.setState({ paperName }, () => this.componentDidMount())
+      this.setState({ testId }, () => this.componentDidMount())
     );
   }
 
@@ -392,7 +424,7 @@ class QuestionPage extends React.Component {
           <br />
           The correct answer was
           <br />
-          {parse(correctAnswer)}
+          {parse(correctAnswer.split(";")[0])}
         </div>
       );
     }
@@ -418,12 +450,18 @@ class QuestionPage extends React.Component {
   }
 
   render() {
-    return this.state.questionsLoaded ? (
+    if (!this.state.questionsLoaded) {
+      return <div>Loading...</div>;
+    } else if (this.state.questions.length === 0) {
+      return <div>This test has no questions</div>;
+    }
+
+    return (
       <>
         <NavBar />
         <h1>
           {this.state.showResults ? "Review your answers for " : ""}
-          {this.state.paperName}
+          {this.state.paper.title}
         </h1>{" "}
         <br />
         <div className="question-page-container">
@@ -433,7 +471,7 @@ class QuestionPage extends React.Component {
                 You got {this.state.correct} / {this.state.questions.length}{" "}
                 correct
               </h2>
-              <Nav.Link href={`/assessments/results/${this.state.paperName}`}>
+              <Nav.Link href={`/assessments/results/${this.state.testId}`}>
                 See detailed results
                 <br />
               </Nav.Link>
@@ -471,8 +509,6 @@ class QuestionPage extends React.Component {
           )}
         </div>
       </>
-    ) : (
-      ""
     );
   }
 

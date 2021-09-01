@@ -4,7 +4,7 @@ import { withCookies, Cookies } from "react-cookie";
 
 import "./ResultsPage.css";
 import NavBar from "../navbar/NavBar";
-import { getAnswers } from "../../api";
+import { getAnswers, getPaperInfo } from "../../api";
 
 class ResultsPage extends React.Component {
   static propTypes = {
@@ -14,9 +14,13 @@ class ResultsPage extends React.Component {
   constructor() {
     super();
     this.state = {
-      paperName: "",
+      paper: {
+        testId: "",
+        title: "",
+      },
       correct: 0,
       questions: [],
+      questionsLoaded: false,
     };
   }
 
@@ -27,15 +31,22 @@ class ResultsPage extends React.Component {
   }
 
   async loadAnswers(userId) {
+    const testId = this.props.match.params.testId;
+    const paper = await getPaperInfo({
+      testId,
+    });
     this.setState(
       {
-        paperName: this.props.match.params.paperName,
+        paper: {
+          testId,
+          title: paper.title,
+        },
       },
       async () => {
         // getAnswers returns array of questions with user's answer
         const questions = await getAnswers({
           userId,
-          GCSE_Paper_Name: this.state.paperName,
+          testId,
         });
         this.setState(
           {
@@ -133,11 +144,16 @@ class ResultsPage extends React.Component {
   }
 
   render() {
+    if (!this.state.questionsLoaded) {
+      return <div>Loading...</div>;
+    } else if (this.state.questions.length === 0) {
+      return <div>This test has no questions</div>;
+    }
     return (
       <>
         <NavBar />
         <div className="results-container">
-          <h1>Results for {this.state.paperName}</h1>
+          <h1>Results for {this.state.paper.title}</h1>
           <br />
           {this.marksScore()}
           {this.topicsAccuracy()}
