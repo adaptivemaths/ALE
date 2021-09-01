@@ -14,7 +14,7 @@ import {
 } from "../../api";
 import "./question.css";
 import parse from "html-react-parser";
-import { getElapsedTime } from "./timer";
+import Timer from "./Timer";
 import Graph from "./Graph";
 
 class QuestionPage extends React.Component {
@@ -31,8 +31,6 @@ class QuestionPage extends React.Component {
       questionsLoaded: false,
       currentAnswer: "",
       showResults: false,
-      startTime: new Date(),
-      timeElapsed: "00:00",
     };
 
     this.nextQuestion = this.nextQuestion.bind(this);
@@ -40,7 +38,6 @@ class QuestionPage extends React.Component {
     this.skipQuestion = this.skipQuestion.bind(this);
     this.setAnswer = this.setAnswer.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
-    this.setElapsedTime = this.setElapsedTime.bind(this);
     this.redoTest = this.redoTest.bind(this);
   }
 
@@ -55,17 +52,10 @@ class QuestionPage extends React.Component {
       questionsLoaded: false,
       currentAnswer: "",
       showResults: false,
-      startTime: new Date(),
-      timeElapsed: "00:00",
     });
   }
 
   async componentDidMount() {
-    // interval to update timer
-    let timerIntervalId = setInterval(this.setElapsedTime, 1000);
-    this.setState({
-      timerIntervalId,
-    });
     // Get current userId
     const userId = this.props.cookies.get("userId");
     // Get codes of submitted tests
@@ -469,8 +459,8 @@ class QuestionPage extends React.Component {
           {this.state.showResults ? (
             <div>
               <h2>
-                You got {this.state.correct} / {this.state.questions.length}{" "}
-                correct
+                You got {this.state.correct} / {this.state.questions.length}
+                &nbsp; correct
               </h2>
               <Nav.Link href={`/assessments/results/${this.state.testId}`}>
                 See detailed results
@@ -481,7 +471,7 @@ class QuestionPage extends React.Component {
             ""
           )}
 
-          {this.state.showResults ? "" : "Time: " + this.state.timeElapsed}
+          {!this.state.showResults ? <Timer /> : ""}
 
           {this.buttons()}
 
@@ -512,15 +502,6 @@ class QuestionPage extends React.Component {
         <Graph />
       </>
     );
-  }
-
-  setElapsedTime() {
-    // Set elapsed time
-    if (this.state == undefined) return;
-
-    this.setState({
-      timeElapsed: getElapsedTime(this.state.startTime),
-    });
   }
 }
 
