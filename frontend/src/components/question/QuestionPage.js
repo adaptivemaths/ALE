@@ -1,5 +1,4 @@
 import React from "react";
-import { Redirect } from "react-router";
 import { instanceOf } from "prop-types";
 import { withCookies, Cookies } from "react-cookie";
 import { Nav } from "react-bootstrap";
@@ -12,7 +11,7 @@ import {
   deleteAnswers,
   getPaperInfo,
 } from "../../api";
-import "./question.css";
+import "./QuestionPage.css";
 import parse from "html-react-parser";
 import Timer from "./Timer";
 import Graph from "./Graph";
@@ -31,6 +30,7 @@ class QuestionPage extends React.Component {
       questionsLoaded: false,
       currentAnswer: "",
       showResults: false,
+      showGraph: false,
     };
 
     this.nextQuestion = this.nextQuestion.bind(this);
@@ -471,7 +471,7 @@ class QuestionPage extends React.Component {
             ""
           )}
 
-          {!this.state.showResults ? <Timer /> : ""}
+          {!this.state.showResults && <Timer />}
 
           {this.buttons()}
 
@@ -499,7 +499,14 @@ class QuestionPage extends React.Component {
             </>
           )}
         </div>
-        <Graph />
+        <div className="tools">
+          <button
+            onClick={() => this.setState({ showGraph: !this.state.showGraph })}
+          >
+            {this.state.showGraph ? "Hide graph" : "Show graph"}
+          </button>
+          {this.state.showGraph && <Graph />}
+        </div>
       </>
     );
   }
