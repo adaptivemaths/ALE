@@ -1,3 +1,36 @@
+import React, { Component } from "react";
+
+class Timer extends Component {
+  state = {
+    startTime: new Date(),
+    timeElapsed: "00:00",
+  };
+
+  setElapsedTime = () => {
+    // Set elapsed time
+    this.setState({
+      timeElapsed: getElapsedTime(this.state.startTime),
+    });
+  };
+
+  componentDidMount() {
+    let timerIntervalId = setInterval(this.setElapsedTime, 1000);
+    this.setState({
+      timerIntervalId,
+    });
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.state.timerIntervalId);
+  }
+
+  render() {
+    return <div>Time: {this.state.timeElapsed}</div>;
+  }
+}
+
+export default Timer;
+
 // Calculates time elapsed since given start time and returns string
 export function getElapsedTime(startTime) {
   startTime = new Date(startTime);

@@ -1,5 +1,4 @@
 import React from "react";
-import { Redirect } from "react-router";
 import { instanceOf } from "prop-types";
 import { withCookies, Cookies } from "react-cookie";
 import { Nav } from "react-bootstrap";
@@ -12,9 +11,11 @@ import {
   deleteAnswers,
   getPaperInfo,
 } from "../../api";
-import "./question.css";
+import "./QuestionPage.css";
 import parse from "html-react-parser";
-import { getElapsedTime } from "./timer";
+import Timer from "./Timer";
+import Graph from "./Graph";
+import Whiteboard from "./Whiteboard";
 
 class QuestionPage extends React.Component {
   static propTypes = {
@@ -30,8 +31,8 @@ class QuestionPage extends React.Component {
       questionsLoaded: false,
       currentAnswer: "",
       showResults: false,
-      startTime: new Date(),
-      timeElapsed: "00:00",
+      showGraph: false,
+      showBoard: false,
     };
 
     this.nextQuestion = this.nextQuestion.bind(this);
@@ -39,7 +40,6 @@ class QuestionPage extends React.Component {
     this.skipQuestion = this.skipQuestion.bind(this);
     this.setAnswer = this.setAnswer.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
-    this.setElapsedTime = this.setElapsedTime.bind(this);
     this.redoTest = this.redoTest.bind(this);
   }
 
@@ -54,17 +54,10 @@ class QuestionPage extends React.Component {
       questionsLoaded: false,
       currentAnswer: "",
       showResults: false,
-      startTime: new Date(),
-      timeElapsed: "00:00",
     });
   }
 
   async componentDidMount() {
-    // interval to update timer
-    let timerIntervalId = setInterval(this.setElapsedTime, 1000);
-    this.setState({
-      timerIntervalId,
-    });
     // Get current userId
     const userId = this.props.cookies.get("userId");
     // Get codes of submitted tests
@@ -468,8 +461,8 @@ class QuestionPage extends React.Component {
           {this.state.showResults ? (
             <div>
               <h2>
-                You got {this.state.correct} / {this.state.questions.length}{" "}
-                correct
+                You got {this.state.correct} / {this.state.questions.length}
+                &nbsp; correct
               </h2>
               <Nav.Link href={`/assessments/results/${this.state.testId}`}>
                 See detailed results
@@ -480,7 +473,7 @@ class QuestionPage extends React.Component {
             ""
           )}
 
-          {this.state.showResults ? "" : "Time: " + this.state.timeElapsed}
+          {!this.state.showResults && <Timer />}
 
           {this.buttons()}
 
@@ -508,17 +501,24 @@ class QuestionPage extends React.Component {
             </>
           )}
         </div>
+        <div className="tools">
+          <button
+            onClick={() => this.setState({ showGraph: !this.state.showGraph })}
+          >
+            {this.state.showGraph ? "Hide graph" : "Show graph"}
+          </button>
+
+          <button
+            onClick={() => this.setState({ showBoard: !this.state.showBoard })}
+          >
+            {this.state.showBoard ? "Hide whiteboard" : "Show whiteboard"}
+          </button>
+
+          {this.state.showGraph && <Graph />}
+          {this.state.showBoard && <Whiteboard />}
+        </div>
       </>
     );
-  }
-
-  setElapsedTime() {
-    // Set elapsed time
-    if (this.state == undefined) return;
-
-    this.setState({
-      timeElapsed: getElapsedTime(this.state.startTime),
-    });
   }
 }
 

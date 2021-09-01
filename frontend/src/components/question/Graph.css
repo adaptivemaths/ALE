@@ -1,0 +1,7 @@
+.graph {
+  width: 90%;
+  height: 800px;
+  resize: both;
+  overflow: auto;
+  margin: 10px;
+}
