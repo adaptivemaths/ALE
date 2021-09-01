@@ -15,6 +15,7 @@ import "./QuestionPage.css";
 import parse from "html-react-parser";
 import Timer from "./Timer";
 import Graph from "./Graph";
+import Whiteboard from "./Whiteboard";
 
 class QuestionPage extends React.Component {
   static propTypes = {
@@ -31,6 +32,7 @@ class QuestionPage extends React.Component {
       currentAnswer: "",
       showResults: false,
       showGraph: false,
+      showBoard: false,
     };
 
     this.nextQuestion = this.nextQuestion.bind(this);
@@ -505,7 +507,15 @@ class QuestionPage extends React.Component {
           >
             {this.state.showGraph ? "Hide graph" : "Show graph"}
           </button>
+
+          <button
+            onClick={() => this.setState({ showBoard: !this.state.showBoard })}
+          >
+            {this.state.showBoard ? "Hide whiteboard" : "Show whiteboard"}
+          </button>
+
           {this.state.showGraph && <Graph />}
+          {this.state.showBoard && <Whiteboard />}
         </div>
       </>
     );
