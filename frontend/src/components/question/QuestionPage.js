@@ -15,6 +15,7 @@ import {
 import "./question.css";
 import parse from "html-react-parser";
 import { getElapsedTime } from "./timer";
+import Graph from "./Graph";
 
 class QuestionPage extends React.Component {
   static propTypes = {
@@ -508,6 +509,7 @@ class QuestionPage extends React.Component {
             </>
           )}
         </div>
+        <Graph />
       </>
     );
   }
