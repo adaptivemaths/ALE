@@ -33,7 +33,10 @@ export default class Topic extends React.Component {
       <>
         {/* Add link for each skill */}
         {this.state.skills.map((skill) => (
-          <Nav.Link href={`/practice/skills/${skill.skill_id}`}>
+          <Nav.Link
+            href={`/practice/skills/${skill.skill_id}`}
+            style={{ padding: "10px" }}
+          >
             <span className="skill-btn">{skill.skill_name}</span>
             <br />
           </Nav.Link>
