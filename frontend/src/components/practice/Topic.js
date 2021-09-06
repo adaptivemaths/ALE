@@ -1,7 +1,7 @@
 import React from "react";
 import { Nav } from "react-bootstrap";
 import NavBar from "../navbar/NavBar";
-import "./topic.css";
+import "./Topic.css";
 import { getSkillsForTopic } from "../../api";
 
 export default class Topic extends React.Component {
@@ -33,7 +33,10 @@ export default class Topic extends React.Component {
       <>
         {/* Add link for each skill */}
         {this.state.skills.map((skill) => (
-          <Nav.Link href={`/practice/skills/${skill.skill_id}`}>
+          <Nav.Link
+            href={`/practice/skills/${skill.skill_id}`}
+            style={{ padding: "10px" }}
+          >
             <span className="skill-btn">{skill.skill_name}</span>
             <br />
           </Nav.Link>

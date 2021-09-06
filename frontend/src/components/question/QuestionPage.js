@@ -261,9 +261,8 @@ class QuestionPage extends React.Component {
             Question&nbsp;
             {this.getCurrentQuestion().QUESTION_NUMBER +
               "." +
-              (this.getCurrentQuestion().SUB_QUESTION_NO
-                ? this.getCurrentQuestion().SUB_QUESTION_NO
-                : "")}
+              (this.getCurrentQuestion().SUB_QUESTION_NO &&
+                this.getCurrentQuestion().SUB_QUESTION_NO)}
           </div>
 
           <div className="question-text">

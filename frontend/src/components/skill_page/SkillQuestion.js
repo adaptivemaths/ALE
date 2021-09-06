@@ -66,42 +66,50 @@ class SkillQuestion extends React.Component {
   displayQuestion() {
     return (
       <div className="skill-question">
-        {parse(this.state.question.text)}
+        {parse(this.state.question.text.replaceAll("\n", "<br/>"))}
         <br />
         {/* If user has clicked the Reveal Answer button then display the correct answer 
                     instead of the input boxes
                 */}
-        {this.state.revealAnswer ? (
-          <>
-            Answer:
-            <br />
-            {this.state.question.values.map((value) => (
-              <>
-                {value} = {this.state.question.answer[value]}
-                <br />
-              </>
-            ))}
-          </>
-        ) : (
-          <>
-            {/* Input boxes for all the values required in the answer */}
-            {this.state.question.values.map((val) => (
-              <>
-                <label>
-                  {val}=
-                  <input
-                    name={val}
-                    type="text"
-                    value={this.state.answer[val]}
-                    onChange={this.setAnswer}
-                  ></input>
-                </label>
-                <br />
-              </>
-            ))}
-          </>
-        )}
+        {this.state.revealAnswer ? this.correctAnswer() : this.answerInput()}
       </div>
+    );
+  }
+
+  answerInput() {
+    return (
+      <>
+        {/* Input boxes for all the values required in the answer */}
+        {this.state.question.values.map((val) => (
+          <>
+            <label>
+              {val}=
+              <input
+                name={val}
+                type="text"
+                value={this.state.answer[val]}
+                onChange={this.setAnswer}
+              ></input>
+            </label>
+            <br />
+          </>
+        ))}
+      </>
+    );
+  }
+
+  correctAnswer() {
+    return (
+      <>
+        Answer:
+        <br />
+        {this.state.question.values.map((value) => (
+          <>
+            {value} = {this.state.question.answer[value]}
+            <br />
+          </>
+        ))}
+      </>
     );
   }
 
@@ -159,7 +167,7 @@ class SkillQuestion extends React.Component {
             {this.displayQuestion()}
             <br />
             {this.state.showResult
-              ? "Your answer was " +
+              ? "Your answer is " +
                 (this.state.correct ? "correct" : "incorrect")
               : ""}
             <br />
