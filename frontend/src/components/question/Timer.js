@@ -8,9 +8,11 @@ class Timer extends Component {
 
   setElapsedTime = () => {
     // Set elapsed time
-    this.setState({
-      timeElapsed: getElapsedTime(this.state.startTime),
-    });
+    if (!this.props.pause) {
+      this.setState({
+        timeElapsed: getElapsedTime(this.state.startTime),
+      });
+    }
   };
 
   componentDidMount() {
@@ -25,7 +27,7 @@ class Timer extends Component {
   }
 
   render() {
-    return <div>Time: {this.state.timeElapsed}</div>;
+    return <div style={{ margin: "5px" }}>🕒 {this.state.timeElapsed}</div>;
   }
 }
 
