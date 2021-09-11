@@ -1,4 +1,5 @@
 import React from "react";
+import Button from "react-bootstrap/Button";
 import {
   getUserDetails,
   deleteAccount,
@@ -10,7 +11,7 @@ import { withCookies, Cookies } from "react-cookie";
 import NavBar from "../navbar/NavBar";
 import { Redirect } from "react-router-dom";
 import { Nav } from "react-bootstrap";
-import "./profile.css";
+import "./Profile.css";
 
 class Profile extends React.Component {
   static propTypes = {
@@ -111,22 +112,19 @@ class Profile extends React.Component {
 
               <br />
               <label>
-                Tests completed:
+                <b>Tests completed</b>
                 {this.submittedTests()}
               </label>
               <br />
               <br />
-              <button id="signout-button" onClick={this.signOutUser}>
+              <Button variant="primary" onClick={this.signOutUser}>
                 Sign Out
-              </button>
+              </Button>
               <br />
-
-              <button
-                id="delete-account-button"
-                onClick={this.deleteUserAccount}
-              >
+              <br />
+              <Button variant="outline-danger" onClick={this.deleteUserAccount}>
                 Delete account
-              </button>
+              </Button>
             </div>
           </>
         )}
