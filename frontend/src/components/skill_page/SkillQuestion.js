@@ -153,12 +153,18 @@ class SkillQuestion extends React.Component {
 
           {this.state.skill && (
             <>
-              Learning objective:&nbsp;
-              <a
-                href={`https://www.bossmaths.com/${this.state.skill.sub_lo.toLowerCase()}`}
+              Learning outcome:&nbsp;
+              <Button
+                variant="outline-secondary"
+                onClick={() =>
+                  window.open(
+                    `https://www.bossmaths.com/${this.state.skill.sub_lo.toLowerCase()}`,
+                    "_blank"
+                  )
+                }
               >
                 {this.state.skill.sub_lo}
-              </a>
+              </Button>
               <br />
               <br />
             </>
