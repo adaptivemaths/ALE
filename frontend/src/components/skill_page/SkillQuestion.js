@@ -2,6 +2,7 @@ import React from "react";
 import { instanceOf } from "prop-types";
 import { withCookies, Cookies } from "react-cookie";
 import parse from "html-react-parser";
+import Button from "react-bootstrap/Button";
 
 import { getSkill } from "../../api";
 import templateQuestions from "./template_questions/templateQuestions";
@@ -166,34 +167,36 @@ class SkillQuestion extends React.Component {
           <form>
             {this.displayQuestion()}
             <br />
-            {this.state.showResult
-              ? "Your answer is " +
-                (this.state.correct ? "correct" : "incorrect")
-              : ""}
+
+            {this.state.showResult &&
+              "Your answer is " +
+                (this.state.correct ? "correct :)" : "incorrect :(")}
             <br />
             <br />
-            {this.state.revealAnswer ? (
-              <br />
-            ) : (
+            {!this.state.revealAnswer && (
               <>
-                <button onClick={this.checkAnswer}>Check answer</button>
-                <br />
+                <Button variant="outline-success" onClick={this.checkAnswer}>
+                  Check answer
+                </Button>
               </>
             )}
 
-            <button type="submit" onClick={this.componentDidMount}>
+            <Button
+              variant="primary"
+              type="submit"
+              onClick={this.componentDidMount}
+            >
               New question
-            </button>
-          </form>
+            </Button>
 
-          {this.state.revealAnswer ? (
-            <br />
-          ) : (
-            <>
-              <button onClick={this.revealAnswer}>Reveal answer</button>
-              <br />
-            </>
-          )}
+            {!this.state.revealAnswer && (
+              <>
+                <Button variant="outline-warning" onClick={this.revealAnswer}>
+                  Reveal answer
+                </Button>
+              </>
+            )}
+          </form>
         </div>
       </>
     );
