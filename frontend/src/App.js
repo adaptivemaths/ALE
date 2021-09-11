@@ -38,7 +38,7 @@ class App extends React.Component {
     return (
       <>
         <Helmet>
-          <title>EdiCat</title>
+          <title>AdaptiveMaths</title>
         </Helmet>
 
         <Switch>
