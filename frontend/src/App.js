@@ -20,7 +20,7 @@ import QuestionPage from "./components/question/QuestionPage";
 import ResultsPage from "./components/results/ResultsPage";
 import SkillQuestion from "./components/skill_page/SkillQuestion";
 import Recommendations from "./components/recommendations/Recommendations";
-import LearningObjective from "./components/learning_objective/LearningObjective";
+import LearningOutcome from "./components/learning_outcome/LearningOutcome";
 
 class App extends React.Component {
   static propTypes = {
@@ -98,8 +98,8 @@ class App extends React.Component {
 
           <Route
             exact
-            path="/learningObjective/:lo/"
-            component={LearningObjective}
+            path="/learningOutcome/:lo/"
+            component={LearningOutcome}
           />
         </Switch>
       </>
