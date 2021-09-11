@@ -233,7 +233,7 @@ class QuestionPage extends React.Component {
   buttons() {
     return (
       <div className="question-buttons">
-        <Button onClick={this.previousQuestion}>&lt; Back</Button>
+        <Button onClick={this.previousQuestion}>←Back</Button>
 
         {!this.state.showResults && (
           <Button variant="secondary" onClick={this.skipQuestion}>
@@ -241,7 +241,7 @@ class QuestionPage extends React.Component {
           </Button>
         )}
 
-        <Button onClick={this.nextQuestion}>Next &gt;</Button>
+        <Button onClick={this.nextQuestion}>Next→</Button>
       </div>
     );
   }
@@ -260,26 +260,21 @@ class QuestionPage extends React.Component {
                   "." + currentQuestion.SUB_QUESTION_NO)}
             </b>
           </div>
-
           <div className="question-text">
             {parse(currentQuestion.QUESTION_TEXT.replaceAll("\n", "<br/>"))}
           </div>
-
           <div className="question-instructions">
             <i>
               {currentQuestion.QUESTION_INSTRUCTIONS.replaceAll("\n", "<br/>")}
             </i>
           </div>
-
-          <div className="question-marks">
-            Marks: {currentQuestion.QUESTION_MARKS}
-          </div>
-
-          <div className="question-difficulty">
-            Difficulty: {currentQuestion.GRD_DIFFICULTY}
-          </div>
-
-          <div className="question-topic">Topic: {currentQuestion.TOPIC}</div>
+          <br />
+          Marks: {currentQuestion.QUESTION_MARKS} | Difficulty:{" "}
+          {currentQuestion.GRD_DIFFICULTY}&nbsp; | Topic:{" "}
+          {currentQuestion.TOPIC} | Learning Outcome:&nbsp;
+          <a href={`/learningOutcome/${currentQuestion.LEARNING_OUTCOME_1}`}>
+            {currentQuestion.LEARNING_OUTCOME_1}
+          </a>
         </div>
       </div>
     );
@@ -482,7 +477,7 @@ class QuestionPage extends React.Component {
               )}
               <br />
               <div>
-                <Button variant="primary" onClick={this.redoTest}>
+                <Button variant="warning" onClick={this.redoTest}>
                   Redo Test
                 </Button>
               </div>
