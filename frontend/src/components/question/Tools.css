@@ -1,0 +1,10 @@
+.tools {
+  margin: 10px;
+  text-align: center;
+  align-items: center;
+}
+
+.tool-btn {
+  border-radius: 4px;
+  color: rgb(70, 90, 121);
+}
