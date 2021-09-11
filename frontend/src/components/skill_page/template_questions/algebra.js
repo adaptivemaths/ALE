@@ -22,10 +22,10 @@ export function factoriseQuadraticEquation() {
   const C = b * d;
   const text = `\
         Factorise the following quadratic:
-        ${A == 1 ? "" : A}x²
-        ${B > 0 ? "+" : B < 0 ? "-" : ""} 
-        ${B != 0 ? Math.abs(B) : ""}x 
-        ${C > 0 ? "+" : C < 0 ? "-" : ""} 
+        ${A == 1 ? "" : A}x²\
+        ${B > 0 ? "+" : B < 0 ? "-" : ""}\
+        ${B != 0 ? Math.abs(B) : ""}x\
+        ${C > 0 ? "+" : C < 0 ? "-" : ""}\
         ${C != 0 ? Math.abs(C) : ""}
         in the form (ax + b)(cx + d).
     `;
