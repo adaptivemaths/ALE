@@ -5,7 +5,8 @@ import {
   answersSQL,
   testsSQL,
   skillsSQL,
-  learningObjectivesSQL,
+  learningOutcomesSQL,
+  pointsSQL,
 } from "./sql.js";
 
 // Library for PostgreSQL
@@ -31,11 +32,11 @@ export default class Database {
     await db
       .one(mailingListSQL.addMail, attr)
       .then((data) => {
-        // console.log(data);
+        // // console.log(data);
         result = data;
       })
       .catch((error) => {
-        // console.log("ERROR:", error); // print error;
+        // // console.log("ERROR:", error); // print error;
       });
 
     return result;
@@ -47,11 +48,11 @@ export default class Database {
     await db
       .one(usersSQL.addUser, attr)
       .then((data) => {
-        // console.log(data);
+        // // console.log(data);
         result = data;
       })
       .catch((error) => {
-        // console.log("addUser ERROR:", error); // print error;
+        // // console.log("addUser ERROR:", error); // print error;
       });
 
     return result;
@@ -59,15 +60,15 @@ export default class Database {
 
   static async getUser(attr) {
     var result = {};
-    // console.log('getUser data', attr);
+    // // console.log('getUser data', attr);
     await db
       .one(usersSQL.getUser, attr)
       .then((data) => {
-        // console.log(data);
+        // // console.log(data);
         result = data;
       })
       .catch((error) => {
-        // console.log("getUser ERROR:", error); // print error;
+        // // console.log("getUser ERROR:", error); // print error;
       });
 
     return result;
@@ -79,11 +80,11 @@ export default class Database {
     await db
       .one(usersSQL.getUserWithEmail, attr)
       .then((data) => {
-        // console.log(data);
+        // // console.log(data);
         result = data;
       })
       .catch((error) => {
-        // console.log("getUserWithEmail ERROR:", error); // print error;
+        // // console.log("getUserWithEmail ERROR:", error); // print error;
       });
 
     return result;
@@ -94,11 +95,11 @@ export default class Database {
     await db
       .any(questionsSQL.getPaperNames)
       .then((data) => {
-        // console.log(data);
+        // // console.log(data);
         result = data;
       })
       .catch((error) => {
-        // console.log("ERROR:", error); // print error;
+        // // console.log("ERROR:", error); // print error;
       });
 
     return result;
@@ -109,11 +110,11 @@ export default class Database {
     await db
       .one(testsSQL.getTest, testId)
       .then((data) => {
-        // console.log(data);
+        // // console.log(data);
         result = data;
       })
       .catch((error) => {
-        // console.log("ERROR:", error); // print error;
+        // // console.log("ERROR:", error); // print error;
       });
 
     return result;
@@ -124,11 +125,11 @@ export default class Database {
     await db
       .any(questionsSQL.getQuestions, paper)
       .then((data) => {
-        // console.log(data);
+        // // console.log(data);
         result = data;
       })
       .catch((error) => {
-        // console.log("ERROR:", error); // print error;
+        // // console.log("ERROR:", error); // print error;
       });
 
     return result;
@@ -139,21 +140,21 @@ export default class Database {
     await db
       .any(usersSQL.deleteUser, user)
       .then((data) => {
-        // console.log(data);
+        // // console.log(data);
         result = data;
       })
       .catch((error) => {
-        // console.log("ERROR:", error); // print error;
+        // // console.log("ERROR:", error); // print error;
       });
 
     return result;
   }
 
-  static async addAnswer(attr) {
+  static async addAnswer(answer) {
     var result = {};
-
+    // console.log("before");
     await db
-      .one(answersSQL.addAnswer, attr)
+      .one(answersSQL.addAnswer, answer)
       .then((data) => {
         // console.log(data);
         result = data;
@@ -161,7 +162,7 @@ export default class Database {
       .catch((error) => {
         // console.log("ERROR:", error); // print error;
       });
-
+    // console.log("after");
     return result;
   }
 
@@ -171,11 +172,11 @@ export default class Database {
     await db
       .any(answersSQL.submittedTests, username)
       .then((data) => {
-        // console.log(data);
+        // // console.log(data);
         result = data;
       })
       .catch((error) => {
-        // console.log("ERROR:", error); // print error;
+        // // console.log("ERROR:", error); // print error;
       });
 
     return result;
@@ -190,7 +191,7 @@ export default class Database {
         result = data;
       })
       .catch((error) => {
-        // console.log("ERROR:", error); // print error;
+        // // console.log("ERROR:", error); // print error;
       });
 
     return result;
@@ -205,7 +206,7 @@ export default class Database {
         result = data;
       })
       .catch((error) => {
-        // console.log("ERROR:", error); // print error;
+        // // console.log("ERROR:", error); // print error;
       });
 
     return result;
@@ -220,7 +221,7 @@ export default class Database {
         result = data;
       })
       .catch((error) => {
-        // console.log("ERROR:", error); // print error;
+        // // console.log("ERROR:", error); // print error;
       });
 
     return result;
@@ -232,11 +233,11 @@ export default class Database {
     await db
       .any(skillsSQL.getSkillsForTopic, topic)
       .then((skills) => {
-        // console.log('skills', skills);
+        // // console.log('skills', skills);
         result = skills;
       })
       .catch((error) => {
-        console.log("ERROR:", error); // print error;
+        // console.log("ERROR:", error); // print error;
       });
 
     return result;
@@ -246,13 +247,13 @@ export default class Database {
     var result = [];
 
     await db
-      .any(learningObjectivesSQL.getLo, { lo })
+      .any(learningOutcomesSQL.getLo, { lo })
       .then((lo) => {
-        // console.log('skills', skills);
+        // // console.log('skills', skills);
         result = lo;
       })
       .catch((error) => {
-        console.log("ERROR:", error); // print error;
+        // console.log("ERROR:", error); // print error;
       });
 
     return result;
@@ -262,15 +263,25 @@ export default class Database {
     var result = {};
 
     await db
-      .one(learningObjectivesSQL.getSubLo, { subLo })
+      .one(learningOutcomesSQL.getSubLo, { subLo })
       .then((subLo) => {
-        // console.log('skills', skills);
+        // // console.log('skills', skills);
         result = subLo;
       })
       .catch((error) => {
-        console.log("ERROR:", error); // print error;
+        // console.log("ERROR:", error); // print error;
       });
 
+    return result;
+  }
+
+  static async addAnswerToPoints({ userId, lo, correct }) {
+    var result = {};
+    await db
+      .none(pointsSQL.addAnswerToPoints, { userId, lo, correct })
+      .catch((error) => {
+        console.log("ERROR:", error); // print error;
+      });
     return result;
   }
 }
