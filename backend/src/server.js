@@ -95,7 +95,7 @@ app.post("/users/login", async (req, res) => {
       });
     }
   } catch (error) {
-    // console.log(error);
+    console.log(error);
   }
 });
 
@@ -105,7 +105,7 @@ app.post("/user/info", async (req, res) => {
     let user = {};
 
     if (body.username != undefined) {
-      // console.log('should be here')
+      console.log("should be here");
       user = await Database.getUserWithEmail({
         username: body.username,
       });
@@ -114,13 +114,13 @@ app.post("/user/info", async (req, res) => {
         userId: body.userId,
       });
     }
-    // console.log('/user/info', user);
+    console.log("/user/info", user);
     res.json(user);
     return;
   } catch (error) {
     res.body = "user/info Error: " + error;
   }
-  // console.log('end');
+  console.log("end");
 });
 
 app.post("/user/deleteUser", async (req, res) => {
@@ -128,7 +128,7 @@ app.post("/user/deleteUser", async (req, res) => {
     const user = await Database.deleteUser({
       userId: req.body.userId,
     });
-    // console.log(user);
+    console.log(user);
     res.json(user);
   } catch (error) {
     res.body = "Error: " + error;
@@ -155,10 +155,13 @@ app.post("/assessments/getQuestions", async (req, res) => {
 
 app.post("/user/addAnswer", async (req, res) => {
   try {
+    console.log("here");
     const answer = await Database.addAnswer(req.body);
+    console.log(answer);
     res.json(answer);
   } catch (error) {
     res.body = "Error: " + error;
+    console.log("error:", res.body);
   }
 });
 
@@ -178,7 +181,7 @@ app.post("/user/getAnswers", async (req, res) => {
     res.json(answers);
   } catch (error) {
     res.body = "Error: " + error;
-    // console.log(res.body);
+    console.log(res.body);
   }
 });
 
@@ -188,7 +191,16 @@ app.post("/user/deleteAnswers", async (req, res) => {
     res.json(answers);
   } catch (error) {
     res.body = "Error: " + error;
-    // console.log(res.body);
+    console.log(res.body);
+  }
+});
+
+app.post("/user/addAnswerToPoints", async (req, res) => {
+  try {
+    await Database.addAnswerToPoints(req.body);
+  } catch (error) {
+    res.body = "Error: " + error;
+    console.log("error:", res.body);
   }
 });
 
@@ -198,7 +210,7 @@ app.post("/paper/info", async (req, res) => {
     res.json(paper);
   } catch (error) {
     res.body = "Error: " + error;
-    // console.log(res.body);
+    console.log(res.body);
   }
 });
 
@@ -208,7 +220,7 @@ app.post("/skills/info", async (req, res) => {
     res.json(skill);
   } catch (error) {
     res.body = "Error: " + error;
-    // console.log(res.body);
+    console.log(res.body);
   }
 });
 
