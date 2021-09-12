@@ -11,6 +11,7 @@ import {
   getAnswers,
   deleteAnswers,
   getPaperInfo,
+  addAnswerToPoints,
 } from "../../api";
 import "./QuestionPage.css";
 import parse from "html-react-parser";
@@ -201,7 +202,7 @@ class QuestionPage extends React.Component {
     });
   }
 
-  onSubmit(event) {
+  async onSubmit(event) {
     event.preventDefault();
     // Set answer for current question object in array
     this.state.questions[this.state.currentQuestion].answer =
@@ -213,18 +214,20 @@ class QuestionPage extends React.Component {
     });
 
     this.calculateCorrectAnswers();
-
     const userId = this.props.cookies.get("userId");
 
-    this.state.questions.forEach((question) => {
-      const answer = {
-        userId,
-        question_id: question.question_id,
-        answer: question.answer,
-      };
-      // Add each answer to the database
-      addAnswer(answer);
-    });
+    await Promise.all(
+      this.state.questions.forEach(async (question) => {
+        const answer = {
+          userId,
+          question_id: question.question_id,
+          answer: question.answer,
+        };
+        // Add each answer to the database
+        await addAnswer(answer);
+        await addAnswerToPoints(userId, question.LEARNING_OUTCOME_1, question.correct);
+      })
+    );
 
     // clear timer interval
     clearInterval(this.state.timerIntervalId);
@@ -366,7 +369,10 @@ class QuestionPage extends React.Component {
   calculateCorrectAnswers() {
     let correct = 0;
     for (let question of this.state.questions) {
-      if (question.QUESTION_ANSWER.split(";").includes(question.answer)) {
+      let isCorrect = question.QUESTION_ANSWER.split(";").includes(
+        question.answer
+      );
+      if (isCorrect) {
         correct++;
       }
     }
@@ -441,7 +447,10 @@ class QuestionPage extends React.Component {
           {this.state.paper.title}
           {!this.state.showResults && (
             <>
-              <Button variant="outline-success" onClick={this.onSubmit}>
+              <Button
+                variant="outline-success"
+                onClick={async (event) => await this.onSubmit(event)}
+              >
                 Submit
               </Button>
             </>
