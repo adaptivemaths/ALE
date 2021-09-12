@@ -4,7 +4,7 @@ import { withCookies, Cookies } from "react-cookie";
 import parse from "html-react-parser";
 import Button from "react-bootstrap/Button";
 
-import { getSkill } from "../../api";
+import { addAnswerToPoints, getSkill } from "../../api";
 import templateQuestions from "./template_questions/templateQuestions";
 import NavBar from "../navbar/NavBar";
 import "./SkillQuestion.css";
@@ -130,11 +130,16 @@ class SkillQuestion extends React.Component {
     // Use the checkAnswer function in the template question to check if the answer is correct
     // Increment attempts
     event.preventDefault();
-    this.setState({
-      showResult: true,
-      correct: this.state.question.checkAnswer(this.state.answer),
-      attempts: this.state.attempts + 1,
-    });
+    const userId = this.props.cookies.get("userId");
+    this.setState(
+      {
+        showResult: true,
+        correct: this.state.question.checkAnswer(this.state.answer),
+        attempts: this.state.attempts + 1,
+      },
+      async () =>
+        await addAnswerToPoints(userId, this.state.skill.lo, this.state.correct)
+    );
   }
 
   revealAnswer(event) {
