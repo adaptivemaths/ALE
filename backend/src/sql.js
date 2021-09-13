@@ -43,10 +43,11 @@ export const skillsSQL = {
 };
 
 export const learningOutcomesSQL = {
-  getLo: sql("../sql/learning_objectives/getLo.sql"),
-  getSubLo: sql("../sql/learning_objectives/getSubLo.sql"),
+  getLo: sql("../sql/learning_outcomes/getLo.sql"),
+  getSubLo: sql("../sql/learning_outcomes/getSubLo.sql"),
 };
 
 export const pointsSQL = {
   addAnswerToPoints: sql("../sql/points/addAnswerToPoints.sql"),
+  getRankings: sql("../sql/points/getRankings.sql"),
 };
