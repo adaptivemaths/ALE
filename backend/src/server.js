@@ -204,6 +204,15 @@ app.post("/user/addAnswerToPoints", async (req, res) => {
   }
 });
 
+app.post("/user/learningOutcomeRankings", async (req, res) => {
+  try {
+    res.json(await Database.learningOutcomeRankings(req.body));
+  } catch (error) {
+    res.body = "Error: " + error;
+    console.log("error:", res.body);
+  }
+});
+
 app.post("/paper/info", async (req, res) => {
   try {
     const paper = await Database.getPaperInfo(req.body);
