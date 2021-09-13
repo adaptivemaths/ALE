@@ -284,4 +284,17 @@ export default class Database {
       });
     return result;
   }
+
+  static async learningOutcomeRankings({ userId }) {
+    var result = {};
+    await db
+      .any(pointsSQL.getRankings, { userId })
+      .then((data) => {
+        result = data;
+      })
+      .catch((error) => {
+        console.log("ERROR:", error); // print error;
+      });
+    return result;
+  }
 }
