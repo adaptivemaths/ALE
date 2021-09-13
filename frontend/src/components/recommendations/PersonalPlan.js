@@ -1,7 +1,8 @@
 import React, { Component } from "react";
+import Button from "react-bootstrap/Button";
 import { instanceOf } from "prop-types";
 import { withCookies, Cookies } from "react-cookie";
-
+import { learningOutcomeRankings } from "../../api";
 import "./PersonalPlan.css";
 
 class PersonalPlan extends Component {
@@ -11,16 +12,35 @@ class PersonalPlan extends Component {
 
   constructor(props) {
     super(props);
+    this.state = {
+      loRankings: [],
+    };
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     const userId = this.props.cookies.get("userId");
+    const loRankings = await learningOutcomeRankings(userId);
+
+    this.setState({
+      loRankings,
+    });
   }
 
   render() {
     return (
       <>
-        <h2>Personal Plan</h2>
+        <div className="personal-plan">
+          <h3>Personal Plan</h3>
+          Topics to improve:
+          <br />
+          <br />
+          {this.state.loRankings.slice(0, 5).map(({ lo, score }) => (
+            <Button variant="outline-dark" href={`/learningOutcome/${lo}`}>
+              {lo}
+              <br />
+            </Button>
+          ))}
+        </div>
       </>
     );
   }
