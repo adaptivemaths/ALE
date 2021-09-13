@@ -224,3 +224,17 @@ export async function addAnswerToPoints(userId, lo, correct) {
       console.log(error);
     });
 }
+
+export async function learningOutcomeRankings(userId) {
+  var loRankings = [];
+  await axios
+    .post(`${API_URL}/user/learningOutcomeRankings`, { userId })
+    .then((res) => {
+      loRankings = res.data;
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+
+  return loRankings;
+}
