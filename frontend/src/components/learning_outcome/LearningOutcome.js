@@ -3,7 +3,7 @@ import { instanceOf } from "prop-types";
 import { withCookies, Cookies } from "react-cookie";
 import NavBar from "../navbar/NavBar";
 import SubLoList from "./SubLoList";
-import "./LearningObjective.css";
+import "./LearningOutcome.css";
 import { getLo } from "../../api";
 
 class LearningObjective extends Component {
@@ -33,7 +33,7 @@ class LearningObjective extends Component {
     return (
       <div>
         <NavBar />
-        <h1>Learning Objective - {this.state.lo}</h1>
+        <h1>Learning Outcome - {this.state.lo}</h1>
         <br />
         <SubLoList subLos={this.state.subLos} />
       </div>

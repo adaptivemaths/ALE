@@ -5,7 +5,8 @@
 }
 
 .skill-question {
-  border: 3px black;
+  border: 2px black;
+  border-radius: 4px;
   border-style: solid;
   max-width: 50%;
   align-items: center;

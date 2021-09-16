@@ -120,6 +120,7 @@ export async function deleteAccount(user) {
 
 export async function addAnswer(answer) {
   var result = {};
+  console.log(answer);
   await axios
     .post(`${API_URL}/user/addAnswer`, answer)
     .then((res) => {
@@ -214,4 +215,26 @@ export async function getLo(lo) {
       console.log(error);
     });
   return result;
+}
+
+export async function addAnswerToPoints(userId, lo, correct) {
+  await axios
+    .post(`${API_URL}/user/addAnswerToPoints`, { userId, lo, correct })
+    .catch((error) => {
+      console.log(error);
+    });
+}
+
+export async function learningOutcomeRankings(userId) {
+  var loRankings = [];
+  await axios
+    .post(`${API_URL}/user/learningOutcomeRankings`, { userId })
+    .then((res) => {
+      loRankings = res.data;
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+
+  return loRankings;
 }

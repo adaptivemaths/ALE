@@ -1,8 +1,9 @@
 import React from "react";
 import NavBar from "../navbar/NavBar";
 import { Nav } from "react-bootstrap";
-import { getPaperInfo, getPaperNames } from "../../api";
-import "./assessments.css";
+import Button from "react-bootstrap/Button";
+import { getPaperNames } from "../../api";
+import "./Assessments.css";
 
 class Assessments extends React.Component {
   constructor() {
@@ -27,12 +28,19 @@ class Assessments extends React.Component {
         <NavBar />
         <br />
         <h1>All papers</h1>
+        <br />
         <div className="assessments-container">
           {/* Add link for each test paper */}
           {this.state.papers.map((paper) => (
-            <Nav.Link href={`/practice/assessments/${paper.test_id}/`}>
-              <div className="assessment-card">{paper.title}</div>
-            </Nav.Link>
+            <div className="assessment-card">
+              <Button
+                variant="outline-secondary"
+                href={`/practice/assessments/${paper.test_id}/`}
+                size="lg"
+              >
+                {paper.title}
+              </Button>
+            </div>
           ))}
         </div>
       </div>

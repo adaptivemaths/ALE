@@ -1,0 +1,9 @@
+.assessments-container {
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+}
+
+.assessment-card {
+  margin: 10px;
+}

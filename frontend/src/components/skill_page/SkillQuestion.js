@@ -2,8 +2,9 @@ import React from "react";
 import { instanceOf } from "prop-types";
 import { withCookies, Cookies } from "react-cookie";
 import parse from "html-react-parser";
+import Button from "react-bootstrap/Button";
 
-import { getSkill } from "../../api";
+import { addAnswerToPoints, getSkill } from "../../api";
 import templateQuestions from "./template_questions/templateQuestions";
 import NavBar from "../navbar/NavBar";
 import "./SkillQuestion.css";
@@ -129,11 +130,16 @@ class SkillQuestion extends React.Component {
     // Use the checkAnswer function in the template question to check if the answer is correct
     // Increment attempts
     event.preventDefault();
-    this.setState({
-      showResult: true,
-      correct: this.state.question.checkAnswer(this.state.answer),
-      attempts: this.state.attempts + 1,
-    });
+    const userId = this.props.cookies.get("userId");
+    this.setState(
+      {
+        showResult: true,
+        correct: this.state.question.checkAnswer(this.state.answer),
+        attempts: this.state.attempts + 1,
+      },
+      async () =>
+        await addAnswerToPoints(userId, this.state.skill.lo, this.state.correct)
+    );
   }
 
   revealAnswer(event) {
@@ -152,12 +158,18 @@ class SkillQuestion extends React.Component {
 
           {this.state.skill && (
             <>
-              Learning objective:&nbsp;
-              <a
-                href={`https://www.bossmaths.com/${this.state.skill.sub_lo.toLowerCase()}`}
+              Learning outcome:&nbsp;
+              <Button
+                variant="outline-secondary"
+                onClick={() =>
+                  window.open(
+                    `https://www.bossmaths.com/${this.state.skill.sub_lo.toLowerCase()}`,
+                    "_blank"
+                  )
+                }
               >
                 {this.state.skill.sub_lo}
-              </a>
+              </Button>
               <br />
               <br />
             </>
@@ -166,34 +178,36 @@ class SkillQuestion extends React.Component {
           <form>
             {this.displayQuestion()}
             <br />
-            {this.state.showResult
-              ? "Your answer is " +
-                (this.state.correct ? "correct" : "incorrect")
-              : ""}
+
+            {this.state.showResult &&
+              "Your answer is " +
+                (this.state.correct ? "correct :)" : "incorrect :(")}
             <br />
             <br />
-            {this.state.revealAnswer ? (
-              <br />
-            ) : (
+            {!this.state.revealAnswer && (
               <>
-                <button onClick={this.checkAnswer}>Check answer</button>
-                <br />
+                <Button variant="outline-success" onClick={this.checkAnswer}>
+                  Check answer
+                </Button>
               </>
             )}
 
-            <button type="submit" onClick={this.componentDidMount}>
+            <Button
+              variant="primary"
+              type="submit"
+              onClick={this.componentDidMount}
+            >
               New question
-            </button>
-          </form>
+            </Button>
 
-          {this.state.revealAnswer ? (
-            <br />
-          ) : (
-            <>
-              <button onClick={this.revealAnswer}>Reveal answer</button>
-              <br />
-            </>
-          )}
+            {!this.state.revealAnswer && (
+              <>
+                <Button variant="outline-warning" onClick={this.revealAnswer}>
+                  Reveal answer
+                </Button>
+              </>
+            )}
+          </form>
         </div>
       </>
     );

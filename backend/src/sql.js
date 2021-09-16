@@ -42,7 +42,12 @@ export const skillsSQL = {
   getSkillsForTopic: sql("../sql/skills/getSkillsForTopic.sql"),
 };
 
-export const learningObjectivesSQL = {
-  getLo: sql("../sql/learning_objectives/getLo.sql"),
-  getSubLo: sql("../sql/learning_objectives/getSubLo.sql"),
+export const learningOutcomesSQL = {
+  getLo: sql("../sql/learning_outcomes/getLo.sql"),
+  getSubLo: sql("../sql/learning_outcomes/getSubLo.sql"),
+};
+
+export const pointsSQL = {
+  addAnswerToPoints: sql("../sql/points/addAnswerToPoints.sql"),
+  getRankings: sql("../sql/points/getRankings.sql"),
 };

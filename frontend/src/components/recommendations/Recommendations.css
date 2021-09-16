@@ -1,0 +1,11 @@
+.recommendations-title {
+  color: rgb(70, 90, 121);
+  margin: 10px;
+}
+
+.recommendations {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  margin: auto;
+}

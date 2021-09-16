@@ -50,29 +50,23 @@ h1 {
 }
 
 .question-container {
-  border: 5px solid black;
+  border: 2px solid black;
+  border-radius: 4px;
   padding: 10px;
-}
-
-.question-number {
-}
-
-.question-marks {
 }
 
 .question-text {
   flex-wrap: wrap;
 }
 
-.question-instructions {
-}
-
 .options-container {
+  text-align: left;
 }
 
 .question-option {
   border: 2px solid rgb(108, 78, 245);
   color: rgb(108, 78, 245);
+  margin-left: 5px;
 }
 
 .question-buttons {
@@ -81,12 +75,6 @@ h1 {
 }
 
 .option-container {
-  display: inline-flex;
-  vertical-align: middle;
-}
-
-.tools {
-  margin: 10px;
-  text-align: center;
-  align-items: center;
+  margin: 5px;
+  padding: 5px;
 }

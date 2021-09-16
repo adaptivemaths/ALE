@@ -1,6 +1,7 @@
 import React from "react";
 import { instanceOf } from "prop-types";
 import { withCookies, Cookies } from "react-cookie";
+import Button from "react-bootstrap/Button";
 import { Nav } from "react-bootstrap";
 import NavBar from "../navbar/NavBar";
 import {
@@ -10,12 +11,12 @@ import {
   getAnswers,
   deleteAnswers,
   getPaperInfo,
+  addAnswerToPoints,
 } from "../../api";
 import "./QuestionPage.css";
 import parse from "html-react-parser";
 import Timer from "./Timer";
-import Graph from "./Graph";
-import Whiteboard from "./Whiteboard";
+import Tools from "./Tools";
 
 class QuestionPage extends React.Component {
   static propTypes = {
@@ -201,7 +202,7 @@ class QuestionPage extends React.Component {
     });
   }
 
-  onSubmit(event) {
+  async onSubmit(event) {
     event.preventDefault();
     // Set answer for current question object in array
     this.state.questions[this.state.currentQuestion].answer =
@@ -213,18 +214,20 @@ class QuestionPage extends React.Component {
     });
 
     this.calculateCorrectAnswers();
-
     const userId = this.props.cookies.get("userId");
 
-    this.state.questions.forEach((question) => {
-      const answer = {
-        userId,
-        question_id: question.question_id,
-        answer: question.answer,
-      };
-      // Add each answer to the database
-      addAnswer(answer);
-    });
+    await Promise.all(
+      this.state.questions.forEach(async (question) => {
+        const answer = {
+          userId,
+          question_id: question.question_id,
+          answer: question.answer,
+        };
+        // Add each answer to the database
+        await addAnswer(answer);
+        await addAnswerToPoints(userId, question.LEARNING_OUTCOME_1, question.correct);
+      })
+    );
 
     // clear timer interval
     clearInterval(this.state.timerIntervalId);
@@ -233,148 +236,132 @@ class QuestionPage extends React.Component {
   buttons() {
     return (
       <div className="question-buttons">
-        <button onClick={this.previousQuestion} id="question-back">
-          &lt; Back
-        </button>
+        <Button onClick={this.previousQuestion}>←Back</Button>
 
-        {this.state.showResults ? (
-          ""
-        ) : (
-          <button onClick={this.skipQuestion} id="question-skip">
+        {!this.state.showResults && (
+          <Button variant="secondary" onClick={this.skipQuestion}>
             Skip
-          </button>
+          </Button>
         )}
 
-        <button onClick={this.nextQuestion} id="question-next">
-          Next &gt;
-        </button>
+        <Button onClick={this.nextQuestion}>Next→</Button>
       </div>
     );
   }
 
   displayQuestion() {
     // Display information about the question
+    const currentQuestion = this.getCurrentQuestion();
     return (
       <div className="question-container">
         <div className="">
           <div className="question-number">
-            Question&nbsp;
-            {this.getCurrentQuestion().QUESTION_NUMBER +
-              "." +
-              (this.getCurrentQuestion().SUB_QUESTION_NO &&
-                this.getCurrentQuestion().SUB_QUESTION_NO)}
+            <b>
+              Question&nbsp;
+              {currentQuestion.QUESTION_NUMBER +
+                (currentQuestion.SUB_QUESTION_NO !== null &&
+                  "." + currentQuestion.SUB_QUESTION_NO)}
+            </b>
           </div>
-
           <div className="question-text">
-            {parse(
-              this.getCurrentQuestion().QUESTION_TEXT.replaceAll("\n", "<br/>")
-            )}
+            {parse(currentQuestion.QUESTION_TEXT.replaceAll("\n", "<br/>"))}
           </div>
-
           <div className="question-instructions">
             <i>
-              {this.getCurrentQuestion().QUESTION_INSTRUCTIONS.replaceAll(
-                "\n",
-                "<br/>"
-              )}
+              {currentQuestion.QUESTION_INSTRUCTIONS.replaceAll("\n", "<br/>")}
             </i>
           </div>
-
-          <div className="question-marks">
-            Marks: {this.getCurrentQuestion().QUESTION_MARKS}
-          </div>
-
-          <div className="question-difficulty">
-            Difficulty: {this.getCurrentQuestion().GRD_DIFFICULTY}
-          </div>
-
-          <div className="question-topic">
-            Topic: {this.getCurrentQuestion().TOPIC}
-          </div>
+          <br />
+          Marks: {currentQuestion.QUESTION_MARKS} | Difficulty:{" "}
+          {currentQuestion.GRD_DIFFICULTY}&nbsp; | Topic:{" "}
+          {currentQuestion.TOPIC} | Learning Outcome:&nbsp;
+          <a href={`/learningOutcome/${currentQuestion.LEARNING_OUTCOME_1}`}>
+            {currentQuestion.LEARNING_OUTCOME_1}
+          </a>
         </div>
       </div>
     );
   }
 
   answerInput() {
+    const currentQuestion = this.getCurrentQuestion();
     // If question type is multiple choice then use radio buttons
     // Otherwise use one input box
-    return this.getCurrentQuestion().QUESTION_TYPE === "MCQ" ? (
+    return currentQuestion.QUESTION_TYPE === "MCQ" ? (
       <>
         <div className="options-container">
-          Options: <br />
           <div className="option-container">
             <input
               name="answer"
               type="radio"
-              value={this.getCurrentQuestion().QUESTION_OPTION_1}
+              value={currentQuestion.QUESTION_OPTION_1}
               checked={
-                this.state.currentAnswer ===
-                this.getCurrentQuestion().QUESTION_OPTION_1
+                this.state.currentAnswer === currentQuestion.QUESTION_OPTION_1
               }
               onChange={this.setAnswer}
             ></input>
+            <span className="question-option">
+              {currentQuestion.QUESTION_OPTION_1}
+              <br />
+            </span>
           </div>
-          <div className="question-option">
-            {this.getCurrentQuestion().QUESTION_OPTION_1}
-            <br />
+          <div className="option-container">
+            <input
+              name="answer"
+              type="radio"
+              id="question-option2"
+              value={currentQuestion.QUESTION_OPTION_2}
+              checked={
+                this.state.currentAnswer === currentQuestion.QUESTION_OPTION_2
+              }
+              onChange={this.setAnswer}
+            ></input>
+            <span className="question-option">
+              {currentQuestion.QUESTION_OPTION_2}
+              <br />
+            </span>
           </div>
-          <input
-            name="answer"
-            type="radio"
-            id="question-option2"
-            value={this.getCurrentQuestion().QUESTION_OPTION_2}
-            checked={
-              this.state.currentAnswer ===
-              this.getCurrentQuestion().QUESTION_OPTION_2
-            }
-            onChange={this.setAnswer}
-          ></input>
-          <div className="question-option">
-            {this.getCurrentQuestion().QUESTION_OPTION_2}
-            <br />
+          <div className="option-container">
+            <input
+              name="answer"
+              type="radio"
+              id="question-option3"
+              value={currentQuestion.QUESTION_OPTION_3}
+              checked={
+                this.state.currentAnswer === currentQuestion.QUESTION_OPTION_3
+              }
+              onChange={this.setAnswer}
+            ></input>
+            <span className="question-option">
+              {currentQuestion.QUESTION_OPTION_3}
+              <br />
+            </span>
           </div>
-          <input
-            name="answer"
-            type="radio"
-            id="question-option3"
-            value={this.getCurrentQuestion().QUESTION_OPTION_3}
-            checked={
-              this.state.currentAnswer ===
-              this.getCurrentQuestion().QUESTION_OPTION_3
-            }
-            onChange={this.setAnswer}
-          ></input>
-          <div className="question-option">
-            {this.getCurrentQuestion().QUESTION_OPTION_3}
-            <br />
-          </div>
-          <input
-            name="answer"
-            type="radio"
-            id="question-option4"
-            value={this.getCurrentQuestion().QUESTION_OPTION_4}
-            checked={
-              this.state.currentAnswer ===
-              this.getCurrentQuestion().QUESTION_OPTION_4
-            }
-            onChange={this.setAnswer}
-          ></input>
-          <div className="question-option">
-            {this.getCurrentQuestion().QUESTION_OPTION_4}
-            <br />
+          <div className="option-container">
+            <input
+              name="answer"
+              type="radio"
+              id="question-option4"
+              value={currentQuestion.QUESTION_OPTION_4}
+              checked={
+                this.state.currentAnswer === currentQuestion.QUESTION_OPTION_4
+              }
+              onChange={this.setAnswer}
+            ></input>
+            <span className="question-option">
+              {currentQuestion.QUESTION_OPTION_4}
+              <br />
+            </span>
           </div>
         </div>
       </>
     ) : (
       <>
-        Answer:
+        <b>Answer</b>
         <input
           value={this.state.currentAnswer}
           onChange={this.setAnswer}
         ></input>
-        <br />
-        <br />
       </>
     );
   }
@@ -382,7 +369,10 @@ class QuestionPage extends React.Component {
   calculateCorrectAnswers() {
     let correct = 0;
     for (let question of this.state.questions) {
-      if (question.QUESTION_ANSWER.split(";").includes(question.answer)) {
+      let isCorrect = question.QUESTION_ANSWER.split(";").includes(
+        question.answer
+      );
+      if (isCorrect) {
         correct++;
       }
     }
@@ -448,16 +438,29 @@ class QuestionPage extends React.Component {
       return <div>This test has no questions</div>;
     }
 
+    const currentQuestion = this.getCurrentQuestion();
     return (
       <>
         <NavBar />
         <h1>
-          {this.state.showResults ? "Review your answers for " : ""}
+          {this.state.showResults && "Review your answers for "}
           {this.state.paper.title}
-        </h1>{" "}
-        <br />
+          {!this.state.showResults && (
+            <>
+              <Button
+                variant="outline-success"
+                onClick={async (event) => await this.onSubmit(event)}
+              >
+                Submit
+              </Button>
+            </>
+          )}
+        </h1>
+
         <div className="question-page-container">
-          {this.state.showResults ? (
+          {!this.state.showResults && <Timer pause={this.state.showResults} />}
+
+          {this.state.showResults && (
             <div>
               <h2>
                 You got {this.state.correct} / {this.state.questions.length}
@@ -468,54 +471,31 @@ class QuestionPage extends React.Component {
                 <br />
               </Nav.Link>
             </div>
-          ) : (
-            ""
           )}
 
-          {!this.state.showResults && <Timer />}
-
           {this.buttons()}
-
+          <br />
           {this.displayQuestion()}
           <br />
 
           {this.state.showResults ? (
             <>
               {this.checkAnswer(
-                this.getCurrentQuestion().answer,
-                this.getCurrentQuestion().QUESTION_ANSWER
+                currentQuestion.answer,
+                currentQuestion.QUESTION_ANSWER
               )}
               <br />
               <div>
-                <button onClick={this.redoTest}>Redo Test</button>
+                <Button variant="warning" onClick={this.redoTest}>
+                  Redo Test
+                </Button>
               </div>
             </>
           ) : (
-            <>
-              {this.answerInput()}
-
-              <button id="question-submit" onClick={this.onSubmit}>
-                Submit all
-              </button>
-            </>
+            <>{this.answerInput()}</>
           )}
         </div>
-        <div className="tools">
-          <button
-            onClick={() => this.setState({ showGraph: !this.state.showGraph })}
-          >
-            {this.state.showGraph ? "Hide graph" : "Show graph"}
-          </button>
-
-          <button
-            onClick={() => this.setState({ showBoard: !this.state.showBoard })}
-          >
-            {this.state.showBoard ? "Hide whiteboard" : "Show whiteboard"}
-          </button>
-
-          {this.state.showGraph && <Graph />}
-          {this.state.showBoard && <Whiteboard />}
-        </div>
+        {!this.state.showResults && <Tools />}
       </>
     );
   }

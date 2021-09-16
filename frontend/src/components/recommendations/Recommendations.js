@@ -10,17 +10,17 @@ class Recommendations extends Component {
     cookies: instanceOf(Cookies).isRequired,
   };
 
-  constructor(props) {
-    super(props);
-  }
-
-  componentDidMount() {}
-
   render() {
     return (
       <>
         <NavBar />
-        <PersonalPlan />
+        <div className="recommendations-title">
+          <h1>Recommendations</h1>
+        </div>
+        <br />
+        <div className="recommendations-container">
+          <PersonalPlan />
+        </div>
       </>
     );
   }
