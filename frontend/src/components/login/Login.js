@@ -1,7 +1,10 @@
 import React from "react";
+import Form from "react-bootstrap/Form";
+import FloatingLabel from "react-bootstrap-floating-label";
+import Button from "react-bootstrap/Button";
 import NavBar from "../navbar/NavBar";
 import "bootstrap/dist/css/bootstrap.css";
-import "./login.css";
+import "./Login.css";
 import { getUserDetails, loginUser } from "../../api";
 import { Redirect } from "react-router-dom";
 import { instanceOf } from "prop-types";
@@ -27,7 +30,7 @@ class Login extends React.Component {
 
   handleChange(event) {
     this.setState({
-      [event.target.name]: event.target.value,
+      [event.target.id]: event.target.value,
     });
   }
 
@@ -65,41 +68,36 @@ class Login extends React.Component {
 
         <div className="login-title">Login</div>
 
-        <div className="login-wrapper">
-          <form>
-            <span className="login-form">
-              {this.state.error
-                ? "There was an issue with your username and password"
-                : ""}
-              {this.state.loggedIn ? `You are logged in now!` : ""}
-              <div className="login-field">
-                <label className="login-label">Username</label>
-                <input
-                  name="username"
-                  type="email"
-                  placeholder="Enter email"
-                  value={this.state.email}
-                  onChange={this.handleChange}
-                />
-              </div>
+        <Form className="login-form">
+          <Form.Text>
+            {this.state.error &&
+              "There was an issue with your username and password"}
+            {this.state.loggedIn && `You are logged in now!`}
+          </Form.Text>
 
-              <div className="login-field">
-                <label className="login-label">Password</label>
-                <input
-                  name="password"
-                  type="password"
-                  placeholder="Password"
-                  value={this.state.password}
-                  onChange={this.handleChange}
-                />
-              </div>
+          <Form.Group className="mb-2">
+            <FloatingLabel
+              inputId="username"
+              label="Username"
+              type="email"
+              onChange={this.handleChange}
+            />
+          </Form.Group>
 
-              <button id="login-submit" onClick={this.handleSubmit}>
-                Login
-              </button>
-            </span>
-          </form>
-        </div>
+          <Form.Group className="mb-2">
+            <FloatingLabel
+              inputId="password"
+              type="password"
+              label="Password"
+              onChange={this.handleChange}
+            />
+          </Form.Group>
+          <Form.Group className="mb-2">
+            <Button type="submit" variant="primary" onClick={this.handleSubmit}>
+              Login
+            </Button>
+          </Form.Group>
+        </Form>
       </div>
     );
   }
