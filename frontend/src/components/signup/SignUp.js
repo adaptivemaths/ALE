@@ -1,7 +1,10 @@
 import React from "react";
 import NavBar from "../navbar/NavBar";
+import Form from "react-bootstrap/Form";
+import FloatingLabel from "react-bootstrap-floating-label";
+import Button from "react-bootstrap/Button";
 import "bootstrap/dist/css/bootstrap.css";
-import "./signup.css";
+import "./SignUp.css";
 import { addUser } from "../../api";
 import { Redirect } from "react-router-dom";
 import { instanceOf } from "prop-types";
@@ -33,7 +36,7 @@ class SignUp extends React.Component {
     // Function to set value of form fields
     this.setState(
       {
-        [event.target.name]: event.target.value,
+        [event.target.id]: event.target.value,
       },
       () => {
         // Checks for password strength
@@ -76,76 +79,80 @@ class SignUp extends React.Component {
         <div className="signup-title">Sign Up</div>
 
         <div className="signup-wrapper">
-          <form className="signup-form">
-            <div className="signup-field">
+          <Form className="signup-form">
+            <Form.Group className="signup-field">
               {/* Input box for email */}
-              <label className="signup-label">
-                Email address*
-                <input
-                  name="email"
-                  type="email"
-                  placeholder="Your email"
-                  value={this.state.email}
-                  onChange={this.handleChange}
-                />
-              </label>
-            </div>
+              <FloatingLabel
+                label="Email address*"
+                className="signup-label"
+                inputId="email"
+                type="email"
+                placeholder="Your email"
+                value={this.state.email}
+                onChange={this.handleChange}
+              />
+            </Form.Group>
 
-            <div className="signup-field">
+            <Form.Group>
               {/* Input box for email */}
-              <label className="signup-label">
-                First Name*
-                <input
-                  name="firstName"
-                  type="text"
-                  placeholder="Your name"
-                  value={this.state.firstName}
-                  onChange={this.handleChange}
-                />
-              </label>
-            </div>
+              <FloatingLabel
+                label="First Name*"
+                className="signup-label"
+                name="firstName"
+                type="text"
+                placeholder="Your name"
+                value={this.state.firstName}
+                onChange={this.handleChange}
+              />
+            </Form.Group>
 
-            <div className="signup-field">
-              <label className="signup-label">Last Name*</label>
-              <input
-                name="lastName"
+            <Form.Group className="signup-field">
+              <FloatingLabel
+                label="Last Name*"
+                className="signup-label"
+                inputId="lastName"
                 type="text"
                 placeholder="Surname"
                 value={this.state.lastName}
                 onChange={this.handleChange}
               />
-            </div>
+            </Form.Group>
 
-            <div className="signup-field">
-              <label className="signup-label">Password*</label>
-              <input
-                name="password"
+            <Form.Group className="signup-field">
+              <FloatingLabel
+                label="Password*"
+                className="signup-label"
+                inputId="password"
                 type="password"
                 placeholder="Password"
                 value={this.state.password}
                 onChange={this.handleChange}
               />
-              {this.state.passwordIsLong
-                ? ""
-                : "Passwords should be at least 8 characters"}
-            </div>
+              <Form.Text>
+                {!this.state.passwordIsLong &&
+                  "Passwords should be at least 8 characters"}
+              </Form.Text>
+            </Form.Group>
 
-            <div className="signup-field">
-              <label className="signup-label">Re-enter Password*</label>
-              <input
-                name="reenterPassword"
+            <Form.Group className="signup-field">
+              <FloatingLabel
+                label="Re-enter Password*"
+                className="signup-label"
+                inputId="reenterPassword"
                 type="password"
                 placeholder="Password"
                 value={this.state.reenterPassword}
                 onChange={this.handleChange}
               />
-              {this.state.passwordsAreSame ? "" : "Passwords are not the same"}
-            </div>
+              <Form.Text>
+                {!this.state.passwordsAreSame && "Passwords are not the same"}
+              </Form.Text>
+            </Form.Group>
 
-            <button id="signup-submit" onClick={this.handleSubmit}>
+            <Button variant="primary" onClick={this.handleSubmit}>
               Submit
-            </button>
-          </form>
+            </Button>
+          </Form>
         </div>
       </>
     );
