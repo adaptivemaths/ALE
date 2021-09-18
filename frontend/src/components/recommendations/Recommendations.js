@@ -3,6 +3,7 @@ import { instanceOf } from "prop-types";
 import { withCookies, Cookies } from "react-cookie";
 import PersonalPlan from "./PersonalPlan";
 import NavBar from "../navbar/NavBar";
+import Performance from "./Performance";
 import "./Recommendations.css";
 
 class Recommendations extends Component {
@@ -21,6 +22,7 @@ class Recommendations extends Component {
         <div className="recommendations-container">
           <PersonalPlan />
         </div>
+        <Performance />
       </>
     );
   }
