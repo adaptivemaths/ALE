@@ -15,4 +15,4 @@ FROM (
 ) AS ranking
 
 ORDER BY 
-    ((correct + 1.0) / (total + 2.0)) ASC
+    score ASC
