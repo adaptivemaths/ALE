@@ -50,4 +50,6 @@ export const learningOutcomesSQL = {
 export const pointsSQL = {
   addAnswerToPoints: sql("../sql/points/addAnswerToPoints.sql"),
   getRankings: sql("../sql/points/getRankings.sql"),
+  rankingsForTopic: sql("../sql/points/rankingsForTopic.sql"),
+  scoresByTopic: sql("../sql/points/scoresByTopic.sql"),
 };
