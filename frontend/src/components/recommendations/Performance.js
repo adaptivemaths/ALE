@@ -1,8 +1,10 @@
 import React, { Component } from "react";
+import Button from "react-bootstrap/Button";
 import { instanceOf } from "prop-types";
 import { withCookies, Cookies } from "react-cookie";
 import { Bar } from "react-chartjs-2";
 import { learningOutcomeRankings } from "../../api";
+import "./styles.css";
 
 class PerformanceChart extends Component {
   static propTypes = {
@@ -13,6 +15,7 @@ class PerformanceChart extends Component {
     super(props);
     this.state = {
       data: {},
+      topics: [],
     };
   }
 
@@ -30,7 +33,7 @@ class PerformanceChart extends Component {
     const accuracy = [];
     topicsAccuracy.forEach((topic) => {
       topics.push(topic.topic);
-      accuracy.push(topic.score);
+      accuracy.push(topic.score * 100);
     });
     const data = {
       labels: topics,
@@ -47,29 +50,41 @@ class PerformanceChart extends Component {
 
     this.setState({
       data,
+      topics,
     });
   }
   render() {
     return (
-      <div>
-        <Bar
-          data={this.state.data}
-          width={500}
-          height={400}
-          options={{
-            responsive: false,
-            maintainAspectRatio: false,
-            title: {
-              display: true,
-              text: "Average Rainfall per month",
-              fontSize: 20,
-            },
-            legend: {
-              display: true,
-              position: "right",
-            },
-          }}
-        />
+      <div className="info-section">
+        <h2>Performance</h2>
+        <div style={{ marginLeft: "10%" }}>
+          <Bar
+            data={this.state.data}
+            width={500}
+            height={400}
+            options={{
+              responsive: false,
+              maintainAspectRatio: false,
+              title: {
+                display: true,
+                text: "Average Rainfall per month",
+                fontSize: 20,
+              },
+              legend: {
+                display: true,
+                position: "right",
+              },
+            }}
+          />
+        </div>
+        {this.state.topics.map((topic) => (
+          <Button
+            href={`/topicPerformance/${topic}/`}
+            style={{ margin: "5px" }}
+          >
+            {topic}
+          </Button>
+        ))}
       </div>
     );
   }
