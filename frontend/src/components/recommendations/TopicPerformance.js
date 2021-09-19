@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Button from "react-bootstrap/Button";
 import { instanceOf } from "prop-types";
 import { withCookies, Cookies } from "react-cookie";
 import { learningOutcomeRankings } from "../../api";
@@ -19,7 +20,7 @@ class TopicPerformance extends Component {
 
   async componentDidMount() {
     const userId = this.props.cookies.get("userId");
-    const topic = this.props.match.params.topic;
+    const topic = this.props.match.params.topic.replaceAll("%20", " ");
     const learningOutcomes = await learningOutcomeRankings(userId, topic);
     this.setState({
       topic,
@@ -32,10 +33,15 @@ class TopicPerformance extends Component {
       <div>
         <NavBar />
         <h1>{this.state.topic} Performance</h1>
-        <div>
+        <div style={{ textAlign: "center" }}>
           {this.state.learningOutcomes.map((lo) => (
             <>
-              {lo.lo} : {lo.score}
+              <Button
+                href={`/learningOutcome/${lo.lo}/`}
+                style={{ margin: "10px" }}
+              >
+                {lo.lo} : {lo.score * 100}
+              </Button>
               <br />
             </>
           ))}
