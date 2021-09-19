@@ -3,7 +3,7 @@ import Button from "react-bootstrap/Button";
 import { instanceOf } from "prop-types";
 import { withCookies, Cookies } from "react-cookie";
 import { learningOutcomeRankings } from "../../api";
-import "./PersonalPlan.css";
+import "./styles.css";
 
 class PersonalPlan extends Component {
   static propTypes = {
@@ -29,7 +29,7 @@ class PersonalPlan extends Component {
   render() {
     return (
       <>
-        <div className="personal-plan">
+        <div className="info-section">
           <h3>Personal Plan</h3>
           Topics to improve:
           <br />
@@ -40,6 +40,8 @@ class PersonalPlan extends Component {
               <br />
             </Button>
           ))}
+          <br />
+          <small>Click to learn more</small>
         </div>
       </>
     );
