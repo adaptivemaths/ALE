@@ -19,10 +19,18 @@ class Recommendations extends Component {
           <h1>Recommendations</h1>
         </div>
         <br />
-        <div className="recommendations-container">
-          <PersonalPlan />
+        <div className="dashboard">
+          <div className="recommendations">
+            <div className="flex-container">
+              <PersonalPlan />
+            </div>
+          </div>
+          <div className="recommendations">
+            <div className="flex-container">
+              <Performance />
+            </div>
+          </div>
         </div>
-        <Performance />
       </>
     );
   }
