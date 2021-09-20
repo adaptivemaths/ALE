@@ -33,7 +33,7 @@ class PerformanceChart extends Component {
     const accuracy = [];
     topicsAccuracy.forEach((topic) => {
       topics.push(topic.topic);
-      accuracy.push(topic.score * 100);
+      accuracy.push(topic.score * 10);
     });
     const data = {
       labels: topics,
@@ -57,7 +57,7 @@ class PerformanceChart extends Component {
     return (
       <div className="info-section">
         <h2>Performance</h2>
-        <div style={{ marginLeft: "10%" }}>
+        <div>
           <Bar
             data={this.state.data}
             width={500}
