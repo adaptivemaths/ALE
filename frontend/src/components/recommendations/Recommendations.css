@@ -2,10 +2,20 @@
   color: rgb(70, 90, 121);
   margin: 10px;
 }
+.dashboard {
+  display: flex;
+}
 
 .recommendations {
+  flex: 1;
+  /* max-width: 50%; */
   display: flex;
-  justify-content: center;
+  flex-wrap: wrap;
+  flex-direction: column;
   text-align: center;
-  margin: auto;
+  align-items: center;
+}
+
+.empty-box {
+  flex: 1;
 }

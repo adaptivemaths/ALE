@@ -3,7 +3,7 @@ import { instanceOf } from "prop-types";
 import { withCookies, Cookies } from "react-cookie";
 import parse from "html-react-parser";
 import Button from "react-bootstrap/Button";
-
+import Tools from "../question/Tools";
 import { addAnswerToPoints, getSkill } from "../../api";
 import templateQuestions from "./template_questions/templateQuestions";
 import NavBar from "../navbar/NavBar";
@@ -209,6 +209,7 @@ class SkillQuestion extends React.Component {
             )}
           </form>
         </div>
+        <Tools />
       </>
     );
   }

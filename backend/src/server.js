@@ -206,7 +206,13 @@ app.post("/user/addAnswerToPoints", async (req, res) => {
 
 app.post("/user/learningOutcomeRankings", async (req, res) => {
   try {
-    res.json(await Database.learningOutcomeRankings(req.body));
+    if (req.body.byTopic) {
+      res.json(await Database.scoresByTopic(req.body));
+    } else if (req.body.topic !== undefined) {
+      res.json(await Database.loRankingsForTopic(req.body));
+    } else {
+      res.json(await Database.learningOutcomeRankings(req.body));
+    }
   } catch (error) {
     res.body = "Error: " + error;
     console.log("error:", res.body);

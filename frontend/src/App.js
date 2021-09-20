@@ -21,6 +21,7 @@ import ResultsPage from "./components/results/ResultsPage";
 import SkillQuestion from "./components/skill_page/SkillQuestion";
 import Recommendations from "./components/recommendations/Recommendations";
 import LearningOutcome from "./components/learning_outcome/LearningOutcome";
+import TopicPerformance from "./components/recommendations/TopicPerformance";
 
 class App extends React.Component {
   static propTypes = {
@@ -100,6 +101,12 @@ class App extends React.Component {
             exact
             path="/learningOutcome/:lo/"
             component={LearningOutcome}
+          />
+
+          <Route
+            exact
+            path="/topicPerformance/:topic/"
+            component={TopicPerformance}
           />
         </Switch>
       </>

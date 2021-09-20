@@ -225,10 +225,14 @@ export async function addAnswerToPoints(userId, lo, correct) {
     });
 }
 
-export async function learningOutcomeRankings(userId) {
+export async function learningOutcomeRankings(
+  userId,
+  topic = undefined,
+  byTopic = false
+) {
   var loRankings = [];
   await axios
-    .post(`${API_URL}/user/learningOutcomeRankings`, { userId })
+    .post(`${API_URL}/user/learningOutcomeRankings`, { userId, topic, byTopic })
     .then((res) => {
       loRankings = res.data;
     })
