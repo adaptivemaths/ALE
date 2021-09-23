@@ -22,6 +22,7 @@ import SkillQuestion from "./components/skill_page/SkillQuestion";
 import Recommendations from "./components/recommendations/Recommendations";
 import LearningOutcome from "./components/learning_outcome/LearningOutcome";
 import TopicPerformance from "./components/recommendations/TopicPerformance";
+import Teachers from "./components/teachers/Teachers";
 
 class App extends React.Component {
   static propTypes = {
@@ -108,6 +109,10 @@ class App extends React.Component {
             path="/topicPerformance/:topic/"
             component={TopicPerformance}
           />
+
+          <Route exact path="/teachers/">
+            <Teachers />
+          </Route>
         </Switch>
       </>
     );
