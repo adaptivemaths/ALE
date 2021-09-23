@@ -23,6 +23,7 @@ class PerformanceChart extends Component {
     const userId = this.props.cookies.get("userId");
     const byTopic = true;
     const topic = undefined;
+
     const topicsAccuracy = await learningOutcomeRankings(
       userId,
       topic,
@@ -31,15 +32,17 @@ class PerformanceChart extends Component {
 
     const topics = [];
     const accuracy = [];
+
     topicsAccuracy.forEach((topic) => {
       topics.push(topic.topic);
       accuracy.push(topic.score * 10);
     });
+
     const data = {
       labels: topics,
       datasets: [
         {
-          label: "Accuracy",
+          label: "Grade",
           backgroundColor: "rgba(75,192,192,1)",
           borderColor: "rgba(0,0,0,1)",
           borderWidth: 2,
@@ -65,14 +68,20 @@ class PerformanceChart extends Component {
             options={{
               responsive: false,
               maintainAspectRatio: false,
-              title: {
-                display: true,
-                text: "Average Rainfall per month",
-                fontSize: 20,
-              },
+              // title: {
+              //   display: true,
+              //   text: "Grade ",
+              //   fontSize: 20,
+              // },
               legend: {
                 display: true,
                 position: "right",
+              },
+              scales: {
+                y: {
+                  title: "Grade",
+                  max: 9,
+                },
               },
             }}
           />
