@@ -18,7 +18,7 @@ class SignUp extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: "",
+      username: "",
       firstName: "",
       lastName: "",
       password: "",
@@ -85,7 +85,7 @@ class SignUp extends React.Component {
               <FloatingLabel
                 label="Email address*"
                 className="signup-label"
-                inputId="email"
+                inputId="username"
                 type="email"
                 placeholder="Your email"
                 value={this.state.email}
@@ -98,7 +98,7 @@ class SignUp extends React.Component {
               <FloatingLabel
                 label="First Name*"
                 className="signup-label"
-                name="firstName"
+                inputId="firstName"
                 type="text"
                 placeholder="Your name"
                 value={this.state.firstName}
