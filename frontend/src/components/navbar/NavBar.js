@@ -29,6 +29,7 @@ class NavBar extends React.Component {
             </>
           ) : (
             <>
+              <Nav.Link href="/teachers/">Teachers</Nav.Link>
               <Nav.Link href="/login/" className="hollow-btn">
                 Log In
               </Nav.Link>
