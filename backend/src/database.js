@@ -7,6 +7,7 @@ import {
   skillsSQL,
   learningOutcomesSQL,
   pointsSQL,
+  teachersSQL,
 } from "./sql.js";
 
 // Library for PostgreSQL
@@ -310,10 +311,24 @@ export default class Database {
       });
     return result;
   }
+
   static async scoresByTopic({ userId }) {
     var result = {};
     await db
       .any(pointsSQL.scoresByTopic, { userId })
+      .then((data) => {
+        result = data;
+      })
+      .catch((error) => {
+        console.log("ERROR:", error); // print error;
+      });
+    return result;
+  }
+
+  static async addTeacher(teacher) {
+    var result = {};
+    await db
+      .one(teachersSQL.addTeacher, teacher)
       .then((data) => {
         result = data;
       })
