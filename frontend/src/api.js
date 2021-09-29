@@ -242,3 +242,18 @@ export async function learningOutcomeRankings(
 
   return loRankings;
 }
+
+export async function addTeacher(teacher) {
+  var result = {};
+  await axios
+    .post(`${API_URL}/teachers/signup`, teacher)
+    .then((res) => {
+      const { data } = res;
+      result = data;
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+
+  return result;
+}
