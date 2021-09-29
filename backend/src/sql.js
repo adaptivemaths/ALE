@@ -53,3 +53,7 @@ export const pointsSQL = {
   rankingsForTopic: sql("../sql/points/rankingsForTopic.sql"),
   scoresByTopic: sql("../sql/points/scoresByTopic.sql"),
 };
+
+export const teachersSQL = {
+  addTeacher: sql("../sql/teachers/addTeacher.sql"),
+};
