@@ -4,12 +4,12 @@ import Form from "react-bootstrap/Form";
 import FloatingLabel from "react-bootstrap-floating-label";
 import Button from "react-bootstrap/Button";
 import "bootstrap/dist/css/bootstrap.css";
-import { addUser } from "../../api";
+import { addTeacher, addUser } from "../../api";
 import { Redirect } from "react-router-dom";
 import { instanceOf } from "prop-types";
 import { withCookies, Cookies } from "react-cookie";
 
-class TeahcerSignup extends React.Component {
+class TeacherSignup extends React.Component {
   static propTypes = {
     cookies: instanceOf(Cookies).isRequired,
   };
@@ -51,28 +51,16 @@ class TeahcerSignup extends React.Component {
   async handleSubmit(event) {
     event.preventDefault(); // To prevent input boxes being reset to empty
     if (this.state.passwordsAreSame && this.state.passwordIsLong) {
-      // Add user to database
-      const user = await addUser(this.state);
+      // Add teacher to database
+      const teacher = await addTeacher(this.state);
 
-      this.setState(
-        {
-          signedUp: true,
-        },
-        () => {
-          const { cookies } = this.props;
-          // Set cookie for userId for all pages
-          cookies.set("userId", this.state.user_id, { path: "/" });
-        }
-      );
+      this.setState({
+        signedUp: true,
+      });
     }
   }
 
   render() {
-    // Redirect to profile page if user has successfully submitted form
-    if (this.state.signedUp) {
-      return <Redirect push to="/profile/" />;
-    }
-
     return (
       <>
         <NavBar />
