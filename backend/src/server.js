@@ -272,6 +272,17 @@ app.post("/subLo/info", async (req, res) => {
   }
 });
 
+app.post("/teachers/signup", async (req, res) => {
+  try {
+    const { body } = req;
+    const teacher = await Database.addTeacher(body);
+    res.json(teacher);
+  } catch (error) {
+    res.body = "Error: " + error;
+    console.log(res.body);
+  }
+});
+
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
