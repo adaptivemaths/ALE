@@ -4,13 +4,12 @@ import Form from "react-bootstrap/Form";
 import FloatingLabel from "react-bootstrap-floating-label";
 import Button from "react-bootstrap/Button";
 import "bootstrap/dist/css/bootstrap.css";
-import "./SignUp.css";
-import { addUser } from "../../api";
+import { addTeacher, addUser } from "../../api";
 import { Redirect } from "react-router-dom";
 import { instanceOf } from "prop-types";
 import { withCookies, Cookies } from "react-cookie";
 
-class SignUp extends React.Component {
+class TeacherSignup extends React.Component {
   static propTypes = {
     cookies: instanceOf(Cookies).isRequired,
   };
@@ -18,9 +17,10 @@ class SignUp extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: "",
+      email: "",
       firstName: "",
       lastName: "",
+      school: "",
       password: "",
       reenterPassword: "",
       passwordsAreSame: true,
@@ -51,32 +51,20 @@ class SignUp extends React.Component {
   async handleSubmit(event) {
     event.preventDefault(); // To prevent input boxes being reset to empty
     if (this.state.passwordsAreSame && this.state.passwordIsLong) {
-      // Add user to database
-      const user = await addUser(this.state);
+      // Add teacher to database
+      const teacher = await addTeacher(this.state);
 
-      this.setState(
-        {
-          signedUp: true,
-        },
-        () => {
-          const { cookies } = this.props;
-          // Set cookie for userId for all pages
-          cookies.set("userId", this.state.user_id, { path: "/" });
-        }
-      );
+      this.setState({
+        signedUp: true,
+      });
     }
   }
 
   render() {
-    // Redirect to profile page if user has successfully submitted form
-    if (this.state.signedUp) {
-      return <Redirect push to="/profile/" />;
-    }
-
     return (
       <>
         <NavBar />
-        <div className="signup-title">Sign Up</div>
+        <div className="signup-title">Teacher Signup</div>
 
         <div className="signup-wrapper">
           <Form className="signup-form">
@@ -85,7 +73,7 @@ class SignUp extends React.Component {
               <FloatingLabel
                 label="Email address*"
                 className="signup-label"
-                inputId="username"
+                inputId="email"
                 type="email"
                 placeholder="Your email"
                 value={this.state.email}
@@ -98,7 +86,7 @@ class SignUp extends React.Component {
               <FloatingLabel
                 label="First Name*"
                 className="signup-label"
-                inputId="firstName"
+                name="firstName"
                 type="text"
                 placeholder="Your name"
                 value={this.state.firstName}
@@ -113,6 +101,18 @@ class SignUp extends React.Component {
                 inputId="lastName"
                 type="text"
                 placeholder="Surname"
+                value={this.state.lastName}
+                onChange={this.handleChange}
+              />
+            </Form.Group>
+
+            <Form.Group className="signup-field">
+              <FloatingLabel
+                label="School"
+                className="signup-label"
+                inputId="school"
+                type="text"
+                placeholder="School"
                 value={this.state.lastName}
                 onChange={this.handleChange}
               />
@@ -159,4 +159,4 @@ class SignUp extends React.Component {
   }
 }
 
-export default withCookies(SignUp);
+export default withCookies(TeacherSignup);

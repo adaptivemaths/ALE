@@ -55,6 +55,7 @@ app.post("/signup/addUser", async (req, res) => {
   try {
     req.body.password = await bcrypt.hash(req.body.password, 10);
     const user = await Database.addUser(req.body);
+
     sendMail(
       req.body.email,
       "Welcome to Adaptive Learning!",
@@ -62,17 +63,19 @@ app.post("/signup/addUser", async (req, res) => {
       <p>
         Hi ${req.body.firstName},<br/>
         <br/>
-        Thanks for joining Adaptive Learning. 
-        We hope you will have a great experience learning Maths on our website!
+        Thanks for joining Adaptive Maths. 
+        We hope you will have a great experience practicing Maths on our platform!
         <br/><br/>
         Best of luck,<br/>
-        EdiCat Team
+        AdaptiveMaths Team
       </p>
     `
     );
+
     res.json(user);
   } catch (error) {
     res.body = "Error: " + error;
+    console.log(res.body);
   }
 });
 
@@ -128,8 +131,16 @@ app.post("/user/deleteUser", async (req, res) => {
     const user = await Database.deleteUser({
       userId: req.body.userId,
     });
-    console.log(user);
     res.json(user);
+  } catch (error) {
+    res.body = "Error: " + error;
+  }
+});
+
+app.get("/users/all", async (req, res) => {
+  try {
+    const users = await Database.getAllUsers();
+    res.json(users);
   } catch (error) {
     res.body = "Error: " + error;
   }
@@ -263,6 +274,17 @@ app.post("/subLo/info", async (req, res) => {
   try {
     const subLo = await Database.getSubLo(req.body);
     res.json(subLo);
+  } catch (error) {
+    res.body = "Error: " + error;
+    console.log(res.body);
+  }
+});
+
+app.post("/teachers/signup", async (req, res) => {
+  try {
+    const { body } = req;
+    const teacher = await Database.addTeacher(body);
+    res.json(teacher);
   } catch (error) {
     res.body = "Error: " + error;
     console.log(res.body);
