@@ -24,6 +24,7 @@ import LearningOutcome from "./components/learning_outcome/LearningOutcome";
 import TopicPerformance from "./components/recommendations/TopicPerformance";
 import Teachers from "./components/teachers/Teachers";
 import TeacherSignup from "./components/teachers/TeacherSignup";
+import AdminHome from "./components/admin/AdminHome";
 
 class App extends React.Component {
   static propTypes = {
@@ -117,6 +118,10 @@ class App extends React.Component {
 
           <Route exact path="/teachers/signup/">
             <TeacherSignup />
+          </Route>
+
+          <Route exact path="/admin/home">
+            <AdminHome />
           </Route>
         </Switch>
       </>
