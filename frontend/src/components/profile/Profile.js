@@ -61,6 +61,7 @@ class Profile extends React.Component {
   signOutUser(event) {
     // Remove cookie for userId from all pages
     this.props.cookies.remove("userId", { path: "/" });
+    this.props.cookies.remove("isAdmin", { path: "/" });
     this.setState({
       userDetails: "You are signed out",
       signedIn: false,
