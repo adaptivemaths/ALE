@@ -75,6 +75,22 @@ export default class Database {
     return result;
   }
 
+  static async getAllUsers() {
+    var result = {};
+    // // console.log('getUser data', attr);
+    await db
+      .any("SELECT * FROM users")
+      .then((data) => {
+        // // console.log(data);
+        result = data;
+      })
+      .catch((error) => {
+        // // console.log("getUser ERROR:", error); // print error;
+      });
+
+    return result;
+  }
+
   static async getUserWithEmail(attr) {
     var result = {};
 
