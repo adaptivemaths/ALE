@@ -37,7 +37,7 @@ class NavBar extends React.Component {
               </Nav.Link>
             </>
           )}
-          <Nav.Link href="/teachers/">Teachers</Nav.Link>
+          {/* <Nav.Link href="/teachers/">Teachers</Nav.Link> */}
         </Nav>
       </Navbar>
     );
