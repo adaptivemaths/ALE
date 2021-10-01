@@ -24,6 +24,8 @@ class Login extends React.Component {
       error: false,
     };
 
+    this.props.cookies.remove("userId", { path: "/" });
+    this.props.cookies.remove("isAdmin", { path: "/" });
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -46,6 +48,11 @@ class Login extends React.Component {
       // Set cookie for userId for all pages
       cookies.set("userId", user.user_id, { path: "/" });
 
+      const adminUsername = "hello@adaptivemaths.co.uk";
+      if (this.state.username === adminUsername) {
+        cookies.set("isAdmin", true, { path: "/" });
+      }
+
       this.setState({
         loggedIn: true,
         error: false,
@@ -60,6 +67,11 @@ class Login extends React.Component {
   render() {
     // If user has logged in successfully redirect them to their profile page
     if (this.state.loggedIn) {
+      const { props } = this;
+      const { cookies } = props;
+      if (cookies.get("isAdmin")) {
+        return <Redirect push to="/admin/home" />;
+      }
       return <Redirect push to="/profile/" />;
     }
     return (
