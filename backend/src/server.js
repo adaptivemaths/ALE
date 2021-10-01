@@ -131,8 +131,16 @@ app.post("/user/deleteUser", async (req, res) => {
     const user = await Database.deleteUser({
       userId: req.body.userId,
     });
-    console.log(user);
     res.json(user);
+  } catch (error) {
+    res.body = "Error: " + error;
+  }
+});
+
+app.get("/users/all", async (req, res) => {
+  try {
+    const users = await Database.getAllUsers();
+    res.json(users);
   } catch (error) {
     res.body = "Error: " + error;
   }
