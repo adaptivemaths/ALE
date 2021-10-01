@@ -257,3 +257,18 @@ export async function addTeacher(teacher) {
 
   return result;
 }
+
+export async function getAllUsers() {
+  var result = {};
+  await axios
+    .get(`${API_URL}/users/all`)
+    .then((res) => {
+      const { data } = res;
+      result = data;
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+
+  return result;
+}
